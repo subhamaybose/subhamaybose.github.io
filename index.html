@@ -399,7 +399,15 @@
             </div>
          </div>
          <!-- End Counters Section -->
-         
+         <script>
+            // Calculate the number of years from 2016 to the current year
+            const startYear = 2016;
+            const currentYear = new Date().getFullYear();
+            const yearsOfExperience = currentYear - startYear;
+        
+            // Set the data-to attribute dynamically
+            document.getElementById('years-of-experience').setAttribute('data-to', yearsOfExperience);
+        </script>
          <!-- Works Section -->
          <section id="work" class="bg-light">
             <div class="container">
