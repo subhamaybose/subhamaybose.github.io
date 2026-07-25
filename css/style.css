@@ -40,6 +40,21 @@ body {
   scroll-behavior: smooth;
 }
 
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  z-index: 10000;
+  background: #fff;
+  color: #0d0d0d;
+  padding: 12px 20px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 body {
   font-family: "Quicksand", Arial, sans-serif;
   line-height: 1.8;
@@ -2517,14 +2532,28 @@ input[type="text"] {
   background: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   width: 70%;
-  margin: 0 auto;
+  margin: 0 auto 24px;
+}
+#publication .list > .col-md-12:last-child .item {
+  margin-bottom: 0;
 }
 #publication .list .item i {
   font-size: 60px;
   color: #e1b783;
+  flex-shrink: 0;
 }
 #publication .list .item .blog-text {
   padding-left: 20px;
+  max-width: 65ch;
+}
+#publication .list .item .blog-text span.posted_on {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: #e1b783;
+  margin-bottom: 8px;
 }
 #publication .list .item .blog-text h3 {
   font-size: 22px;
