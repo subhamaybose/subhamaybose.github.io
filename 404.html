@@ -1,54 +1,71 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="robots" content="noindex">
-   <title>Page Not Found | Subhamay Bose</title>
-   <link rel="shortcut icon" href="images/favicon.png">
-   <style>
-      body {
-         margin: 0;
-         min-height: 100vh;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         background-color: #0d0d0d;
-         color: #fff;
-         font-family: Arial, Helvetica, sans-serif;
-         text-align: center;
-         padding: 20px;
-         box-sizing: border-box;
-      }
-      .not-found h1 {
-         font-size: 6rem;
-         margin: 0;
-         color: #e1b783;
-      }
-      .not-found p {
-         font-size: 1.2rem;
-         margin: 10px 0 30px;
-      }
-      .not-found a {
-         display: inline-block;
-         padding: 12px 28px;
-         border: 1px solid #e1b783;
-         color: #e1b783;
-         text-decoration: none;
-         border-radius: 4px;
-         transition: background-color .2s ease, color .2s ease;
-      }
-      .not-found a:hover {
-         background-color: #e1b783;
-         color: #0d0d0d;
-      }
-   </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Page not found | Subhamay Bose</title>
+
+  <!-- Same anti-FOUC block as index.html. Duplicated deliberately: it must be
+       inline and blocking, and a shared external file would be a third request
+       that has to land before first paint. -->
+  <script>
+    (function () {
+      var theme = "dark";
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") theme = t;
+        else if (t === "system") theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      } catch (e) {}
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <!-- Root-relative: a 404 can be served at any URL depth, so a relative path
+       would resolve against a directory that does not exist. -->
+  <link rel="icon" href="/images/favicon.png" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-   <div class="not-found">
-      <h1>404</h1>
-      <p>This page doesn't exist &mdash; but the rest of the site does.</p>
-      <a href="/">Back to Subhamay Bose's portfolio</a>
-   </div>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></symbol>
+  </svg>
+
+  <nav id="site-nav" aria-label="Primary">
+    <div class="wrap">
+      <a href="/" class="brand">subhamay<span>.</span>bose</a>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1">
+    <section class="section" aria-labelledby="nf-h">
+      <div class="wrap grid">
+        <div class="col-prose nf">
+          <span class="code">404</span>
+          <h1 id="nf-h">This page does not exist.</h1>
+          <p>The address may be mistyped, or the page may have moved. Everything on this site lives on a single page &mdash; these links go straight to it.</p>
+          <dl class="deflist">
+            <div><dt class="lbl">Home</dt><dd><a href="/">subhamaybose.github.io</a></dd></div>
+            <div><dt class="lbl">Writing</dt><dd><a href="/#writing">Eight essays on system design</a></dd></div>
+            <div><dt class="lbl">Credentials</dt><dd><a href="/#credentials">Fourteen certifications</a></dd></div>
+            <div><dt class="lbl">Contact</dt><dd><a href="/#contact">Get in touch</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer">
+    <div class="wrap">
+      <span class="micro">&copy; 2026 Subhamay Bose</span>
+      <a class="to-top" href="/">Back to the site<svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg></a>
+    </div>
+  </footer>
 </body>
+
 </html>

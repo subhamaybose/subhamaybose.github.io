@@ -1,47 +1,82 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-      <!--Meta Tags-->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="Subhamay Bose is a Senior System Engineer (Team Lead) at IBM specializing in Node.js, Python, machine learning, AWS &amp; IBM Cloud, and Kubernetes." />
-      <meta name="keywords" content="Subhamay Bose, Senior System Engineer, Team Lead, IBM, Node.js Developer, Python Developer, Machine Learning Engineer, AWS Certified Developer Associate, Cloud Application Developer, Kubernetes, Backend Developer Kolkata" />
-      <meta name="author" content="Subhamay Bose" />
-      <link rel="canonical" href="https://subhamaybose.github.io/" />
-      <!--Favicons-->
-      <link rel="shortcut icon" href="images/favicon.png">
-      <!--Apply saved theme before first paint to avoid a flash of the wrong theme. Dark is the default unless the visitor has chosen otherwise.-->
-      <script>
-      (function () {
-        var theme = "dark";
-        try {
-          var t = localStorage.getItem("theme");
-          if (t === "light" || t === "dark") theme = t;
-          else if (t === "system") theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        } catch (e) {}
-        document.documentElement.setAttribute("data-theme", theme);
-      })();
-      </script>
-      <!--Page Title-->
-      <title>Subhamay Bose | Senior Backend &amp; Cloud Developer (Node.js, Python, AWS, Kubernetes)</title>
-      <!--Open Graph / Social Preview-->
-      <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="Subhamay Bose" />
-      <meta property="og:url" content="https://subhamaybose.github.io/" />
-      <meta property="og:title" content="Subhamay Bose | Senior Backend &amp; Cloud Developer" />
-      <meta property="og:description" content="Senior System Engineer (Team Lead) at IBM specializing in Node.js, Python, machine learning, AWS &amp; IBM Cloud, and Kubernetes." />
-      <meta property="og:image" content="https://subhamaybose.github.io/images/profile-pic.jpg" />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="Subhamay Bose | Senior Backend &amp; Cloud Developer" />
-      <meta name="twitter:description" content="Senior System Engineer (Team Lead) at IBM specializing in Node.js, Python, machine learning, AWS &amp; IBM Cloud, and Kubernetes." />
-      <meta name="twitter:image" content="https://subhamaybose.github.io/images/profile-pic.jpg" />
-      <!--Structured Data-->
-      <script type="application/ld+json">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Subhamay Bose is a Senior System Engineer (Team Lead) at IBM specializing in Node.js, Python, machine learning, AWS &amp; IBM Cloud, and Kubernetes.">
+  <meta name="keywords" content="Subhamay Bose, Senior System Engineer, Team Lead, IBM, Node.js Developer, Python Developer, Machine Learning Engineer, AWS Certified Developer Associate, Cloud Application Developer, Kubernetes, Backend Developer Kolkata">
+  <meta name="author" content="Subhamay Bose">
+  <link rel="canonical" href="https://subhamaybose.github.io/">
+
+  <title>Subhamay Bose | Senior Backend &amp; Cloud Developer (Node.js, Python, AWS, Kubernetes)</title>
+
+  <!-- Resolve the theme before first paint. Must be inline and blocking, or the
+       page flashes the wrong theme. Kept deliberately in sync with initTheme(). -->
+  <script>
+    (function () {
+      var theme = "dark";
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") theme = t;
+        else if (t === "system") theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        window.__themeChoice = (t === "light" || t === "dark" || t === "system") ? t : "dark";
+      } catch (e) { window.__themeChoice = "dark"; }
+      document.documentElement.setAttribute("data-theme", theme);
+      /* Arm the reveal animations before first paint so nothing flashes in
+         and then out. Dead-man's switch: if custom.js has not attached its
+         observer within 3s (script blocked, threw, or never loaded), disarm
+         so the page is readable rather than blank. */
+      document.documentElement.className = "reveals-on";
+      setTimeout(function () {
+        if (!window.__revealsReady) {
+          document.documentElement.classList.remove("reveals-on");
+        }
+      }, 3000);
+    })();
+  </script>
+
+  <link rel="icon" href="images/favicon.png" sizes="any">
+
+  <!-- Social preview -->
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Subhamay Bose">
+  <meta property="og:url" content="https://subhamaybose.github.io/">
+  <meta property="og:title" content="Subhamay Bose | Senior Backend &amp; Cloud Developer">
+  <meta property="og:description" content="Senior System Engineer (Team Lead) at IBM specializing in Node.js, Python, machine learning, AWS &amp; IBM Cloud, and Kubernetes.">
+  <meta property="og:image" content="https://subhamaybose.github.io/images/og-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Subhamay Bose — Senior System Engineer (Team Lead), IBM">
+  <meta property="og:locale" content="en_US">
+  <meta property="profile:first_name" content="Subhamay">
+  <meta property="profile:last_name" content="Bose">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Subhamay Bose | Senior Backend &amp; Cloud Developer">
+  <meta name="twitter:description" content="Senior System Engineer (Team Lead) at IBM specializing in Node.js, Python, machine learning, AWS &amp; IBM Cloud, and Kubernetes.">
+  <meta name="twitter:image" content="https://subhamaybose.github.io/images/og-card.jpg">
+  <meta name="twitter:image:alt" content="Subhamay Bose — Senior System Engineer (Team Lead), IBM">
+
+  <!-- Fonts: IBM Plex Mono carries the identity, IBM Plex Sans carries prose. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
       {
-        "@context": "https://schema.org",
+        "@type": ["WebPage", "ProfilePage"],
+        "@id": "https://subhamaybose.github.io/#page",
+        "url": "https://subhamaybose.github.io/",
+        "name": "Subhamay Bose | Senior Backend & Cloud Developer",
+        "mainEntity": { "@id": "https://subhamaybose.github.io/#person" }
+      },
+      {
         "@type": "Person",
+        "@id": "https://subhamaybose.github.io/#person",
         "name": "Subhamay Bose",
         "url": "https://subhamaybose.github.io/",
         "image": "https://subhamaybose.github.io/images/profile-pic.jpg",
@@ -50,6 +85,10 @@
           "@type": "Organization",
           "name": "IBM India Pvt. Ltd."
         },
+        "alumniOf": {
+          "@type": "EducationalOrganization",
+          "name": "Bachelor of Technology, Computer Science and Engineering"
+        },
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Kolkata",
@@ -57,557 +96,639 @@
           "addressCountry": "IN"
         },
         "email": "mailto:subhamaybose@gmail.com",
+        "telephone": "+91-9681-726-905",
+        "knowsAbout": [
+          "Python", "Node.js", "TypeScript", "Angular", "Express.js",
+          "Amazon Web Services", "IBM Cloud", "Kubernetes", "Docker",
+          "Apache Kafka", "Elasticsearch", "MongoDB", "MySQL", "PostgreSQL",
+          "Machine Learning", "Generative AI", "Microservices", "AIOps"
+        ],
         "sameAs": [
           "https://www.linkedin.com/in/subhamaybose/",
           "https://github.com/subhamaybose",
-          "https://www.facebook.com/subhamay.bose.94/",
+          "https://subhamaybose.medium.com/",
           "https://www.youtube.com/@techqurater",
           "https://www.instagram.com/subhamaybose/",
-          "https://subhamaybose.medium.com/"
+          "https://www.facebook.com/subhamay.bose.94/"
+        ],
+        "hasCredential": [
+          { "@type": "EducationalOccupationalCredential", "name": "AWS Certified Developer Associate", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/e5e4bc29-bfb6-4764-b4c5-ab669606a4a3", "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" } },
+          { "@type": "EducationalOccupationalCredential", "name": "IBM watsonx.ai Technical Essentials", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/c0431797-9b1d-489f-9369-132d291c69d8", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "Python for Data Science", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/62ed38c7-3051-4145-a723-6bca7eee3609", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "Containers & Kubernetes Essentials", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/4afba087-c175-4324-927b-a7c5a3cdb96e", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "Docker Essentials: A Developer Introduction", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/502aad7d-6f86-4f70-aa70-e9335e419a9e", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "Enterprise Design Thinking Practitioner", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/85bb6134-6462-4e9b-b36c-7865801e886d", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "IBM Automation: Compass", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/595ae7fd-f5d8-4171-8b3e-40bc08be53bf", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "IBM Garage Essentials", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/1f579c08-b166-4383-a048-28e340e5b293", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "IBM Consulting Way Habits — Foundational", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/11f4de65-8d16-4a41-a461-776b511857c1", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "Retail Industry Jumpstart", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/7fff2248-2f12-4fce-b796-8a1b15b40dca", "recognizedBy": { "@type": "Organization", "name": "IBM" } },
+          { "@type": "EducationalOccupationalCredential", "name": "IBM Cloud Essentials", "credentialCategory": "certificate", "url": "https://www.credly.com/badges/3a67b79e-a15a-499c-9d96-d1547a579b10", "recognizedBy": { "@type": "Organization", "name": "Coursera" } },
+          { "@type": "EducationalOccupationalCredential", "name": "Neural Networks and Deep Learning", "credentialCategory": "certificate", "url": "https://www.coursera.org/account/accomplishments/verify/UEUTA3GQ93LJ", "recognizedBy": { "@type": "Organization", "name": "Coursera" } },
+          { "@type": "EducationalOccupationalCredential", "name": "Applied Machine Learning", "credentialCategory": "certificate", "url": "https://www.appliedaicourse.com/certificate/0b63e915db", "recognizedBy": { "@type": "Organization", "name": "Applied Course" } }
         ]
       }
-      </script>
-      <!-- Fonts -->
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,550;9..144,650&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-      <!-- Awesome Fonts (icons) -->
-      <link rel="stylesheet" href="css/all.min.css">
-      <!--Main Styles Css-->
-      <link rel="stylesheet" href="css/style.css">
-   </head>
-   <body>
-      <a href="#main" class="skip-link">Skip to content</a>
+    ]
+  }
+  </script>
+</head>
 
-      <div id="scroll-progress" aria-hidden="true"><span></span></div>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2" /><line x1="8" x2="16" y1="21" y2="21" /><line x1="12" x2="12" y1="17" y2="21" /></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" /></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></symbol>
+<symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></symbol>
+<symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7" /><path d="M12 19V5" /></symbol>
+<symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></symbol>
+<symbol id="i-cpu" viewBox="0 0 24 24"><path d="M12 20v2" /><path d="M12 2v2" /><path d="M17 20v2" /><path d="M17 2v2" /><path d="M2 12h2" /><path d="M2 17h2" /><path d="M2 7h2" /><path d="M20 12h2" /><path d="M20 17h2" /><path d="M20 7h2" /><path d="M7 20v2" /><path d="M7 2v2" /><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="8" y="8" width="8" height="8" rx="1" /></symbol>
+<symbol id="i-code-xml" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /></symbol>
+<symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5V19A9 3 0 0 0 21 19V5" /><path d="M3 12A9 3 0 0 0 21 12" /></symbol>
+<symbol id="i-git-branch" viewBox="0 0 24 24"><path d="M15 6a9 9 0 0 0-9 9V3" /><circle cx="18" cy="6" r="3" /><circle cx="6" cy="18" r="3" /></symbol>
+<symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" x2="6.01" y1="6" y2="6" /><line x1="6" x2="6.01" y1="18" y2="18" /></symbol>
+<symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+<symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+<symbol id="i-medium" viewBox="0 0 24 24"><path d="M4.21 0A4.201 4.201 0 0 0 0 4.21v15.58A4.201 4.201 0 0 0 4.21 24h15.58A4.201 4.201 0 0 0 24 19.79v-1.093c-.137.013-.278.02-.422.02-2.577 0-4.027-2.146-4.09-4.832a7.592 7.592 0 0 1 .022-.708c.093-1.186.475-2.241 1.105-3.022a3.885 3.885 0 0 1 1.395-1.1c.468-.237 1.127-.367 1.664-.367h.023c.101 0 .202.004.303.01V4.211A4.201 4.201 0 0 0 19.79 0Zm.198 5.583h4.165l3.588 8.435 3.59-8.435h3.864v.146l-.019.004c-.705.16-1.063.397-1.063 1.254h-.003l.003 10.274c.06.676.424.885 1.063 1.03l.02.004v.145h-4.923v-.145l.019-.005c.639-.144.994-.353 1.054-1.03V7.267l-4.745 11.15h-.261L6.15 7.569v9.445c0 .857.358 1.094 1.063 1.253l.02.004v.147H4.405v-.147l.019-.004c.705-.16 1.065-.397 1.065-1.253V6.987c0-.857-.358-1.094-1.064-1.254l-.018-.004zm19.25 3.668c-1.086.023-1.733 1.323-1.813 3.124H24V9.298a1.378 1.378 0 0 0-.342-.047Zm-1.862 3.632c-.1 1.756.86 3.239 2.204 3.634v-3.634z"/></symbol>
+<symbol id="i-youtube" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></symbol>
+<symbol id="i-facebook" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></symbol>
+</svg>
 
-      <!-- Site navigation -->
-      <nav id="site-nav">
-         <div class="container">
-            <a href="#hero" class="brand">Subhamay<span>.</span></a>
-            <div class="nav-right">
-               <ul class="nav-links">
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#resume">Experience</a></li>
-                  <li><a href="#services">Skills</a></li>
-                  <li><a href="#work">Certifications</a></li>
-                  <li><a href="#technology">Stack</a></li>
-                  <li><a href="#publication">Writing</a></li>
-                  <li><a href="#recommendations">Recommendations</a></li>
-                  <li><a href="#contact">Contact</a></li>
-               </ul>
-               <div class="theme-toggle" role="group" aria-label="Theme">
-                  <button type="button" data-theme-choice="light" aria-label="Light theme" aria-pressed="false"><i class="fas fa-sun"></i></button>
-                  <button type="button" data-theme-choice="dark" aria-label="Dark theme" aria-pressed="false"><i class="fas fa-moon"></i></button>
-                  <button type="button" data-theme-choice="system" aria-label="Match system theme" aria-pressed="false"><i class="fas fa-adjust"></i></button>
-               </div>
-               <a class="btn btn-primary nav-cta" href="resume/resume.pdf" download>Resume</a>
-               <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav">
-                  <span></span><span></span><span></span>
-               </button>
-            </div>
-         </div>
-      </nav>
+  <a href="#main" class="skip-link">Skip to content</a>
 
-      <!-- Mobile navigation overlay -->
-      <div id="mobile-nav" class="mobile-nav">
-         <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#resume">Experience</a></li>
-            <li><a href="#services">Skills</a></li>
-            <li><a href="#work">Certifications</a></li>
-            <li><a href="#technology">Stack</a></li>
-            <li><a href="#publication">Writing</a></li>
-            <li><a href="#recommendations">Recommendations</a></li>
-            <li><a href="#contact">Contact</a></li>
-         </ul>
-         <div class="mobile-nav-foot">
-            <div class="theme-toggle" role="group" aria-label="Theme">
-               <button type="button" data-theme-choice="light" aria-label="Light theme" aria-pressed="false"><i class="fas fa-sun"></i></button>
-               <button type="button" data-theme-choice="dark" aria-label="Dark theme" aria-pressed="false"><i class="fas fa-moon"></i></button>
-               <button type="button" data-theme-choice="system" aria-label="Match system theme" aria-pressed="false"><i class="fas fa-adjust"></i></button>
+  <nav id="site-nav" aria-label="Primary">
+    <div class="wrap">
+      <a href="#top" class="brand">subhamay<span>.</span>bose</a>
+
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#credentials">Credentials</a></li>
+          <li><a href="#writing">Writing</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="theme-toggle" role="group" aria-label="Theme">
+          <button type="button" data-theme-choice="light" aria-label="Light theme" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-sun" /></svg></button>
+          <button type="button" data-theme-choice="dark" aria-label="Dark theme" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-moon" /></svg></button>
+          <button type="button" data-theme-choice="system" aria-label="Match system theme" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-monitor" /></svg></button>
+        </div>
+
+        <a class="btn nav-cta" href="resume/resume.pdf" download>Resume<svg class="ico" aria-hidden="true"><use href="#i-download" /></svg></a>
+
+        <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+          <svg class="ico ico--24 ico-open" aria-hidden="true"><use href="#i-menu" /></svg>
+          <svg class="ico ico--24 ico-close" aria-hidden="true"><use href="#i-x" /></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <ul>
+      <li><a href="#about"><span>About</span><span class="micro">01</span></a></li>
+      <li><a href="#experience"><span>Experience</span><span class="micro">02</span></a></li>
+      <li><a href="#stack"><span>Stack</span><span class="micro">03</span></a></li>
+      <li><a href="#credentials"><span>Credentials</span><span class="micro">04</span></a></li>
+      <li><a href="#writing"><span>Writing</span><span class="micro">05</span></a></li>
+      <li><a href="#recommendations"><span>Recommendations</span><span class="micro">06</span></a></li>
+      <li><a href="#contact"><span>Contact</span><span class="micro">07</span></a></li>
+    </ul>
+    <div class="mobile-nav-foot">
+      <a class="btn" href="resume/resume.pdf" download>Resume<svg class="ico" aria-hidden="true"><use href="#i-download" /></svg></a>
+      <div class="social-row">
+        <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-linkedin" /></svg></a>
+        <a href="https://github.com/subhamaybose" target="_blank" rel="noopener" aria-label="GitHub"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-github" /></svg></a>
+        <a href="https://subhamaybose.medium.com/" target="_blank" rel="noopener" aria-label="Medium"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-medium" /></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- The rail readout: the spine, doing a job. Position is CSS scroll-driven. -->
+  <div id="rail-readout" aria-hidden="true">
+    <span class="caret"></span>
+    <span class="readout micro">
+      <span class="r-sec">Top</span>
+      <span class="r-leader">·····</span>
+      <span class="r-pct">0%</span>
+    </span>
+  </div>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ── Hero ───────────────────────────────────────────────────── -->
+    <section id="top" aria-labelledby="hero-title">
+      <div class="wrap grid hero-grid">
+        <span class="sec-idx lbl">§00</span>
+
+        <div class="hero-copy">
+          <span class="lbl" data-reveal style="--i:0">Senior System Engineer · Team Lead, IBM</span>
+          <h1 id="hero-title" data-reveal style="--i:1"><span class="ln">Subhamay</span> <span class="ln">Bose</span></h1>
+          <div class="hero-rule" data-reveal style="--i:2"></div>
+          <p class="hero-stack" data-reveal style="--i:3">node.js · python · aws · kubernetes · kafka</p>
+          <p class="lede" data-reveal style="--i:4">Specializing in Node.js, Python, machine learning, and cloud technologies &mdash; building scalable microservices, hybrid cloud solutions, and AI-driven systems.</p>
+          <div class="hero-actions" data-reveal style="--i:5">
+            <a class="btn btn--solid" href="resume/resume.pdf" download>Download CV<svg class="ico" aria-hidden="true"><use href="#i-download" /></svg></a>
+            <a class="btn" href="#contact">Get in touch<svg class="ico" aria-hidden="true"><use href="#i-arrow-down" /></svg></a>
+          </div>
+        </div>
+
+        <div class="hero-portrait" data-reveal style="--i:4">
+          <img src="images/hero-portrait.jpg" alt="Portrait of Subhamay Bose" width="900" height="1090" fetchpriority="high" decoding="sync">
+        </div>
+
+        <div class="hero-stats" data-reveal style="--i:6">
+          <div class="stat">
+            <span class="num" id="years-of-experience">10</span>
+            <span class="lbl">Years engineering</span>
+          </div>
+          <div class="stat">
+            <span class="num">14</span>
+            <span class="lbl">Credentials</span>
+          </div>
+          <div class="stat">
+            <span class="num">8</span>
+            <span class="lbl">Essays published</span>
+          </div>
+          <div class="stat">
+            <span class="num">IBM</span>
+            <span class="lbl">Kolkata, IN</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 01 About ───────────────────────────────────────────────── -->
+    <section id="about" class="section" aria-labelledby="about-h">
+      <div class="wrap grid">
+        <span class="sec-idx lbl">§01</span>
+        <div class="sec-head">
+          <span class="lbl">About</span>
+          <h2 id="about-h">A backend &amp; cloud engineer who ships.</h2>
+        </div>
+
+        <div class="col-prose prose" data-reveal>
+          <p class="lede">I am a skilled software professional specializing in Node.js, Python, machine learning, and cloud technologies. With expertise in scalable microservices, hybrid cloud solutions, AI/ML models, and AIOps, I&rsquo;m certified in Kubernetes and IBM Cloud, focused on automation and building innovative, data-driven applications.</p>
+          <p>Skilled Senior System Engineer with expertise in Machine Learning, AI, web development, cloud computing, databases, and DevOps.</p>
+        </div>
+
+        <div class="col-data" data-reveal style="--i:1">
+          <dl class="deflist">
+            <div><dt class="lbl">Role</dt><dd>Senior System Engineer, Team Lead</dd></div>
+            <div><dt class="lbl">Org</dt><dd>IBM India Pvt. Ltd.</dd></div>
+            <div><dt class="lbl">Base</dt><dd>Kolkata, West Bengal, India</dd></div>
+            <div><dt class="lbl">Email</dt><dd><a href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com</a></dd></div>
+            <div><dt class="lbl">Phone</dt><dd><a href="tel:+919681726905">+91 9681 726 905</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 02 Experience ──────────────────────────────────────────── -->
+    <section id="experience" class="section" aria-labelledby="experience-h">
+      <div class="wrap grid">
+        <span class="sec-idx lbl">§02</span>
+        <div class="sec-head">
+          <span class="lbl">Experience &amp; Education</span>
+          <h2 id="experience-h">Career progression.</h2>
+        </div>
+
+        <div class="xp">
+          <div class="xp-row" data-reveal>
+            <span class="when">Feb 2022 &mdash; Active</span>
+            <div>
+              <h3>IBM India Pvt. Ltd.</h3>
+              <span class="role">Senior System Engineer (Team Lead)</span>
             </div>
-            <div class="social-row">
-               <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-               <a href="https://github.com/subhamaybose" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github-square"></i></a>
-               <a href="https://www.facebook.com/subhamay.bose.94/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-square"></i></a>
-               <a href="https://www.youtube.com/@techqurater" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-               <a href="https://www.instagram.com/subhamaybose/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <p class="note">Leads engineering on scalable microservices, hybrid cloud and AI-driven systems across Node.js, Python and Kubernetes.</p>
+          </div>
+          <div class="xp-row" data-reveal style="--i:1">
+            <span class="when">Nov 2016 &mdash; Jan 2022</span>
+            <div>
+              <h3>DTech System</h3>
+              <span class="role">Backend Developer</span>
             </div>
-         </div>
+            <p class="note">Built and maintained server-side applications, RESTful services and database integrations.</p>
+          </div>
+
+          <div class="xp-sub">
+            <span class="lbl">Education</span>
+            <div class="xp-row" data-reveal>
+              <span class="when">May 2021</span>
+              <div>
+                <h3>Specialization Course, Applied AI Course</h3>
+                <span class="role">Applied AI / Machine Learning</span>
+              </div>
+              <p class="note"></p>
+            </div>
+            <div class="xp-row" data-reveal style="--i:1">
+              <span class="when">Jun 2012 &mdash; Jun 2016</span>
+              <div>
+                <h3>Bachelor of Technology</h3>
+                <span class="role">Computer Science and Engineering</span>
+              </div>
+              <p class="note"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 03 Stack ───────────────────────────────────────────────── -->
+    <section id="stack" class="section" aria-labelledby="stack-h">
+      <div class="wrap grid">
+        <span class="sec-idx lbl">§03</span>
+        <div class="sec-head">
+          <span class="lbl">Capability</span>
+          <h2 id="stack-h">What I build with.</h2>
+          <p class="lede">Core skills &amp; expertise in software engineering, machine learning, cloud computing, web development, and automation.</p>
+        </div>
+
+        <div class="col-full tscroll" data-reveal>
+          <table class="dtable">
+            <thead>
+              <tr>
+                <th scope="col">Area</th>
+                <th scope="col">Capability</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="c-name"><svg class="ico" aria-hidden="true"><use href="#i-cpu" /></svg> Machine Learning &amp; AI</td>
+                <td class="c-note">Expertise in ML algorithms (SVM, XGBoost, CNN, LSTM), generative AI, and frameworks like scikit-learn, NumPy, and Pandas.</td>
+              </tr>
+              <tr>
+                <td class="c-name"><svg class="ico" aria-hidden="true"><use href="#i-code-xml" /></svg> Web Development</td>
+                <td class="c-note">Skilled in Node.js, Angular, React, Express.js, and Sequelize frameworks.</td>
+              </tr>
+              <tr>
+                <td class="c-name"><svg class="ico" aria-hidden="true"><use href="#i-cloud" /></svg> Cloud Computing</td>
+                <td class="c-note">Proficient in AWS Cloud, IBM Cloud, and Kubernetes containerization.</td>
+              </tr>
+              <tr>
+                <td class="c-name"><svg class="ico" aria-hidden="true"><use href="#i-database" /></svg> Database Management</td>
+                <td class="c-note">Experience with MySQL, PostgreSQL, MongoDB, and web application integration.</td>
+              </tr>
+              <tr>
+                <td class="c-name"><svg class="ico" aria-hidden="true"><use href="#i-git-branch" /></svg> DevOps &amp; CI/CD</td>
+                <td class="c-note">Familiar with Git, GitHub, GitLab, PM2, and Postman for automation.</td>
+              </tr>
+              <tr>
+                <td class="c-name"><svg class="ico" aria-hidden="true"><use href="#i-server" /></svg> Software Engineering &amp; Web Services</td>
+                <td class="c-note">Expertise in RESTful services, server-side programming, Apache, and Nginx.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ul class="colophon" data-reveal aria-label="Technologies">
+          <li><img src="images/technology/python.svg" alt="Python" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/nodejs.svg" alt="Node.js" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/typescript.svg" alt="TypeScript" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/angular.svg" alt="Angular" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/expressjs.svg" alt="Express.js" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/amazon.svg" alt="Amazon Web Services" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/kubernetes.svg" alt="Kubernetes" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/docker.svg" alt="Docker" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/kafka.svg" alt="Apache Kafka" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/elasticsearch.svg" alt="Elasticsearch" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/mongodb.svg" alt="MongoDB" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/mysql.svg" alt="MySQL" width="24" height="24" loading="lazy" decoding="async"></li>
+          <li><img src="images/technology/postgresql.svg" alt="PostgreSQL" width="24" height="24" loading="lazy" decoding="async"></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 04 Credentials: 13 in a register, 1 as a plate ─────────── -->
+    <section id="credentials" class="section" aria-labelledby="credentials-h">
+      <div class="wrap grid">
+        <span class="sec-idx lbl">§04</span>
+        <div class="sec-head">
+          <span class="lbl">Credentials</span>
+          <h2 id="credentials-h">Fourteen, thirteen verifiable.</h2>
+        </div>
+
+        <div class="cred-register tscroll" data-reveal>
+          <table class="dtable">
+            <thead>
+              <tr>
+                <th scope="col" class="c-mark"><span class="sr-only">Badge</span></th>
+                <th scope="col">Credential</th>
+                <th scope="col">Issuer</th>
+                <th scope="col">Ref</th>
+                <th scope="col" class="c-end"><span class="sr-only">Verify</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-wte.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">IBM watsonx.ai Technical Essentials</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">c0431797</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/c0431797-9b1d-489f-9369-132d291c69d8" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify IBM watsonx.ai Technical Essentials (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-pds.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Python for Data Science</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">62ed38c7</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/62ed38c7-3051-4145-a723-6bca7eee3609" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify Python for Data Science (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-cke.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Containers &amp; Kubernetes Essentials</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">4afba087</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/4afba087-c175-4324-927b-a7c5a3cdb96e" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify Containers and Kubernetes Essentials (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-deai.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Docker Essentials: A Developer Introduction</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">502aad7d</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/502aad7d-6f86-4f70-aa70-e9335e419a9e" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify Docker Essentials (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-edt.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Enterprise Design Thinking Practitioner</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">85bb6134</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/85bb6134-6462-4e9b-b36c-7865801e886d" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify Enterprise Design Thinking Practitioner (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-ac.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">IBM Automation: Compass</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">595ae7fd</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/595ae7fd-f5d8-4171-8b3e-40bc08be53bf" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify IBM Automation Compass (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-garage.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">IBM Garage Essentials</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">1f579c08</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/1f579c08-b166-4383-a048-28e340e5b293" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify IBM Garage Essentials (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-cwh.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">IBM Consulting Way Habits &mdash; Foundational</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">11f4de65</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/11f4de65-8d16-4a41-a461-776b511857c1" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify IBM Consulting Way Habits (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/ibm-rj.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Retail Industry Jumpstart</td>
+                <td class="c-meta">IBM</td>
+                <td class="c-meta">7fff2248</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/7fff2248-2f12-4fce-b796-8a1b15b40dca" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify Retail Industry Jumpstart (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/dsn.png" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">IBM Cloud Essentials</td>
+                <td class="c-meta">Coursera</td>
+                <td class="c-meta">3a67b79e</td>
+                <td class="c-end"><a href="https://www.credly.com/badges/3a67b79e-a15a-499c-9d96-d1547a579b10" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify IBM Cloud Essentials (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/deeplearning-ai.jpg" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Neural Networks and Deep Learning</td>
+                <td class="c-meta">Coursera</td>
+                <td class="c-meta">UEUTA3GQ</td>
+                <td class="c-end"><a href="https://www.coursera.org/account/accomplishments/verify/UEUTA3GQ93LJ" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify Neural Networks and Deep Learning (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/applied-ai.jpg" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Applied Machine Learning</td>
+                <td class="c-meta">Applied Course</td>
+                <td class="c-meta">0b63e915</td>
+                <td class="c-end"><a href="https://www.appliedaicourse.com/certificate/0b63e915db" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Verify Applied Machine Learning (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-mark"><img class="cred-mark" src="images/badges/crew-ai.jpg" alt="" width="28" height="28" loading="lazy" decoding="async"></td>
+                <td class="c-name">Initial Course on CrewAI</td>
+                <td class="c-meta">Crew AI</td>
+                <td class="c-meta">&mdash;</td>
+                <td class="c-end"><span class="unverified" title="No public verification link">n/a</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="cred-plate" data-reveal style="--i:1" aria-label="Featured credential">
+          <div class="inner">
+            <img src="images/badges/aws-certified-developer-associate.png" alt="AWS Certified Developer Associate certification badge" width="600" height="600" loading="lazy" decoding="async">
+            <span class="lbl">AWS Certified Developer &mdash; Associate</span>
+            <span class="micro">Amazon Web Services</span>
+            <span class="micro">Ref e5e4bc29</span>
+            <a class="verify" href="https://www.credly.com/badges/e5e4bc29-bfb6-4764-b4c5-ab669606a4a3" target="_blank" rel="noopener">Verify<svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">(opens in a new tab)</span></a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ── 05 Writing ─────────────────────────────────────────────── -->
+    <section id="writing" class="section" aria-labelledby="writing-h">
+      <div class="wrap grid">
+        <span class="sec-idx lbl">§05</span>
+        <div class="sec-head">
+          <span class="lbl">Writing</span>
+          <h2 id="writing-h">Eight essays on system design.</h2>
+          <p class="lede">Published on Medium. Distributed systems, data architecture, and the engineering behind AI systems.</p>
+        </div>
+
+        <div class="col-full tscroll" data-reveal>
+          <table class="dtable">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Essay</th>
+                <th scope="col" class="c-end"><span class="sr-only">Read</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="is-lead">
+                <td class="c-when">2026-03-25</td>
+                <td>
+                  <span class="c-name">Batch vs Stream Processing: System Design</span>
+                  <p class="c-note">Batch vs stream processing explained with real-world examples, architecture trade-offs, and system design interview insights.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/batch-vs-stream-processing-system-design-eb92d7f46469" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read Batch vs Stream Processing (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-when">2026-03-19</td>
+                <td>
+                  <span class="c-name">Synchronous vs Asynchronous Processing Explained</span>
+                  <p class="c-note">Synchronous vs asynchronous processing explained with simple examples, real-world use cases, and system design interview insights.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/synchronous-vs-asynchronous-processing-explained-c070c18e4eb9" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read Synchronous vs Asynchronous Processing (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-when">2026-01-29</td>
+                <td>
+                  <span class="c-name">SQL vs NoSQL: How to Choose the Right Database</span>
+                  <p class="c-note">SQL vs NoSQL explained with simple examples, architecture trade-offs, and interview-ready insights to help you choose the right database.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/sql-vs-nosql-how-to-choose-the-right-database-21fa4ef574b3" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read SQL vs NoSQL (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-when">2026-01-29</td>
+                <td>
+                  <span class="c-name">Vertical vs Horizontal Scaling: System Design</span>
+                  <p class="c-note">Vertical vs horizontal scaling explained simply with real-world examples, diagrams, and interview-ready insights for system design engineers.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/vertical-vs-horizontal-scaling-system-design-b60e86404efa" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read Vertical vs Horizontal Scaling (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-when">2025-12-23</td>
+                <td>
+                  <span class="c-name">Prompt vs Context Engineering: The Real Difference</span>
+                  <p class="c-note">Prompt engineering tells AI what to do. Context engineering gives AI what it needs to do it right. Learn the real difference with simple examples.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/prompt-vs-context-engineering-the-real-difference-d2c4e9173e07" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read Prompt vs Context Engineering (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-when">2025-11-28</td>
+                <td>
+                  <span class="c-name">The 7-Layer Architecture of Agentic AI</span>
+                  <p class="c-note">Learn the 7-layer architecture of Agentic AI, how each layer works, and the tools behind modern autonomous AI systems. A clear, practical guide for all levels.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/the-7-layer-architecture-of-agentic-ai-a-complete-guide-to-building-autonomous-ai-systems-2b880525004b" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read The 7-Layer Architecture of Agentic AI (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-when">2025-11-18</td>
+                <td>
+                  <span class="c-name">Node.js vs Python: How to Choose the Right Backend Language</span>
+                  <p class="c-note">Learn when to use Node.js or Python for backend development. This simple, beginner-friendly guide explains architecture, system design, and real-world use cases.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/node-js-vs-python-how-to-chose-the-right-backend-language-for-your-next-project-a-simple-guide-b4928154d9f4" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read Node.js vs Python (opens in a new tab)</span></a></td>
+              </tr>
+              <tr>
+                <td class="c-when">2021-04-30</td>
+                <td>
+                  <span class="c-name">Predict Material Backorders in Inventory Management</span>
+                  <p class="c-note">The primary goal of analyzing backorder data is to identify why a product is out of stock when a customer wants to purchase it.</p>
+                </td>
+                <td class="c-end"><a href="https://subhamaybose.medium.com/predict-material-backorders-in-inventory-management-d93f8e1ca65d" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-arrow-up-right" /></svg><span class="sr-only">Read Predict Material Backorders (opens in a new tab)</span></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 06 Recommendations ─────────────────────────────────────── -->
+    <section id="recommendations" class="section" aria-labelledby="recommendations-h">
+      <div class="wrap grid">
+        <span class="sec-idx lbl">§06</span>
+        <div class="sec-head">
+          <span class="lbl">Recommendations</span>
+          <h2 id="recommendations-h">What colleagues say.</h2>
+        </div>
+
+        <div class="quotes">
+          <figure class="quote is-lead" data-reveal>
+            <blockquote><p>Subhamay is an absolute standup addition to a good team. The skill he portrays is really commendable, and with a good understanding of technology and concepts, he brings a really good combination of experience to produce perfect results as an application developer. I have worked with him for some 3 years and have never had to repeat something to get the best out of him &mdash; he understands the designs well and produces exactly what is required.</p></blockquote>
+            <figcaption>
+              <span class="who">Prashant S Pillai</span>
+              <span class="what micro">Technology Architect, R&amp;D, Artificial Intelligence and Cloud architectures at IBM</span>
+            </figcaption>
+          </figure>
+
+          <figure class="quote" data-reveal>
+            <blockquote><p>Subhamay is a high-impact AI and backend engineer who consistently delivers scalable, production-grade solutions with exceptional ownership and precision.</p></blockquote>
+            <figcaption><span class="who">Sankar L B.</span></figcaption>
+          </figure>
+
+          <figure class="quote" data-reveal style="--i:1">
+            <blockquote><p>Subhamay is one of the very skilled developers I have worked with. He is not only very sound in JS frameworks, he is also very good at problem solving and very hard working. He&rsquo;ll certainly do an excellent job with whatever he&rsquo;s assigned.</p></blockquote>
+            <figcaption>
+              <span class="who">Pramod Bhade</span>
+              <span class="what micro">Application Architect at IBM, Cloud Applications &amp; Microservices</span>
+            </figcaption>
+          </figure>
+
+          <figure class="quote" data-reveal>
+            <blockquote><p>I had the pleasure of working with Subhamay on our team, and his dedication and problem-solving skills were impressive. His strong work ethic and excellent communication fostered a collaborative environment and delivered innovative solutions that were priceless.</p></blockquote>
+            <figcaption>
+              <span class="who">Ishan Samanta</span>
+              <span class="what micro">Senior Web Designer</span>
+            </figcaption>
+          </figure>
+
+          <figure class="quote" data-reveal style="--i:1">
+            <blockquote><p>Subhamay is highly skilled and his attitude towards team work is amazing. It was a very pleasant experience to work with him on some of the crucial projects.</p></blockquote>
+            <figcaption>
+              <span class="who">Pranab Ghosh</span>
+              <span class="what micro">Senior Data Scientist</span>
+            </figcaption>
+          </figure>
+
+          <figure class="quote" data-reveal>
+            <blockquote><p>I liked Subhamay&rsquo;s attitude towards learning new technologies and delivering quality code on time. He has a very good grasp of problem solving and debugging complex problems.</p></blockquote>
+            <figcaption>
+              <span class="who">Sudhakar Sharma</span>
+              <span class="what micro">Middleware | Microservices | Cloud Native | Application Modernization</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 07 Contact ─────────────────────────────────────────────── -->
+    <section id="contact" class="section" aria-labelledby="contact-h">
+      <div class="wrap grid">
+        <span class="sec-idx lbl">§07</span>
+        <div class="sec-head">
+          <span class="lbl">Contact</span>
+          <h2 id="contact-h">Let&rsquo;s get in touch.</h2>
+        </div>
+
+        <div class="col-prose" data-reveal>
+          <p class="lede">Reach out for collaboration, opportunities, or a technical conversation.</p>
+          <a class="contact-mail" href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com<svg class="ico ico--20" aria-hidden="true"><use href="#i-mail" /></svg></a>
+        </div>
+
+        <div class="col-data" data-reveal style="--i:1">
+          <dl class="deflist">
+            <div><dt class="lbl">Base</dt><dd>Kolkata, West Bengal, India</dd></div>
+            <div><dt class="lbl">Phone</dt><dd><a href="tel:+919681726905">+91 9681 726 905</a></dd></div>
+            <div><dt class="lbl">LinkedIn</dt><dd><a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener">/in/subhamaybose<span class="sr-only"> (opens in a new tab)</span></a></dd></div>
+            <div><dt class="lbl">GitHub</dt><dd><a href="https://github.com/subhamaybose" target="_blank" rel="noopener">/subhamaybose<span class="sr-only"> (opens in a new tab)</span></a></dd></div>
+            <div><dt class="lbl">Medium</dt><dd><a href="https://subhamaybose.medium.com/" target="_blank" rel="noopener">subhamaybose.medium.com<span class="sr-only"> (opens in a new tab)</span></a></dd></div>
+            <div><dt class="lbl">YouTube</dt><dd><a href="https://www.youtube.com/@techqurater" target="_blank" rel="noopener">@techqurater<span class="sr-only"> (opens in a new tab)</span></a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer">
+    <div class="wrap">
+      <span class="micro">&copy; <span id="year">2026</span> Subhamay Bose</span>
+
+      <div class="foot-mid">
+        <div class="social-row">
+          <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-linkedin" /></svg></a>
+          <a href="https://github.com/subhamaybose" target="_blank" rel="noopener" aria-label="GitHub"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-github" /></svg></a>
+          <a href="https://subhamaybose.medium.com/" target="_blank" rel="noopener" aria-label="Medium"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-medium" /></svg></a>
+          <a href="https://www.youtube.com/@techqurater" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-youtube" /></svg></a>
+          <a href="https://www.instagram.com/subhamaybose/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-instagram" /></svg></a>
+          <a href="https://www.facebook.com/subhamay.bose.94/" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ico ico--brand" aria-hidden="true"><use href="#i-facebook" /></svg></a>
+        </div>
       </div>
 
-      <main id="main" tabindex="-1">
+      <a class="to-top" href="#top">Top<svg class="ico" aria-hidden="true"><use href="#i-arrow-up" /></svg></a>
+    </div>
+  </footer>
 
-         <!-- Hero -->
-         <section id="hero">
-            <div class="container hero-grid">
-               <div class="hero-copy">
-                  <p class="eyebrow" data-reveal>Senior System Engineer · Team Lead, IBM</p>
-                  <h1 id="hero-title"><span class="reveal-word"><span>Subhamay</span></span> <span class="reveal-word"><span>Bose</span></span></h1>
-                  <p class="hero-role" data-reveal>
-                     I am a <span id="typed-role"></span><span class="cursor">|</span>
-                  </p>
-                  <p class="lede" data-reveal>Specializing in Node.js, Python, machine learning, and cloud technologies &mdash; building scalable microservices, hybrid cloud solutions, and AI-driven systems.</p>
-                  <div class="hero-actions" data-reveal>
-                     <a class="btn btn-primary" href="resume/resume.pdf" download>Download CV</a>
-                     <a class="btn btn-ghost" href="#contact">Get in Touch</a>
-                  </div>
-                  <ul class="hero-meta" data-reveal>
-                     <li><i class="fas fa-map-marker-alt"></i>Kolkata, West Bengal, India</li>
-                     <li><i class="fas fa-briefcase"></i>IBM India Pvt. Ltd.</li>
-                  </ul>
-               </div>
-               <div class="hero-portrait" data-reveal>
-                  <div class="frame"></div>
-                  <img src="images/hero-portrait.jpg" alt="Portrait of Subhamay Bose" width="900" height="1090" fetchpriority="high">
-                  <div class="chip"><strong id="hero-years">10+</strong>Years in backend &amp; cloud engineering</div>
-               </div>
-            </div>
-            <div class="scroll-cue"><span class="line"></span>Scroll</div>
-         </section>
+  <script src="js/custom.js" defer></script>
+</body>
 
-         <!-- About -->
-         <section id="about" class="section-pad">
-            <div class="container">
-               <div class="section-head">
-                  <p class="eyebrow">About</p>
-                  <h2>A backend &amp; cloud engineer who ships.</h2>
-               </div>
-               <div class="about-grid">
-                  <div class="about-photo" data-reveal>
-                     <div class="ring"></div>
-                     <img src="images/profile-pic.jpg" alt="Subhamay Bose, Senior System Engineer at IBM" width="600" height="600" loading="lazy">
-                  </div>
-                  <div class="about-copy">
-                     <p class="lede" data-reveal>I am a skilled software professional specializing in Node.js, Python, machine learning, and cloud technologies. With expertise in scalable microservices, hybrid cloud solutions, AI/ML models, and AIOps, I&rsquo;m certified in Kubernetes and IBM Cloud, focused on automation and building innovative, data-driven applications.</p>
-                     <ul class="about-facts" data-reveal>
-                        <li><span>Name</span><span>Subhamay Bose</span></li>
-                        <li><span>Role</span><span>Senior System Engineer (Team Lead), IBM India Pvt. Ltd.</span></li>
-                        <li><span>Email</span><span><a href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com</a></span></li>
-                        <li><span>Phone</span><span><a href="tel:+919681726905">+91 9681 726 905</a></span></li>
-                     </ul>
-                     <a class="btn btn-primary" href="resume/resume.pdf" download data-reveal>Download CV</a>
-
-                     <div class="meter-group" style="margin-top:3rem" data-reveal>
-                        <h4>Top skills</h4>
-                        <div class="meter">
-                           <div class="meter-row"><span>Python</span><span>85%</span></div>
-                           <div class="meter-track"><div class="meter-fill" data-fill="85"></div></div>
-                        </div>
-                        <div class="meter">
-                           <div class="meter-row"><span>Node.js</span><span>80%</span></div>
-                           <div class="meter-track"><div class="meter-fill" data-fill="80"></div></div>
-                        </div>
-                        <div class="meter">
-                           <div class="meter-row"><span>Containerization &amp; Orchestration</span><span>65%</span></div>
-                           <div class="meter-track"><div class="meter-fill" data-fill="65"></div></div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-
-         <!-- Experience & Education -->
-         <section id="resume" class="section-pad on-surface">
-            <div class="container">
-               <div class="section-head">
-                  <p class="eyebrow">Experience &amp; Education</p>
-                  <h2>Career progression.</h2>
-                  <p>Skilled Senior System Engineer with expertise in Machine Learning, AI, web development, cloud computing, databases, and DevOps.</p>
-               </div>
-               <div class="timeline-cols">
-                  <div class="timeline-col" data-reveal>
-                     <h3 class="track-title">Experience</h3>
-                     <div class="timeline">
-                        <span class="timeline-fill" aria-hidden="true"></span>
-                        <div class="timeline-item">
-                           <span class="meta">February 2022 &mdash; Active</span>
-                           <h4>IBM India Pvt. Ltd.</h4>
-                           <span class="role">Senior System Engineer (Team Lead)</span>
-                        </div>
-                        <div class="timeline-item">
-                           <span class="meta">November 2016 &mdash; January 2022</span>
-                           <h4>DTech System</h4>
-                           <span class="role">Backend Developer</span>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="timeline-col" data-reveal>
-                     <h3 class="track-title">Education</h3>
-                     <div class="timeline">
-                        <span class="timeline-fill" aria-hidden="true"></span>
-                        <div class="timeline-item">
-                           <span class="meta">May 2021</span>
-                           <h4>Specialization Course, Applied AI Course</h4>
-                           <span class="role">Applied AI / Machine Learning</span>
-                        </div>
-                        <div class="timeline-item">
-                           <span class="meta">June 2012 &mdash; June 2016</span>
-                           <h4>Bachelor of Technology</h4>
-                           <span class="role">Computer Science and Engineering</span>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-
-         <!-- Skills -->
-         <section id="services" class="section-pad">
-            <div class="container">
-               <div class="section-head">
-                  <p class="eyebrow">Skills</p>
-                  <h2>Core expertise.</h2>
-                  <p>Core skills &amp; expertise in software engineering, machine learning, cloud computing, web development, and automation.</p>
-               </div>
-               <div class="skills-bento">
-                  <div class="skill-card">
-                     <div class="row-top"><span class="icon"><i class="fas fa-microchip"></i></span><span class="idx">01</span></div>
-                     <h3>Machine Learning &amp; AI</h3>
-                     <p>Expertise in ML algorithms (SVM, XGBoost, CNN, LSTM), generative AI, and frameworks like scikit-learn, NumPy, and Pandas.</p>
-                  </div>
-                  <div class="skill-card">
-                     <div class="row-top"><span class="icon"><i class="fas fa-laptop-code"></i></span><span class="idx">02</span></div>
-                     <h3>Web Development</h3>
-                     <p>Skilled in Node.js, Angular, React, Express.js, and Sequelize frameworks.</p>
-                  </div>
-                  <div class="skill-card">
-                     <div class="row-top"><span class="icon"><i class="fab fa-aws"></i></span><span class="idx">03</span></div>
-                     <h3>Cloud Computing</h3>
-                     <p>Proficient in AWS Cloud, IBM Cloud, and Kubernetes containerization.</p>
-                  </div>
-                  <div class="skill-card">
-                     <div class="row-top"><span class="icon"><i class="fas fa-database"></i></span><span class="idx">04</span></div>
-                     <h3>Database Management</h3>
-                     <p>Experience with MySQL, PostgreSQL, MongoDB, and web application integration.</p>
-                  </div>
-                  <div class="skill-card">
-                     <div class="row-top"><span class="icon"><i class="fab fa-git-alt"></i></span><span class="idx">05</span></div>
-                     <h3>DevOps &amp; CI/CD</h3>
-                     <p>Familiar with Git, GitHub, GitLab, PM2, and Postman for automation.</p>
-                  </div>
-                  <div class="skill-card">
-                     <div class="row-top"><span class="icon"><i class="fas fa-server"></i></span><span class="idx">06</span></div>
-                     <h3>Software Engineering &amp; Web Services</h3>
-                     <p>Expertise in RESTful services, server-side programming, Apache, and Nginx.</p>
-                  </div>
-               </div>
-
-               <div class="stats-band" style="margin-top:clamp(3rem, 6vw, 5rem)" id="counter-animate" data-reveal>
-                  <div class="stat-tile">
-                     <span class="num js-counter" id="repo-count" data-to="12">0</span>
-                     <span class="label">Git Repositories</span>
-                  </div>
-                  <div class="stat-tile">
-                     <span class="num js-counter" id="years-of-experience" data-to="10">0</span>
-                     <span class="label">Years of Experience</span>
-                  </div>
-                  <div class="stat-tile">
-                     <span class="num js-counter" data-to="14">0</span>
-                     <span class="label">Licenses &amp; Certifications</span>
-                  </div>
-               </div>
-            </div>
-         </section>
-
-         <!-- Certifications / Badges -->
-         <section id="work" class="section-pad on-surface">
-            <div class="container">
-               <div class="section-head">
-                  <p class="eyebrow">Certifications</p>
-                  <h2>Badges &amp; credentials.</h2>
-               </div>
-               <div class="filter-row" role="group" aria-label="Filter certifications by issuer">
-                  <button class="filter-pill is-active" data-filter="all">All</button>
-                  <button class="filter-pill" data-filter="ibm">IBM</button>
-                  <button class="filter-pill" data-filter="aws">AWS</button>
-                  <button class="filter-pill" data-filter="coursera">Coursera</button>
-                  <button class="filter-pill" data-filter="applied-course">Applied Course</button>
-                  <button class="filter-pill" data-filter="crew-ai">Crew AI</button>
-               </div>
-               <div class="badge-grid" id="badge-grid">
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-wte.png" alt="IBM watsonx.ai Technical Essentials certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>IBM watsonx.ai Technical Essentials</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/c0431797-9b1d-489f-9369-132d291c69d8">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-pds.png" alt="Python for Data Science certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>Python for Data Science</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/62ed38c7-3051-4145-a723-6bca7eee3609">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="coursera">
-                     <div class="badge-img"><img src="images/badges/dsn.png" alt="IBM Cloud Essentials certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>IBM Cloud Essentials</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/3a67b79e-a15a-499c-9d96-d1547a579b10">Issued by Coursera <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="aws">
-                     <div class="badge-img"><img src="images/badges/aws-certified-developer-associate.png" alt="AWS Certified Developer Associate certification badge" width="600" height="600" loading="lazy"></div>
-                     <h3>AWS Certified Developer Associate</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/e5e4bc29-bfb6-4764-b4c5-ab669606a4a3">Issued by AWS <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-edt.png" alt="Enterprise Design Thinking Practitioner certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>Enterprise Design Thinking Practitioner</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/85bb6134-6462-4e9b-b36c-7865801e886d">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-cke.png" alt="Containers &amp; Kubernetes Essentials certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>Containers &amp; Kubernetes Essentials</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/4afba087-c175-4324-927b-a7c5a3cdb96e">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-ac.png" alt="IBM Automation: Compass certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>IBM Automation: Compass</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/595ae7fd-f5d8-4171-8b3e-40bc08be53bf">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-deai.png" alt="Docker Essentials: A Developer Introduction certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>Docker Essentials: A Developer Introduction</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/502aad7d-6f86-4f70-aa70-e9335e419a9e">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-rj.png" alt="Retail Industry Jumpstart certification badge" width="600" height="600" loading="lazy"></div>
-                     <h3>Retail Industry Jumpstart</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/7fff2248-2f12-4fce-b796-8a1b15b40dca">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-cwh.png" alt="IBM Consulting Way Habits - Foundational certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>IBM Consulting Way Habits &mdash; Foundational</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/11f4de65-8d16-4a41-a461-776b511857c1">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="ibm">
-                     <div class="badge-img"><img src="images/badges/ibm-garage.png" alt="IBM Garage Essentials certification badge" width="340" height="340" loading="lazy"></div>
-                     <h3>IBM Garage Essentials</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.credly.com/badges/1f579c08-b166-4383-a048-28e340e5b293">Issued by IBM <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="applied-course">
-                     <div class="badge-img"><img src="images/badges/applied-ai.jpg" alt="Applied Machine Learning certification badge" width="600" height="600" loading="lazy"></div>
-                     <h3>Applied Machine Learning</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.appliedaicourse.com/certificate/0b63e915db">Issued by Applied Course <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="coursera">
-                     <div class="badge-img"><img src="images/badges/deeplearning-ai.jpg" alt="Neural Networks and Deep Learning certification badge" width="600" height="600" loading="lazy"></div>
-                     <h3>Neural Networks and Deep Learning</h3>
-                     <a class="issuer" target="_blank" rel="noopener" href="https://www.coursera.org/account/accomplishments/verify/UEUTA3GQ93LJ">Issued by Coursera <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                  <div class="badge-card" data-cat="crew-ai">
-                     <div class="badge-img"><img src="images/badges/crew-ai.jpg" alt="Initial Course on CrewAI certification badge" width="600" height="600" loading="lazy"></div>
-                     <h3>Initial Course on CrewAI</h3>
-                     <span class="issuer">Issued by Crew AI</span>
-                  </div>
-               </div>
-            </div>
-         </section>
-
-         <!-- Technology -->
-         <section id="technology" class="section-pad tech-section">
-            <div class="tech-glow" aria-hidden="true"></div>
-            <div class="container">
-               <div class="section-head center">
-                  <p class="eyebrow">Technology</p>
-                  <h2>The stack I build with.</h2>
-               </div>
-
-               <div class="tech-groups">
-                  <div class="tech-group">
-                     <h3 class="tech-group-title">Languages &amp; Frameworks</h3>
-                     <div class="tech-grid">
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/python.svg" alt="" loading="lazy"></span><span>Python</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/nodejs.svg" alt="" loading="lazy"></span><span>Node.js</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/typescript.svg" alt="" loading="lazy"></span><span>TypeScript</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/angular.svg" alt="" loading="lazy"></span><span>Angular</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/expressjs.svg" alt="" loading="lazy"></span><span>Express.js</span></div>
-                     </div>
-                  </div>
-
-                  <div class="tech-group">
-                     <h3 class="tech-group-title">Cloud &amp; Containers</h3>
-                     <div class="tech-grid">
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/amazon.svg" alt="" loading="lazy"></span><span>AWS</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/kubernetes.svg" alt="" loading="lazy"></span><span>Kubernetes</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/docker.svg" alt="" loading="lazy"></span><span>Docker</span></div>
-                     </div>
-                  </div>
-
-                  <div class="tech-group">
-                     <h3 class="tech-group-title">Data &amp; Messaging</h3>
-                     <div class="tech-grid">
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/kafka.svg" alt="" loading="lazy"></span><span>Kafka</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/elasticsearch.svg" alt="" loading="lazy"></span><span>Elasticsearch</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/mongodb.svg" alt="" loading="lazy"></span><span>MongoDB</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/mysql.svg" alt="" loading="lazy"></span><span>MySQL</span></div>
-                        <div class="tech-tile"><span class="logo-chip"><img src="images/technology/postgresql.svg" alt="" loading="lazy"></span><span>PostgreSQL</span></div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-
-         <!-- Writing / Publications -->
-         <section id="publication" class="section-pad on-surface">
-            <div class="container container-narrow">
-               <div class="section-head">
-                  <p class="eyebrow">Writing</p>
-                  <h2>Publications.</h2>
-               </div>
-               <div class="pub-list">
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">25 Mar 2026</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/batch-vs-stream-processing-system-design-eb92d7f46469" target="_blank" rel="noopener">Batch vs Stream Processing: System Design <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>Batch vs stream processing explained with real-world examples, architecture trade-offs, and system design interview insights.</p>
-                     </div>
-                  </article>
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">19 Mar 2026</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/synchronous-vs-asynchronous-processing-explained-c070c18e4eb9" target="_blank" rel="noopener">Synchronous vs Asynchronous Processing Explained <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>Synchronous vs asynchronous processing explained with simple examples, real-world use cases, and system design interview insights.</p>
-                     </div>
-                  </article>
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">29 Jan 2026</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/sql-vs-nosql-how-to-choose-the-right-database-21fa4ef574b3" target="_blank" rel="noopener">SQL vs NoSQL: How to Choose the Right Database <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>SQL vs NoSQL explained with simple examples, architecture trade-offs, and interview-ready insights to help you choose the right database.</p>
-                     </div>
-                  </article>
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">29 Jan 2026</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/vertical-vs-horizontal-scaling-system-design-b60e86404efa" target="_blank" rel="noopener">Vertical vs Horizontal Scaling: System Design <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>Vertical vs horizontal scaling explained simply with real-world examples, diagrams, and interview-ready insights for system design engineers.</p>
-                     </div>
-                  </article>
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">23 Dec 2025</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/prompt-vs-context-engineering-the-real-difference-d2c4e9173e07" target="_blank" rel="noopener">Prompt vs Context Engineering: The Real Difference <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>Prompt engineering tells AI what to do. Context engineering gives AI what it needs to do it right. Learn the real difference with simple examples.</p>
-                     </div>
-                  </article>
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">28 Nov 2025</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/the-7-layer-architecture-of-agentic-ai-a-complete-guide-to-building-autonomous-ai-systems-2b880525004b" target="_blank" rel="noopener">The 7-Layer Architecture of Agentic AI <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>Learn the 7-layer architecture of Agentic AI, how each layer works, and the tools behind modern autonomous AI systems. A clear, practical guide for all levels.</p>
-                     </div>
-                  </article>
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">18 Nov 2025</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/node-js-vs-python-how-to-chose-the-right-backend-language-for-your-next-project-a-simple-guide-b4928154d9f4" target="_blank" rel="noopener">Node.js vs Python: How to Choose the Right Backend Language <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>Learn when to use Node.js or Python for backend development. This simple, beginner-friendly guide explains architecture, system design, and real-world use cases.</p>
-                     </div>
-                  </article>
-                  <article class="pub-item" data-reveal>
-                     <span class="pub-date">30 Apr 2021</span>
-                     <div>
-                        <h3><a href="https://subhamaybose.medium.com/predict-material-backorders-in-inventory-management-d93f8e1ca65d" target="_blank" rel="noopener">Predict Material Backorders in Inventory Management <i class="fas fa-arrow-up-right-from-square"></i></a></h3>
-                        <p>The primary goal of analyzing backorder data is to identify why a product is out of stock when a customer wants to purchase it.</p>
-                     </div>
-                  </article>
-               </div>
-            </div>
-         </section>
-
-         <!-- Recommendations -->
-         <section id="recommendations" class="section-pad">
-            <div class="container">
-               <div class="section-head">
-                  <p class="eyebrow">Recommendations</p>
-                  <h2>What colleagues say.</h2>
-               </div>
-               <div class="quote-grid">
-                  <figure class="quote-card">
-                     <span class="mark" aria-hidden="true">&ldquo;</span>
-                     <p>Subhamay is a high-impact AI and backend engineer who consistently delivers scalable, production-grade solutions with exceptional ownership and precision.</p>
-                     <footer><span class="name">Sankar L B.</span></footer>
-                  </figure>
-                  <figure class="quote-card">
-                     <span class="mark" aria-hidden="true">&ldquo;</span>
-                     <p>Subhamay is an absolute standup addition to a good team. The skill he portrays is really commendable, and with a good understanding of technology and concepts, he brings a really good combination of experience to produce perfect results as an application developer. I have worked with him for some 3 years and have never had to repeat something to get the best out of him &mdash; he understands the designs well and produces exactly what is required.</p>
-                     <footer><span class="name">Prashant S Pillai</span><span class="role">Technology Architect, R&amp;D, Artificial Intelligence and Cloud architectures at IBM</span></footer>
-                  </figure>
-                  <figure class="quote-card">
-                     <span class="mark" aria-hidden="true">&ldquo;</span>
-                     <p>Subhamay is highly skilled and his attitude towards team work is amazing. It was a very pleasant experience to work with him on some of the crucial projects.</p>
-                     <footer><span class="name">Pranab Ghosh</span><span class="role">Senior Data Scientist</span></footer>
-                  </figure>
-                  <figure class="quote-card">
-                     <span class="mark" aria-hidden="true">&ldquo;</span>
-                     <p>Subhamay is one of the very skilled developers I have worked with. He is not only very sound in JS frameworks, he is also very good at problem solving and very hard working. He&rsquo;ll certainly do an excellent job with whatever he&rsquo;s assigned.</p>
-                     <footer><span class="name">Pramod Bhade</span><span class="role">Application Architect at IBM, Cloud Applications &amp; Microservices</span></footer>
-                  </figure>
-                  <figure class="quote-card">
-                     <span class="mark" aria-hidden="true">&ldquo;</span>
-                     <p>I had the pleasure of working with Subhamay on our team, and his dedication and problem-solving skills were impressive. His strong work ethic and excellent communication fostered a collaborative environment and delivered innovative solutions that were priceless.</p>
-                     <footer><span class="name">Ishan Samanta</span><span class="role">Senior Web Designer</span></footer>
-                  </figure>
-                  <figure class="quote-card">
-                     <span class="mark" aria-hidden="true">&ldquo;</span>
-                     <p>I liked Subhamay&rsquo;s attitude towards learning new technologies and delivering quality code on time. He has a very good grasp of problem solving and debugging complex problems.</p>
-                     <footer><span class="name">Sudhakar Sharma</span><span class="role">Middleware | Microservices | Cloud Native | Application Modernization</span></footer>
-                  </figure>
-               </div>
-            </div>
-         </section>
-
-         <!-- Contact -->
-         <section id="contact" class="section-pad on-surface">
-            <div class="container">
-               <div class="contact-grid" data-reveal>
-                  <div class="contact-primary">
-                     <p class="eyebrow">Contact</p>
-                     <h2>Let&rsquo;s get in touch.</h2>
-                     <p class="lede">Reach out for collaboration, opportunities, or a technical conversation.</p>
-                     <a class="contact-email" href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com<i class="fas fa-arrow-up-right-from-square" style="font-size:0.5em"></i></a>
-                     <ul class="contact-list">
-                        <li><i class="fas fa-map-marked-alt"></i>Kolkata, West Bengal, India</li>
-                        <li><i class="fas fa-phone-alt"></i><a href="tel:+919681726905">+91 9681 726 905</a></li>
-                        <li><i class="fas fa-globe"></i><a target="_blank" rel="noopener" href="https://subhamaybose.github.io/">subhamaybose.github.io</a></li>
-                     </ul>
-                  </div>
-                  <div class="contact-side">
-                     <div class="qr"><img src="images/contact-qr.svg" alt="QR code linking to Subhamay Bose's portfolio"></div>
-                     <p>Scan to visit</p>
-                     <div class="social-row">
-                        <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/subhamaybose" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github-square"></i></a>
-                        <a href="https://www.facebook.com/subhamay.bose.94/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-square"></i></a>
-                        <a href="https://www.youtube.com/@techqurater" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="https://www.instagram.com/subhamaybose/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-
-      </main>
-
-      <!-- Footer -->
-      <footer id="site-footer">
-         <div class="container footer-inner">
-            <a href="#hero" class="brand">Subhamay<span>.</span></a>
-            <div class="social-row">
-               <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-               <a href="https://github.com/subhamaybose" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github-square"></i></a>
-               <a href="https://www.facebook.com/subhamay.bose.94/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-square"></i></a>
-               <a href="https://www.youtube.com/@techqurater" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-               <a href="https://www.instagram.com/subhamaybose/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            </div>
-            <p class="footer-rights">&copy; <span id="year"></span> Subhamay Bose. All rights reserved.</p>
-         </div>
-      </footer>
-      <button id="back-to-top" class="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
-
-      <!-- GSAP (animation) -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-      <!-- Site JS -->
-      <script src="js/custom.js"></script>
-   </body>
 </html>

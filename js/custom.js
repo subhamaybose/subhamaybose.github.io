@@ -1,433 +1,300 @@
+/* ==========================================================================
+   Subhamay Bose — Portfolio
+   No dependencies. Loaded with `defer`, so the DOM is parsed before this runs
+   and no DOMContentLoaded wrapper is needed.
+
+   Motion policy: CSS owns every transition. JS only adds/removes classes and
+   writes text. `prefers-reduced-motion` is queried live at each decision point
+   rather than snapshotted at load, so toggling the OS setting takes effect
+   without a reload.
+   ========================================================================== */
 (function () {
   "use strict";
 
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var hasGSAP = typeof window.gsap !== "undefined";
-  var hasScrollTrigger = hasGSAP && !!window.ScrollTrigger;
-  var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  if (hasScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+  var CAREER_START = 2016;
 
-  /* ---------- Scroll progress bar ---------- */
-  function initScrollProgress() {
-    var bar = document.querySelector("#scroll-progress span");
-    if (!bar) return;
+  var mqReduce = matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (!hasScrollTrigger) {
-      var setWidth = function () {
-        var max = document.documentElement.scrollHeight - window.innerHeight;
-        var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-        bar.style.width = pct + "%";
-      };
-      window.addEventListener("scroll", setWidth, { passive: true });
-      window.addEventListener("resize", setWidth);
-      setWidth();
-      return;
+  /* Each init is isolated. One throwing init must never take the rest of the
+     page with it — the previous build called them as bare sequential
+     statements, so a single missing element silently killed every later
+     feature. */
+  function safeInit(name, fn) {
+    try {
+      fn();
+    } catch (e) {
+      if (window.console) console.warn("[init] " + name + " failed:", e);
     }
-
-    gsap.set(bar, { width: "0%" });
-    ScrollTrigger.create({
-      start: 0,
-      end: "max",
-      onUpdate: function (self) { gsap.set(bar, { width: (self.progress * 100) + "%" }); },
-    });
   }
 
-  /* ---------- Magnetic buttons ---------- */
-  function initMagneticButtons() {
-    if (!hasGSAP || reduceMotion || !canHover) return;
-    var buttons = document.querySelectorAll(".btn");
-    buttons.forEach(function (btn) {
-      var moveX = gsap.quickTo(btn, "x", { duration: 0.4, ease: "power3.out" });
-      var moveY = gsap.quickTo(btn, "y", { duration: 0.4, ease: "power3.out" });
-      btn.addEventListener("mousemove", function (e) {
-        var rect = btn.getBoundingClientRect();
-        var relX = e.clientX - rect.left - rect.width / 2;
-        var relY = e.clientY - rect.top - rect.height / 2;
-        moveX(relX * 0.28);
-        moveY(relY * 0.45);
-      });
-      btn.addEventListener("mouseleave", function () {
-        moveX(0);
-        moveY(0);
-      });
-    });
-  }
-
-  /* ---------- Hero portrait parallax ---------- */
-  function initPortraitParallax() {
-    var portrait = document.querySelector(".hero-portrait");
-    var hero = document.getElementById("hero");
-    if (!portrait || !hero || !hasGSAP || reduceMotion || !canHover) return;
-    // wait out the hero entrance timeline so it doesn't fight this over the y transform
-    setTimeout(function () {
-      var moveX = gsap.quickTo(portrait, "x", { duration: 0.6, ease: "power3.out" });
-      var moveY = gsap.quickTo(portrait, "y", { duration: 0.6, ease: "power3.out" });
-      hero.addEventListener("mousemove", function (e) {
-        var rect = hero.getBoundingClientRect();
-        var relX = (e.clientX - rect.left) / rect.width - 0.5;
-        var relY = (e.clientY - rect.top) / rect.height - 0.5;
-        moveX(relX * 18);
-        moveY(relY * 14);
-      });
-    }, 1500);
-  }
-
-  /* ---------- Theme (light / dark / system) ---------- */
+  /* ---------- Theme: light / dark / system ----------
+     The effective theme is already applied by the inline block in index.html
+     (it must be, to avoid a flash). That block also records the raw stored
+     choice on window.__themeChoice, so this function does not re-derive it. */
   function initTheme() {
-    var buttons = document.querySelectorAll("[data-theme-choice]");
+    var buttons = Array.prototype.slice.call(
+      document.querySelectorAll("[data-theme-choice]")
+    );
     if (!buttons.length) return;
 
-    var darkMql = window.matchMedia("(prefers-color-scheme: dark)");
-
-    // dark is the hard default — "system" must be picked explicitly to follow the OS
-    function current() {
-      try {
-        var t = localStorage.getItem("theme");
-        return t === "light" || t === "dark" || t === "system" ? t : "dark";
-      } catch (e) {
-        return "dark";
-      }
+    var darkMql = matchMedia("(prefers-color-scheme: dark)");
+    var choice = window.__themeChoice;
+    if (choice !== "light" && choice !== "dark" && choice !== "system") {
+      choice = "dark";
     }
 
-    function apply(choice) {
-      var effective = choice === "system" ? (darkMql.matches ? "dark" : "light") : choice;
+    function apply(next) {
+      choice = next;
+      var effective = next === "system"
+        ? (darkMql.matches ? "dark" : "light")
+        : next;
       document.documentElement.setAttribute("data-theme", effective);
       buttons.forEach(function (btn) {
-        btn.setAttribute("aria-pressed", String(btn.getAttribute("data-theme-choice") === choice));
+        btn.setAttribute(
+          "aria-pressed",
+          String(btn.getAttribute("data-theme-choice") === next)
+        );
       });
     }
 
-    apply(current());
+    apply(choice);
 
     buttons.forEach(function (btn) {
       btn.addEventListener("click", function () {
-        var choice = btn.getAttribute("data-theme-choice");
-        try { localStorage.setItem("theme", choice); } catch (e) {}
-        apply(choice);
+        var next = btn.getAttribute("data-theme-choice");
+        try {
+          localStorage.setItem("theme", next);
+        } catch (e) { /* private mode: the choice just won't persist */ }
+        apply(next);
       });
     });
 
-    // live-update only while "system" is the active choice
+    /* Track the OS only while the visitor has actually chosen "system". */
     darkMql.addEventListener("change", function () {
-      if (current() === "system") apply("system");
+      if (choice === "system") apply("system");
     });
   }
 
-  /* ---------- Mobile navigation ---------- */
+  /* ---------- Mobile drawer ---------- */
   function initNav() {
     var toggle = document.querySelector(".nav-toggle");
-    var links = document.querySelectorAll("#mobile-nav a, .nav-links a");
-    if (!toggle) return;
+    var drawer = document.getElementById("mobile-nav");
+    if (!toggle || !drawer) return;
 
-    function closeMenu() {
-      document.body.classList.remove("nav-open");
-      toggle.setAttribute("aria-expanded", "false");
+    /* `inert` does the work a hand-rolled focus trap usually gets wrong. Two
+       directions matter: the closed drawer must be out of the tab order, and
+       while it is OPEN the page behind it must be too — otherwise Tab walks
+       from the last drawer link into content hidden under an opaque panel.
+       The nav bar itself stays reachable, because the drawer is a disclosure
+       panel below it rather than a modal over it. */
+    var behind = [document.getElementById("main"),
+                  document.getElementById("site-footer")].filter(Boolean);
+
+    function setOpen(open) {
+      document.body.classList.toggle("nav-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      if (open) {
+        drawer.removeAttribute("inert");
+        behind.forEach(function (el) { el.setAttribute("inert", ""); });
+        var first = drawer.querySelector("a, button");
+        if (first) first.focus();
+      } else {
+        drawer.setAttribute("inert", "");
+        behind.forEach(function (el) { el.removeAttribute("inert"); });
+      }
     }
-    function openMenu() {
-      document.body.classList.add("nav-open");
-      toggle.setAttribute("aria-expanded", "true");
-    }
+
+    setOpen(false);
 
     toggle.addEventListener("click", function () {
-      document.body.classList.contains("nav-open") ? closeMenu() : openMenu();
+      setOpen(!document.body.classList.contains("nav-open"));
     });
-    links.forEach(function (link) {
-      link.addEventListener("click", closeMenu);
+
+    /* Only the navigation links close the drawer. The social row lives in the
+       same subtree, and closing the drawer when someone opens LinkedIn in a
+       new tab is a surprise, not a feature. */
+    drawer.querySelectorAll("ul a").forEach(function (a) {
+      a.addEventListener("click", function () { setOpen(false); });
     });
+
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeMenu();
+      if (e.key === "Escape" && document.body.classList.contains("nav-open")) {
+        setOpen(false);
+        toggle.focus();
+      }
     });
   }
 
-  /* ---------- Sticky nav background + active section ---------- */
+  /* ---------- Active nav link ---------- */
   function initScrollNav() {
-    var nav = document.getElementById("site-nav");
-    var sections = document.querySelectorAll("main section[id]");
-    var navLinks = document.querySelectorAll(".nav-links a");
-
-    function onScroll() {
-      if (window.scrollY > 40) nav.classList.add("is-solid");
-      else nav.classList.remove("is-solid");
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    if (!("IntersectionObserver" in window) || !sections.length) return;
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var id = entry.target.getAttribute("id");
-          navLinks.forEach(function (link) {
-            link.classList.toggle("is-active", link.getAttribute("href") === "#" + id);
-          });
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" }
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll(".nav-links a")
     );
-    sections.forEach(function (section) { observer.observe(section); });
-  }
-
-  /* ---------- Back to top ---------- */
-  function initBackToTop() {
-    var btn = document.getElementById("back-to-top");
-    if (!btn) return;
-    window.addEventListener(
-      "scroll",
-      function () { btn.classList.toggle("is-visible", window.scrollY > 400); },
-      { passive: true }
+    var sections = Array.prototype.slice.call(
+      document.querySelectorAll("main section[id]")
     );
-    btn.addEventListener("click", function () {
-      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
-    });
-  }
-
-  /* ---------- Role typewriter ---------- */
-  function initTypedRole() {
-    var el = document.getElementById("typed-role");
-    if (!el) return;
-    var roles = ["Backend Developer", "Cloud Application Developer", "Digital Transformation Consultant"];
-
-    if (reduceMotion) {
-      el.textContent = roles[0];
+    if (!links.length || !sections.length || !("IntersectionObserver" in window)) {
       return;
     }
 
-    var roleIndex = 0, charIndex = 0, deleting = false;
+    var byHash = {};
+    links.forEach(function (a) { byHash[a.getAttribute("href")] = a; });
 
-    function tick() {
-      var current = roles[roleIndex];
-      if (!deleting) {
-        charIndex++;
-        el.textContent = current.slice(0, charIndex);
-        if (charIndex === current.length) {
-          deleting = true;
-          setTimeout(tick, 1800);
-          return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var active = byHash["#" + entry.target.id];
+        links.forEach(function (a) {
+          a.classList.remove("is-active");
+          a.removeAttribute("aria-current");
+        });
+        if (active) {
+          active.classList.add("is-active");
+          active.setAttribute("aria-current", "true");
         }
-        setTimeout(tick, 55);
-      } else {
-        charIndex--;
-        el.textContent = current.slice(0, charIndex);
-        if (charIndex === 0) {
-          deleting = false;
-          roleIndex = (roleIndex + 1) % roles.length;
-          setTimeout(tick, 300);
-          return;
-        }
-        setTimeout(tick, 30);
-      }
-    }
-    tick();
-  }
-
-  /* ---------- Experience years + counters ---------- */
-  function initCounters() {
-    var startYear = 2016;
-    var years = new Date().getFullYear() - startYear;
-
-    var yearsEl = document.getElementById("years-of-experience");
-    if (yearsEl) yearsEl.setAttribute("data-to", years);
-
-    var heroYears = document.getElementById("hero-years");
-    if (heroYears) heroYears.textContent = years + "+";
-
-    var repoEl = document.getElementById("repo-count");
-    if (repoEl) {
-      fetch("https://api.github.com/users/subhamaybose")
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
-          if (!data || typeof data.public_repos !== "number") return;
-          repoEl.setAttribute("data-to", data.public_repos);
-        })
-        .catch(function () { /* keep the static fallback value */ });
-    }
-
-    var counters = document.querySelectorAll(".js-counter");
-    if (!counters.length) return;
-
-    function animateCounter(el) {
-      var to = parseInt(el.getAttribute("data-to"), 10) || 0;
-      if (reduceMotion || !hasGSAP) {
-        el.textContent = to;
-        return;
-      }
-      gsap.to(el, {
-        textContent: to,
-        duration: 1.6,
-        ease: "power2.out",
-        snap: { textContent: 1 },
       });
-    }
+    }, { rootMargin: "-45% 0px -50% 0px" });
 
-    if (!("IntersectionObserver" in window)) {
-      counters.forEach(animateCounter);
-      return;
-    }
-    var band = document.getElementById("counter-animate");
-    var triggered = false;
-    var obs = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting && !triggered) {
-            triggered = true;
-            counters.forEach(animateCounter);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-    if (band) obs.observe(band);
+    sections.forEach(function (s) { io.observe(s); });
   }
 
-  /* ---------- Skill meters ---------- */
-  function initMeters() {
-    var meters = document.querySelectorAll(".meter-fill");
-    if (!meters.length || !("IntersectionObserver" in window)) {
-      meters.forEach(function (m) { m.style.width = m.getAttribute("data-fill") + "%"; });
-      return;
-    }
-    var obs = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.style.width = entry.target.getAttribute("data-fill") + "%";
-          obs.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.4 }
-    );
-    meters.forEach(function (m) { obs.observe(m); });
-  }
-
-  /* ---------- Certification filter ---------- */
-  function initBadgeFilter() {
-    var pills = document.querySelectorAll(".filter-pill");
-    var cards = document.querySelectorAll(".badge-card");
-    if (!pills.length) return;
-
-    pills.forEach(function (pill) {
-      pill.addEventListener("click", function () {
-        pills.forEach(function (p) { p.classList.remove("is-active"); });
-        pill.classList.add("is-active");
-        var filter = pill.getAttribute("data-filter");
-        cards.forEach(function (card) {
-          var show = filter === "all" || card.getAttribute("data-cat") === filter;
-          card.classList.toggle("is-hidden", !show);
-        });
-      });
-    });
-  }
-
-  /* ---------- Scroll reveals (GSAP) ---------- */
+  /* ---------- Scroll reveals ----------
+     The stagger index comes from an inline `--i` in the markup, so ordering is
+     authored rather than computed, and the CSS transition-delay does the work. */
   function initReveals() {
-    var items = Array.prototype.filter.call(
-      document.querySelectorAll("[data-reveal]"),
-      function (el) { return !el.closest("#hero"); }
+    var items = Array.prototype.slice.call(
+      document.querySelectorAll("[data-reveal]")
     );
-    if (!items.length || reduceMotion || !hasScrollTrigger) return;
+    if (!items.length) return;
 
-    items.forEach(function (el) {
-      gsap.set(el, { opacity: 0, y: 24 });
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 88%" },
-      });
-    });
-  }
+    var root = document.documentElement;
 
-  /* ---------- Grid cascade reveals (skill/badge/tech/quote cards) ---------- */
-  function initGridStagger() {
-    if (reduceMotion || !hasScrollTrigger) return;
-    var selectors = [".skill-card", ".badge-card", ".tech-tile", ".quote-card"];
-    selectors.forEach(function (selector) {
-      var els = document.querySelectorAll(selector);
-      if (!els.length) return;
-      gsap.set(els, { opacity: 0, y: 28, scale: 0.96 });
-      ScrollTrigger.batch(els, {
-        start: "top 90%",
-        onEnter: function (batch) {
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.7,
-            ease: "power3.out",
-            stagger: 0.08,
-            // hand transform control back to CSS so the :hover lift works afterward
-            onComplete: function () { gsap.set(this.targets(), { clearProps: "transform" }); },
-          });
-        },
-        once: true,
-      });
-    });
-  }
+    /* Disarming is what actually shows the content: the CSS only hides while
+       `reveals-on` is set. Adding `is-in` too keeps the two paths consistent. */
+    function showAll() {
+      root.classList.remove("reveals-on");
+      items.forEach(function (el) { el.classList.add("is-in"); });
+    }
 
-  /* ---------- Timeline line draw-in ---------- */
-  function initTimelineDraw() {
-    var lines = document.querySelectorAll(".timeline-fill");
-    if (!lines.length) return;
-    if (!hasScrollTrigger || reduceMotion) {
-      lines.forEach(function (line) { line.style.height = "100%"; });
+    if (mqReduce.matches || !("IntersectionObserver" in window)) {
+      showAll();
+      window.__revealsReady = true;
       return;
     }
-    lines.forEach(function (line) {
-      gsap.to(line, {
-        height: "100%",
-        ease: "none",
-        scrollTrigger: { trigger: line.parentElement, start: "top 75%", end: "bottom 85%", scrub: true },
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        io.unobserve(entry.target);
       });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.01 });
+
+    items.forEach(function (el) { io.observe(el); });
+
+    /* Tell the dead-man's switch in index.html that reveals are live. */
+    window.__revealsReady = true;
+
+    /* If the setting flips mid-session, stop animating and just show. */
+    mqReduce.addEventListener("change", function () {
+      if (mqReduce.matches) { io.disconnect(); showAll(); }
     });
   }
 
-  /* ---------- Hero entrance ---------- */
-  function initHeroEntrance() {
-    var portrait = document.querySelector(".hero-portrait");
-    var textItems = document.querySelectorAll(".hero-copy [data-reveal]");
-    var titleWords = document.querySelectorAll("#hero-title .reveal-word > span");
-    if ((!textItems.length && !portrait) || reduceMotion || !hasGSAP) return;
+  /* ---------- The rail readout ----------
+     The caret's vertical position is CSS scroll-driven where supported. This
+     only writes the section name and the percentage, and falls back to moving
+     the caret itself where `animation-timeline` is unavailable. */
+  function initRailReadout() {
+    var root = document.getElementById("rail-readout");
+    if (!root) return;
 
-    var tl = gsap.timeline({ delay: 0.1 });
+    var secEl = root.querySelector(".r-sec");
+    var pctEl = root.querySelector(".r-pct");
+    var caret = root.querySelector(".caret");
+    var readout = root.querySelector(".readout");
+    if (!secEl || !pctEl) return;
 
-    if (titleWords.length) {
-      gsap.set(titleWords, { yPercent: 110 });
-      tl.to(titleWords, { yPercent: 0, duration: 0.9, ease: "power4.out", stagger: 0.12 });
+    var cssDriven = window.CSS && CSS.supports &&
+      CSS.supports("animation-timeline", "scroll()");
+
+    var sections = Array.prototype.slice.call(
+      document.querySelectorAll("main section[id]")
+    );
+
+    var labels = {};
+    sections.forEach(function (s) {
+      var head = s.querySelector(".sec-head .lbl");
+      var idx = s.querySelector(".sec-idx");
+      labels[s.id] = {
+        name: head ? head.textContent.trim() : "Top",
+        idx: idx ? idx.textContent.trim() : ""
+      };
+    });
+
+    var currentId = sections.length ? sections[0].id : null;
+    var frame = 0;
+
+    function paint() {
+      frame = 0;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = max > 0 ? Math.round((window.scrollY / max) * 100) : 0;
+      if (pct < 0) pct = 0;
+      if (pct > 100) pct = 100;
+      pctEl.textContent = pct + "%";
+
+      var info = currentId ? labels[currentId] : null;
+      var name = info ? (info.idx ? info.idx + " " + info.name : info.name) : "Top";
+      if (secEl.textContent !== name) secEl.textContent = name;
+
+      if (!cssDriven && caret && readout) {
+        var travel = (window.innerHeight - 24) * (pct / 100);
+        var t = "translateY(" + travel.toFixed(1) + "px)";
+        caret.style.transform = t;
+        readout.style.transform = t;
+      }
     }
 
-    gsap.set(textItems, { opacity: 0, y: 20 });
-    tl.to(textItems, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1 }, 0.1);
+    function schedule() {
+      if (frame) return;
+      frame = requestAnimationFrame(paint);
+    }
 
-    if (portrait) {
-      gsap.set(portrait, { opacity: 0, y: 16 });
-      tl.to(portrait, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, 0.25);
+    if ("IntersectionObserver" in window && sections.length) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) currentId = entry.target.id;
+        });
+        schedule();
+      }, { rootMargin: "-45% 0px -50% 0px" });
+      sections.forEach(function (s) { io.observe(s); });
+    }
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    paint();
+  }
+
+  /* ---------- Derived figures ----------
+     Single source of truth for both. The markup ships the correct value for a
+     no-JS visitor; this keeps it correct as years pass. */
+  function initFigures() {
+    var years = document.getElementById("years-of-experience");
+    if (years) {
+      years.textContent = String(new Date().getFullYear() - CAREER_START);
+    }
+    var year = document.getElementById("year");
+    if (year) {
+      year.textContent = String(new Date().getFullYear());
     }
   }
 
-  /* ---------- Footer year ---------- */
-  function initYear() {
-    var el = document.getElementById("year");
-    if (el) el.textContent = new Date().getFullYear();
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    initTheme();
-    initScrollProgress();
-    initNav();
-    initScrollNav();
-    initBackToTop();
-    initTypedRole();
-    initCounters();
-    initMeters();
-    initBadgeFilter();
-    initHeroEntrance();
-    initReveals();
-    initGridStagger();
-    initTimelineDraw();
-    initMagneticButtons();
-    initPortraitParallax();
-    initYear();
-  });
+  [
+    ["theme", initTheme],
+    ["nav", initNav],
+    ["scrollNav", initScrollNav],
+    ["reveals", initReveals],
+    ["railReadout", initRailReadout],
+    ["figures", initFigures]
+  ].forEach(function (pair) { safeInit(pair[0], pair[1]); });
 })();
