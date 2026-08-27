@@ -998,6 +998,32 @@ body.nav-open .mobile-nav { visibility: visible; opacity: 1; }
   to   { transform: translateY(calc(100vh - 1.5rem)); }
 }
 
+/* ---------- Touch targets ----------
+   WCAG 2.2 SC 2.5.8 asks for 24px; Apple/Material and the house gate ask for 44.
+   Scoped to coarse pointers so the desktop table density is not inflated to suit
+   a finger that is never going to touch it. */
+@media (pointer: coarse) {
+  .social-row a,
+  .theme-toggle button,
+  .nav-toggle,
+  .dtable .c-end a,
+  .to-top {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+  .theme-toggle button { width: 2.75rem; }
+  .social-row { gap: var(--s-2); }
+  /* Wide but thin text links: hittable horizontally, too shallow for a finger. */
+  .brand,
+  .cred-plate .verify {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+  .dtable .c-end { width: 2.75rem; }
+  .dtable .c-end a { width: 2.75rem; height: 2.75rem; }
+}
+
 /* ---------- Motion: reveal ---------- */
 [data-reveal] {
   opacity: 1;
