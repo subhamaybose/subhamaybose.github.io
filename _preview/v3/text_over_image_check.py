@@ -14,6 +14,13 @@ Method: shoot the page twice, once with the text visible and once hidden. Pixels
 that differ are where glyphs actually land. Ground luminance is then sampled
 from the text-hidden shot at ONLY those pixels.
 
+IMPORTANT when producing the two shots: kill CSS transitions BEFORE hiding the
+text, e.g. inject `*{transition:none!important}` and set color to transparent
+with !important. A control with a colour transition (buttons usually have one)
+otherwise leaves the ground shot holding HALF-FADED TEXT, which then gets
+sampled as if it were background - it reported a 2.67:1 failure on a CTA that
+was actually sitting at 9:1.
+
 Usage:
   py -3 text_over_image_check.py <with_text.png> <ground.png> <geo.json> [dpr]
 """

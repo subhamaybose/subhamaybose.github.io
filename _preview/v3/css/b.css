@@ -175,7 +175,7 @@ body {
 /* giant name cropped at the bottom edge */
 .bigname {
   position: relative; z-index: 4;
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: calc(clamp(1.5rem, 3vw, 2.5rem) + 2.2rem);
   font-family: var(--font-display); font-weight: 700;
   line-height: .84; letter-spacing: -.045em; color: var(--paper);
   margin-bottom: -.08em;
@@ -660,15 +660,17 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
    theme remaps to espresso, so it flipped white/black between themes. That
    contradicted B's own rule that the amber hero is theme-invariant.
    ========================================================================== */
-#hero::after {
-  content: ""; position: absolute; inset: auto 0 0 0; height: 36%;
-  /* z-index 2, NOT 3. .hero-inner is also 3, and a later-painted sibling at the
-     same level wins - the band rendered OVER the name and dimmed it to grey.
-     The ghost sits at 1, so 2 puts this between them. */
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(to top,
-    rgba(34,19,3,.90) 0%, rgba(34,19,3,.74) 46%, rgba(34,19,3,0) 100%);
+/* Ground for the name block, anchored to the block rather than to the viewport.
+   It fades in over the 20px gap above the name and runs to the bottom of the
+   hero, which overflow:hidden clips. z-index:-1 keeps it inside .bigname's own
+   stacking context, so it sits behind the name but above the amber - and
+   .hero-meta, a later sibling at the same level, still paints on top of it. */
+.bigname::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  left: 50%; translate: -50% 0; width: 100vw;
+  top: -3.4rem; height: 200vh;
+  background: linear-gradient(to bottom,
+    rgba(34,19,3,0) 0, rgba(34,19,3,.55) 2rem, rgba(34,19,3,.93) 3.4rem);
 }
 #hero .bigname { color: #FAF7F2; }
 #hero .hero-meta { color: rgba(255,231,196,.94); border-top-color: rgba(255,231,196,.34); }
@@ -677,3 +679,59 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
 [data-theme="light"] #hero .bigname { color: #FAF7F2; }
 [data-theme="light"] #hero .btn-dark { border-color: rgba(255,231,196,.62); color: rgba(255,231,196,.96); }
 [data-theme="light"] #hero .btn-dark:hover { background: rgba(255,231,196,.96); color: var(--amber-ink); }
+
+/* ==========================================================================
+   HERO TOP ROW — desktop composition fixes
+
+   1. The text column sat at the TOP of a row whose height is set by the taller
+      portrait, so it was pushed up into the ghost wordmark (83px of overlap at
+      1440) while 145px went unused below it at every width. Bottom-aligning the
+      column spends that space and clears the ghost in one move: the copy now
+      sits on the portrait's baseline.
+
+   2. The cut-out ended on a hard horizontal edge against the amber. Design A
+      solved this with a long mask falloff; B never got one.
+
+   3. The caption was absolutely positioned INSIDE the image bounds, so it lay
+      across the suit - dark mono on a dark jacket. It sits below the figure now,
+      on the hero's own bottom band, and takes the light treatment the rest of
+      that band already uses.
+   ========================================================================== */
+@media (min-width: 64rem) {
+  .hero-top { align-items: end; }
+}
+
+.plate img {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 66%, rgba(0,0,0,.6) 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 66%, rgba(0,0,0,.6) 86%, transparent 100%);
+}
+
+/* Caption moves ABOVE the portrait. Below it, it either lay across the suit
+   (dark mono on a dark jacket) or landed on the hero's bottom band, where its
+   legibility depended on exactly where the band's ramp happened to be. Above the
+   figure the amber is bright and consistent, so the original dark mono reads
+   cleanly and the band is irrelevant to it. column-reverse flips the rendered
+   order without touching the markup, so <img> stays the figure's first child. */
+.plate { display: flex; flex-direction: column-reverse; }
+.plate figcaption {
+  position: static;
+  margin: 0 0 .55rem;
+  padding: 0 0 .55rem;
+  border-top: 0;
+  border-bottom: 2px solid rgba(42,24,4,.4);
+}
+
+/* Left at 36%: the height that measured good for the name block. Growing it to
+   reach the caption dropped the dark lede to 2.11:1. */
+
+/* At 1024-1280 the shorter viewport compresses the stack and the ghost still
+   grazed the top of the claim by ~10px. Raising it clears every tier without
+   moving it noticeably on the wide ones. */
+.ghost { top: 27%; }
+
+/* The ghost is capped at 22rem by WIDTH, but the collision is driven by HEIGHT:
+   on a short viewport (1366x768 laptops) the stack compresses under a ghost that
+   has not shrunk. Scale it on height too. */
+@media (max-height: 850px) {
+  .ghost { font-size: min(19vw, 12.5rem); top: 22%; }
+}
