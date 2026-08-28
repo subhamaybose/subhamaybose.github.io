@@ -103,10 +103,10 @@
     }
     var geo = new THREE.BufferGeometry();
     geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-    var pts = new THREE.Points(geo, new THREE.PointsMaterial({
-      color: 0xF0A428, size: 2.6, transparent: true, opacity: .85,
-      blending: THREE.AdditiveBlending, depthWrite: false
-    }));
+    var ptMat = new THREE.PointsMaterial({
+      size: 2.6, transparent: true, depthWrite: false
+    });
+    var pts = new THREE.Points(geo, ptMat);
     scene.add(pts);
 
     // link nearby nodes
@@ -121,9 +121,24 @@
     }
     var lgeo = new THREE.BufferGeometry();
     lgeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(lp), 3));
-    scene.add(new THREE.LineSegments(lgeo, new THREE.LineBasicMaterial({
-      color: 0xD98510, transparent: true, opacity: .17, blending: THREE.AdditiveBlending, depthWrite: false
-    })));
+    var lnMat = new THREE.LineBasicMaterial({ transparent: true, depthWrite: false });
+    scene.add(new THREE.LineSegments(lgeo, lnMat));
+
+    /* Dark: amber ADDED to black is the glow. Light: the same addition washes
+       every node out to paper, so the field switches to normal blending and a
+       warm ink that reads as drawn marks instead. */
+    function paintField(theme) {
+      var light = theme === "light";
+      ptMat.color.setHex(light ? 0x8A5109 : 0xF0A428);
+      ptMat.opacity = light ? .55 : .85;
+      ptMat.blending = light ? THREE.NormalBlending : THREE.AdditiveBlending;
+      lnMat.color.setHex(light ? 0x93540A : 0xD98510);
+      lnMat.opacity = light ? .16 : .17;
+      lnMat.blending = light ? THREE.NormalBlending : THREE.AdditiveBlending;
+      ptMat.needsUpdate = lnMat.needsUpdate = true;
+    }
+    paintField(document.documentElement.getAttribute("data-theme"));
+    document.addEventListener("themechange", function (e) { paintField(e.detail.theme); });
 
     var tx = 0, ty = 0, running = true;
     addEventListener("pointermove", function (e) {
@@ -215,7 +230,7 @@
         });
       });
 
-      var phone = matchMedia("(max-width: 47.99rem)").matches;
+      var phone = matchMedia("(max-width: 44.99rem)").matches;
 
       if (phone) {
         // Phone: cards rise and settle as they enter. No parallax - on a touch

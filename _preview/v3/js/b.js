@@ -83,7 +83,7 @@
     if (reduce.matches) {
       gsap.set(".rv, .m-pop", { opacity: 1, y: 0, scale: 1 });
     } else {
-      var phone = matchMedia("(max-width: 47.99rem)").matches;
+      var phone = matchMedia("(max-width: 44.99rem)").matches;
 
       if (phone) {
         // Phone: the cover assembles top-down, then cards pop in on scroll.

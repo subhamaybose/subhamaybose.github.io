@@ -256,7 +256,7 @@ body {
   display: grid; gap: .3rem 2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--line);
   position: relative; transition: background-color .3s var(--e);
 }
-@media (min-width: 48rem) { .rail-row { grid-template-columns: 11rem 1fr 1fr; align-items: baseline; } }
+@media (min-width: 45rem) { .rail-row { grid-template-columns: 11rem 1fr 1fr; align-items: baseline; } }
 .rail-row:hover { background: var(--ink-2); }
 .rail-row .yr { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .12em; color: var(--amber); }
 .rail-row h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; letter-spacing: -.02em; }
@@ -315,7 +315,7 @@ body {
   display: grid; gap: .3rem 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line);
   position: relative; transition: padding-left .35s var(--e), background-color .3s var(--e);
 }
-@media (min-width: 48rem) { .post { grid-template-columns: 7rem 1fr 5rem; align-items: baseline; } }
+@media (min-width: 45rem) { .post { grid-template-columns: 7rem 1fr 5rem; align-items: baseline; } }
 .post:hover { padding-left: .9rem; background: var(--ink-2); }
 /* On the amber band the row inverts to dark, so every child must invert too -
    otherwise dark-on-dark makes the row unreadable on hover. */
@@ -396,11 +396,11 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
      48-64rem  tablet  — two columns, touch nav retained
      >= 64rem  desktop
    ========================================================================== */
-@media (min-width: 48rem) { .m-only { display: none !important; } }
-@media (max-width: 47.99rem) { .d-only { display: none !important; } }
+@media (min-width: 45rem) { .m-only { display: none !important; } }
+@media (max-width: 44.99rem) { .d-only { display: none !important; } }
 
 /* ---------- TABLET ---------- */
-@media (min-width: 48rem) and (max-width: 63.99rem) {
+@media (min-width: 45rem) and (max-width: 63.99rem) {
   .hero-top { grid-template-columns: minmax(0, 1fr) 15rem; gap: 1.75rem; }
   .plate { width: 100%; }
   .bigname { font-size: clamp(3.2rem, 11.5vw, 6.4rem); flex-wrap: nowrap; white-space: nowrap; }
@@ -451,9 +451,15 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
   box-shadow: 0 30px 60px -30px rgba(42,24,4,.7);
 }
 #mhero .m-plate img { width: 100%; height: auto; }
+/* The giant name spans the whole amber sweep, so no single colour holds
+   across it - white measured 2.03:1 at the light end, espresso 2.94:1 at the
+   dark end. This band gives it one consistent ground; the plate above is
+   untouched. */
 #mhero .m-name {
   position: relative; z-index: 3; margin-top: auto;
-  padding: 1rem var(--pad) calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  padding: 2.9rem var(--pad) calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top,
+    rgba(38,21,3,.94) 0%, rgba(38,21,3,.94) 68%, rgba(38,21,3,0) 100%);
   font-family: var(--font-display); font-weight: 700;
   font-size: 15.5vw; line-height: .88; letter-spacing: -.045em; color: var(--paper);
 }
@@ -483,7 +489,7 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
 .m-rail::-webkit-scrollbar { display: none; }
 .m-rail > * { flex: 0 0 70%; scroll-snap-align: center; background: var(--ink-2); border: 1px solid var(--line); padding: 1.4rem; }
 
-@media (max-width: 47.99rem) {
+@media (max-width: 44.99rem) {
   .m-pop { opacity: 0; transform: translateY(26px) scale(.965); }
   .bento { grid-template-columns: 1fr; }
   .cell.wide, .cell.tall { grid-column: auto; grid-row: auto; }
@@ -492,3 +498,124 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
   .qs { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .m-pop { opacity: 1 !important; transform: none !important; } }
+
+/* ==========================================================================
+   THEME TOGGLE
+   ========================================================================== */
+.nav-right { display: flex; align-items: center; gap: .75rem; }
+.tt {
+  width: 2.4rem; height: 2.4rem; flex: 0 0 auto;
+  display: grid; place-items: center;
+  border: 1.5px solid var(--line); color: var(--paper-dim);
+  transition: border-color .28s var(--e), color .28s var(--e), background-color .28s var(--e);
+}
+.tt:hover { border-color: var(--amber); color: var(--amber); }
+.tt svg { width: 1.05rem; height: 1.05rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+.tt-moon { display: none; }
+[data-theme="light"] .tt-sun { display: none; }
+[data-theme="light"] .tt-moon { display: block; }
+
+/* ==========================================================================
+   LIGHT THEME — "Signal, daylight"
+
+   Signal's whole idea is that the accent IS the ground. That idea does not
+   need rescuing in light — it needs protecting. So the amber bands are left
+   exactly as they are (their gradients and their dark-on-amber text are
+   literal values, untouched by the remap below) and only the connective ink
+   sections move from near-black to cream. In dark, amber blazes out of black;
+   here it blazes out of paper. Same claim, different room.
+
+   The pins further down are the spots where a remapped token would leak INTO
+   an amber band and quietly break it.
+   ========================================================================== */
+[data-theme="light"] {
+  --ink: #FAF5EC;
+  --ink-2: #F3ECE0;
+  --ink-3: #EDE4D5;
+  --line: #E3D7C4;
+
+  --paper: #14110E;
+  --paper-dim: #4E453A;
+  --paper-faint: #6F6558;   /* against the CARD ground, where it is used */
+
+  --amber: #8F5205;       /* accent AS TEXT on cream — measured 5.73:1 */
+  --amber-fill: #F0A428;  /* accent as a FILL, with dark text on top */
+}
+
+/* --- Pins: amber bands must not inherit the paper remap --- */
+
+/* The band accent is a white pop against amber. --paper is now espresso, which
+   would silently turn it black and lose the contrast the band is built on. */
+[data-theme="light"] .band.amber .head h2 i { color: #FAF7F2; }
+
+/* btn-dark lives ON an amber band: --ink is cream here, which would render it
+   cream-on-amber at 1.9:1 — invisible. */
+[data-theme="light"] .btn-dark { border-color: #14110E; color: #14110E; }
+[data-theme="light"] .btn-dark:hover { background: #14110E; color: var(--amber-fill); }
+
+/* Amber as a fill keeps the bright value; only amber-as-text darkens. */
+[data-theme="light"] .btn:hover { background: var(--amber-fill); color: var(--amber-ink); }
+[data-theme="light"] .btn-fill { background: var(--amber-fill); border-color: var(--amber-fill); color: var(--amber-ink); }
+[data-theme="light"] .card.hero-card {
+  background: linear-gradient(150deg, var(--amber-fill), #C9760A);
+  border-color: var(--amber-fill); color: var(--amber-ink);
+}
+
+/* --- Surfaces --- */
+/* #contact is a SOLID var(--amber) band, not a gradient one, so remapping
+   --amber to its text-safe value turned the whole band dark brown under
+   near-black text - 2.74:1. It takes the fill value instead. */
+[data-theme="light"] #contact { background: var(--amber-fill); }
+
+[data-theme="light"] #nav { background: rgba(250,245,236,.9); }
+[data-theme="light"] #tabs { background: rgba(250,245,236,.96); }
+
+/* Same badge trap as Design A: these are opaque squares on dark grounds, so
+   muting them for paper means lifting and fading, not darkening. */
+[data-theme="light"] .card img { filter: grayscale(1) brightness(1.45) contrast(.75) opacity(.65); }
+[data-theme="light"] .card:hover img { filter: none; }
+[data-theme="light"] .card.hero-card img { filter: none; }
+
+/* The name band is dark in both themes' dark half, so its sub-label needs a
+   light value there; in light the band is pale amber and the label stays dark. */
+#mhero .m-name small { color: rgba(255,224,170,.9); }
+[data-theme="light"] #mhero .m-name {
+  background: linear-gradient(to top,
+    rgba(255,236,198,.96) 0%, rgba(255,236,198,.96) 68%, rgba(255,236,198,0) 100%);
+}
+[data-theme="light"] #mhero .m-name small { color: #2A1804; }
+
+/* ==========================================================================
+   TOUCH TIER — keyed on the input device, not on width
+
+   Width said "desktop" for iPad landscape (exactly 1024px = 64rem), which took
+   away the tab bar and left 38-40px controls on a device driven by a thumb.
+   These rules ask the real question instead. 44px is the Apple HIG / WCAG 2.5.5
+   target; the audit measured the toggle at 38px and the audience chips at 32-40.
+   ========================================================================== */
+@media (pointer: coarse) {
+  .tt { width: 2.75rem; height: 2.75rem; }
+  .btn { padding-block: .85rem; }
+  .aud button, .m-chips button { min-height: 2.75rem; }
+  .soc a { width: 2.75rem; height: 2.75rem; }
+  /* Hover-only reveals never fire on touch, so the muted state is the only
+     state a thumb ever sees - show the badges as they really are. */
+  .cred img, .card img { filter: none; }
+}
+
+/* Tablet landscape is touch: keep the tab bar and drop the pointer nav, which
+   width alone put back at exactly 1024px. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #tabs { display: grid; }
+  .nav-links { display: none; }
+  body { padding-bottom: 4.25rem; }
+}
+
+/* The desktop hero is 100svh with its content pinned to the bottom, and the tab
+   bar is position:fixed OVER it - so on touch tiers the hero's last row (meta
+   line, contact card, giant name) lands underneath the bar. body padding cannot
+   fix this: the hero's own 100svh box is what runs under it. Reserve the bar's
+   height inside the hero instead. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #hero { padding-bottom: 4.75rem; }
+}

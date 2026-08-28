@@ -28,7 +28,7 @@
 
   --paper: #EAF2F6;
   --paper-dim: #93A3B4;
-  --paper-faint: #63717F;
+  --paper-faint: #77869A;
 
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
@@ -65,8 +65,8 @@ body {
 .tag { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; color: var(--blue-300); }
 
 /* visibility tiers — identical scale to A and B */
-@media (min-width: 48rem) { .m-only { display: none !important; } }
-@media (max-width: 47.99rem) { .d-only { display: none !important; } }
+@media (min-width: 45rem) { .m-only { display: none !important; } }
+@media (max-width: 44.99rem) { .d-only { display: none !important; } }
 
 /* ---------- Nav ---------- */
 #nav {
@@ -236,7 +236,7 @@ body {
 .head p { margin-top: 1rem; color: var(--paper-dim); max-width: 52ch; }
 
 .grid3 { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
-@media (min-width: 48rem) { .grid3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 45rem) { .grid3 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 64rem) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
 .tile { background: var(--navy-900); padding: 1.6rem; transition: background-color .3s var(--e); }
 .tile:hover { background: var(--navy-850); }
@@ -247,7 +247,7 @@ body {
 
 .rail { border-top: 1px solid var(--line); }
 .rail-row { display: grid; gap: .3rem 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); transition: background-color .3s var(--e); }
-@media (min-width: 48rem) { .rail-row { grid-template-columns: 11rem 1fr 1fr; align-items: baseline; } }
+@media (min-width: 45rem) { .rail-row { grid-template-columns: 11rem 1fr 1fr; align-items: baseline; } }
 .rail-row:hover { background: var(--navy-900); }
 .rail-row .yr { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; color: var(--blue-400); }
 .rail-row h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -.02em; }
@@ -267,7 +267,7 @@ body {
 
 .posts { border-top: 1px solid var(--line); }
 .post { display: grid; gap: .3rem 2rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line); position: relative; transition: padding-left .35s var(--e), background-color .3s var(--e); }
-@media (min-width: 48rem) { .post { grid-template-columns: 7rem 1fr 4.5rem; align-items: baseline; } }
+@media (min-width: 45rem) { .post { grid-template-columns: 7rem 1fr 4.5rem; align-items: baseline; } }
 .post:hover { padding-left: .9rem; background: var(--navy-900); }
 .post .d { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .1em; color: var(--paper-faint); }
 .post h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; letter-spacing: -.015em; }
@@ -321,7 +321,7 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 .m-rail::-webkit-scrollbar { display: none; }
 .m-rail > * { flex: 0 0 70%; scroll-snap-align: center; background: var(--navy-900); border: 1px solid var(--line); padding: 1.4rem; }
 
-@media (max-width: 47.99rem) {
+@media (max-width: 44.99rem) {
   .m-pop { opacity: 0; transform: translateY(26px) scale(.965); }
   .head h2 { font-size: clamp(1.9rem, 8.5vw, 2.5rem); }
   .post:hover { padding-left: 0; }
@@ -341,7 +341,7 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 @media (max-width: 63.99rem) { body { padding-bottom: 4.25rem; } }
 
 /* ---------- Tablet ---------- */
-@media (min-width: 48rem) and (max-width: 63.99rem) {
+@media (min-width: 45rem) and (max-width: 63.99rem) {
   .hero-cols { grid-template-columns: 1fr 14rem; }
   .work-card { grid-column: 2; }
   .hero-bottom { grid-template-columns: 1fr; }
@@ -360,3 +360,141 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 
 .c-h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1.02; letter-spacing: -.035em; margin-top: .85rem; }
 .c-h2 i { font-style: normal; color: var(--blue-400); }
+
+/* ==========================================================================
+   THEME TOGGLE
+   ========================================================================== */
+.nav-right { display: flex; align-items: center; gap: .75rem; }
+.tt {
+  width: 2.4rem; height: 2.4rem; flex: 0 0 auto;
+  display: grid; place-items: center;
+  border: 1px solid var(--line-2); color: var(--paper-dim);
+  transition: border-color .28s var(--e), color .28s var(--e);
+}
+.tt:hover { border-color: var(--blue-400); color: var(--blue-300); }
+.tt svg { width: 1.05rem; height: 1.05rem; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+.tt-moon { display: none; }
+[data-theme="light"] .tt-sun { display: none; }
+[data-theme="light"] .tt-moon { display: block; }
+
+/* ==========================================================================
+   LIGHT THEME — "Deep Field, daylight"
+
+   Deep Field is a night photograph: a subject lit out of a dark room by a cool
+   key light. Daylight cannot keep that, so the metaphor changes rather than
+   inverting - from light pooling in darkness to light falling on a cool, pale
+   surface. Ground goes to pale ice, the beams and the pool become faint cool
+   shadow rather than glow, and the cyan darkens to hold as text while staying
+   electric wherever it is a fill.
+
+   The hero's architecture diagram needs no work here: it was drawn on the
+   design tokens, so it re-themes with them.
+   ========================================================================== */
+[data-theme="light"] {
+  --navy-950: #F2F7FA;   /* page  */
+  --navy-900: #E8F0F5;   /* tile  */
+  --navy-850: #DFEAF1;   /* hover */
+  --navy-800: #D6E3EC;
+  --navy-700: #C8D8E4;
+  --line: #D3E0E9;
+  --line-2: #BACEDC;
+
+  --blue-300: #075462;   /* deepest — hover text */
+  --blue-400: #0A6B7A;   /* accent as text — 5.73:1 */
+  --blue-500: #0A7E90;   /* rules, bars */
+  --blue-600: #12B6CC;
+
+  --paper: #0B1620;
+  --paper-dim: #3E5464;
+  --paper-faint: #556A79;
+
+  --cyan-fill: #2DD9EE;  /* cyan as a FILL, dark text on top */
+}
+
+/* --- Cyan as a fill keeps its charge; only cyan-as-text darkens --- */
+[data-theme="light"] ::selection { background: var(--cyan-fill); color: #04222A; }
+[data-theme="light"] .btn-blue { background: var(--cyan-fill); border-color: var(--cyan-fill); color: #04222A; }
+[data-theme="light"] .btn-blue:hover { background: #5CE6F7; border-color: #5CE6F7; color: #04222A; }
+[data-theme="light"] .card.feature { background: linear-gradient(150deg, var(--cyan-fill), #BFE6F0); border-color: var(--blue-500); }
+/* The feature card is pale in light, so its caption cannot stay white. */
+[data-theme="light"] .card.feature .i { color: rgba(4,34,42,.78); }
+
+/* --- Grounds --- */
+[data-theme="light"] #hero {
+  background:
+    radial-gradient(95% 72% at 50% 88%, #B6E2EF 0%, rgba(182,226,239,0) 62%),
+    radial-gradient(70% 50% at 82% 8%, #D9F1F7 0%, rgba(217,241,247,0) 60%),
+    linear-gradient(180deg, #FFFFFF 0%, #E6F3F8 44%, #EDF7FA 100%);
+}
+[data-theme="light"] #mhero {
+  background: linear-gradient(180deg, #FFFFFF 0%, #EDF4F8 45%, #F2F7FA 100%);
+}
+[data-theme="light"] #nav.solid { background: rgba(242,247,250,.9); }
+[data-theme="light"] #tabs { background: rgba(242,247,250,.96); }
+[data-theme="light"] .work-card { background: rgba(255,255,255,.82); }
+[data-theme="light"] .talk { background: rgba(255,255,255,.9); }
+
+/* Beams and pool were ADDED light against black. On a pale ground added light
+   does nothing, so they become the opposite: faint cool shade. */
+[data-theme="light"] .beams i {
+  background: linear-gradient(to bottom, transparent, rgba(10,126,144,.20), transparent);
+}
+[data-theme="light"] .pool {
+  background: radial-gradient(circle, rgba(18,182,204,.30) 0%, rgba(10,126,144,.13) 34%, transparent 66%);
+}
+[data-theme="light"] #mhero .m-pool {
+  background: radial-gradient(circle, rgba(10,126,144,.14), transparent 62%);
+}
+[data-theme="light"] .ghost { color: rgba(10,50,62,.07); }
+[data-theme="light"] #mhero .m-scrim {
+  background: linear-gradient(to bottom, rgba(242,247,250,.45) 0%, transparent 22%, rgba(242,247,250,.8) 58%, var(--navy-950) 86%);
+}
+
+/* Same badge trap as A and B: opaque squares on dark grounds. */
+[data-theme="light"] .card img { filter: grayscale(1) brightness(1.45) contrast(.75) opacity(.65); }
+[data-theme="light"] .card:hover img { filter: none; }
+[data-theme="light"] .card.feature img { filter: none; }
+
+/* <picture> is inline by default; both portraits are sized with width:100%. */
+.hero-portrait picture, #mhero .m-img picture { display: block; }
+
+/* ==========================================================================
+   TOUCH TIER — keyed on the input device, not on width
+
+   Width said "desktop" for iPad landscape (exactly 1024px = 64rem), which took
+   away the tab bar and left 38-40px controls on a device driven by a thumb.
+   These rules ask the real question instead. 44px is the Apple HIG / WCAG 2.5.5
+   target; the audit measured the toggle at 38px and the audience chips at 32-40.
+   ========================================================================== */
+@media (pointer: coarse) {
+  .tt { width: 2.75rem; height: 2.75rem; }
+  .btn { padding-block: .85rem; }
+  .aud button, .m-chips button { min-height: 2.75rem; }
+  .soc a { width: 2.75rem; height: 2.75rem; }
+  /* Hover-only reveals never fire on touch, so the muted state is the only
+     state a thumb ever sees - show the badges as they really are. */
+  .cred img, .card img { filter: none; }
+}
+
+/* Tablet landscape is touch: keep the tab bar and drop the pointer nav, which
+   width alone put back at exactly 1024px. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #tabs { display: grid; }
+  .nav-links { display: none; }
+  body { padding-bottom: 4.25rem; }
+}
+
+/* The desktop hero is 100svh with its content pinned to the bottom, and the tab
+   bar is position:fixed OVER it - so on touch tiers the hero's last row (meta
+   line, contact card, giant name) lands underneath the bar. body padding cannot
+   fix this: the hero's own 100svh box is what runs under it. Reserve the bar's
+   height inside the hero instead. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #hero { padding-bottom: 4.75rem; }
+}
+
+/* Accent-as-fill again: --blue-400 is the darkened text-safe cyan in light, so
+   the pressed chip became a dark teal pill under near-black text (3.10:1). */
+[data-theme="light"] .m-chips button[aria-pressed="true"] {
+  background: var(--cyan-fill); border-color: var(--cyan-fill); color: #04222A;
+}

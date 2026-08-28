@@ -232,7 +232,7 @@ h1 .w { display: inline-block; }
 .chip .dot { width: .45rem; height: .45rem; border-radius: 50%; background: #3DDC97; box-shadow: 0 0 8px #3DDC97; }
 /* Kept clear of the face: the head occupies roughly 28-62% of the figure's
    width and the top 45% of its height, so nothing floats there. */
-.chip-1 { left: -14%; top: 30%; }
+.chip-1 { left: -14%; top: 49%; }
 .chip-2 { right: -8%; top: 56%; }
 .chip-3 { left: -6%; bottom: 16%; }
 @media (max-width: 63.99rem) {
@@ -268,7 +268,7 @@ section.band { position: relative; padding-block: clamp(5rem, 10vw, 9rem); }
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
   background: var(--line); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden;
 }
-@media (min-width: 48rem) { .stats { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 45rem) { .stats { grid-template-columns: repeat(4, 1fr); } }
 .stat { background: var(--ink-900); padding: 1.6rem 1.4rem; }
 .stat .n {
   font-family: var(--font-display); font-size: clamp(2rem, 3.4vw, 3rem);
@@ -301,7 +301,7 @@ section.band { position: relative; padding-block: clamp(5rem, 10vw, 9rem); }
 
 /* credentials */
 .creds { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
-@media (min-width: 48rem) { .creds { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 45rem) { .creds { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 90rem) { .creds { grid-template-columns: repeat(3, 1fr); } }
 .cred { background: var(--ink-900); padding: 1.3rem; display: flex; gap: 1rem; align-items: center; transition: background-color .3s var(--e); }
 .cred:hover { background: var(--ink-850); }
@@ -319,7 +319,7 @@ section.band { position: relative; padding-block: clamp(5rem, 10vw, 9rem); }
   display: grid; gap: .35rem 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line);
   position: relative; transition: padding-left .4s var(--e);
 }
-@media (min-width: 48rem) { .post { grid-template-columns: 8rem 1fr auto; align-items: baseline; } }
+@media (min-width: 45rem) { .post { grid-template-columns: 8rem 1fr auto; align-items: baseline; } }
 .post:hover { padding-left: 1rem; }
 .post::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--amber-400); transform: scaleY(0); transition: transform .4s var(--e); }
 .post:hover::before { transform: scaleY(1); }
@@ -410,11 +410,11 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
    carry id-level or later-in-cascade display rules (#mhero{display:flex},
    .m-rail{display:flex}) that would otherwise win and show the phone layout
    on desktop. */
-@media (min-width: 48rem) { .m-only { display: none !important; } }
-@media (max-width: 47.99rem) { .d-only { display: none !important; } }
+@media (min-width: 45rem) { .m-only { display: none !important; } }
+@media (max-width: 44.99rem) { .d-only { display: none !important; } }
 
 /* ---------- TABLET (48-64rem): a real layout, not a stretched phone ---------- */
-@media (min-width: 48rem) and (max-width: 63.99rem) {
+@media (min-width: 45rem) and (max-width: 63.99rem) {
   .hero-grid { grid-template-columns: 1.25fr .75fr; align-items: end; gap: 2rem; }
   #hero .hero-inner { padding-block: 6.5rem 5.5rem; }
   h1 { font-size: clamp(2.6rem, 6vw, 3.9rem); }
@@ -425,9 +425,6 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
   .quotes { grid-template-columns: repeat(2, 1fr); align-items: start; }
   .quote.lead { grid-column: 1 / -1; }
   .post { grid-template-columns: 7rem 1fr auto; }
-  .chip-1 { left: -4%; top: 34%; }
-  .chip-2 { right: -3%; top: 58%; }
-  .chip-3 { left: -2%; bottom: 14%; }
   /* tablets are touch: keep the tab bar, keep targets generous */
   #tabs { display: grid; }
   .nav-links { display: none; }
@@ -451,7 +448,13 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 }
 #mhero .m-scrim {
   position: absolute; inset: 0; z-index: 2;
-  background: linear-gradient(to bottom, rgba(8,8,10,.55) 0%, transparent 26%, rgba(8,8,10,.72) 62%, var(--ink-950) 88%);
+  background: linear-gradient(to bottom,
+    rgba(8,8,10,.50) 0%,
+    rgba(8,8,10,.10) 20%,
+    rgba(8,8,10,.80) 38%,
+    rgba(8,8,10,.90) 48%,
+    rgba(8,8,10,.97) 62%,
+    var(--ink-950) 78%);
 }
 /* bottom padding clears the fixed tab bar (3.5rem) plus the safe area */
 #mhero .m-body { position: relative; z-index: 3; padding: 0 var(--pad) calc(5.25rem + env(safe-area-inset-bottom, 0px)); }
@@ -502,7 +505,7 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 
 /* phone-only scroll behaviour: cards rise and settle, no parallax (which
    reads as lag on a touch device) */
-@media (max-width: 47.99rem) {
+@media (max-width: 44.99rem) {
   .m-pop { opacity: 0; transform: translateY(26px) scale(.965); }
   .stats { grid-template-columns: 1fr; }
   .creds { grid-template-columns: 1fr; }
@@ -514,3 +517,188 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 @media (prefers-reduced-motion: reduce) {
   .m-pop { opacity: 1 !important; transform: none !important; }
 }
+
+/* ==========================================================================
+   THEME TOGGLE (shared control, per-design styling)
+   ========================================================================== */
+.tt {
+  width: 2.4rem; height: 2.4rem; flex: 0 0 auto;
+  display: grid; place-items: center;
+  border-radius: 999px; border: 1px solid var(--ink-600); color: var(--paper-dim);
+  transition: border-color .3s var(--e), color .3s var(--e), background-color .3s var(--e);
+}
+.tt:hover { border-color: var(--amber-400); color: var(--amber-300); }
+.tt svg { width: 1.05rem; height: 1.05rem; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; }
+.tt-moon { display: none; }
+[data-theme="light"] .tt-sun { display: none; }
+[data-theme="light"] .tt-moon { display: block; }
+
+/* ==========================================================================
+   LIGHT THEME — "Daybreak"
+
+   Not an inversion. Nightshift spends amber as a LIGHT SOURCE in darkness; on
+   paper that premise does not exist, so amber changes job: it becomes ink and
+   marmalade on a warm ground. The ink-* ramp is remapped to a paper ramp so
+   every rule above follows without being rewritten.
+
+   The amber ramp inverts with it — in dark, -200 is the lightest tint; here it
+   is the deepest, because on paper the accent must DARKEN to stay legible as
+   text. Where amber is a FILL rather than text it stays bright, via the
+   explicit overrides further down.
+
+   Every pair is measured, not eyeballed: contrast_check.py, body >= 4.5:1,
+   large text >= 3.0:1.
+   ========================================================================== */
+[data-theme="light"] {
+  --ink-950: #FBF6EC;   /* paper       */
+  --ink-900: #F5EEE1;   /* card        */
+  --ink-850: #EFE6D6;   /* raised/hover*/
+  --ink-800: #E9DFCC;
+  --ink-700: #DCCFB8;   /* soft border */
+  --ink-600: #C9B99D;   /* strong border */
+
+  --amber-200: #7A4508; /* deepest — hover text */
+  --amber-300: #8A5109; /* em, figures          */
+  --amber-400: #93540A; /* eyebrow, rules, bars */
+  --amber-500: #A8620C;
+  --amber-700: #E3C79C;
+
+  --paper: #1A1512;     /* espresso body text */
+  --paper-dim: #55483C;
+  --paper-faint: #736354;
+
+  --line: #E2D6C2;
+  --line-soft: #EDE3D3;
+
+  --amber-fill: #F0A428;  /* amber where it is a FILL, not text */
+}
+
+/* Selection and fills keep the bright amber — dark text sits on top of it. */
+[data-theme="light"] ::selection { background: var(--amber-fill); color: #140D02; }
+
+[data-theme="light"] .btn-amber { background: var(--amber-fill); border-color: var(--amber-fill); color: #140D02; }
+[data-theme="light"] .btn-amber:hover { background: #FFB947; border-color: #FFB947; color: #140D02; }
+[data-theme="light"] .m-chips button[aria-pressed="true"] { background: var(--amber-fill); border-color: var(--amber-fill); color: #140D02; }
+[data-theme="light"] .aud button[aria-pressed="true"] {
+  background: rgba(240,164,40,.22); border-color: rgba(147,84,10,.5); color: var(--amber-200);
+}
+
+/* Nav and tab bar: same veil, paper-side. */
+[data-theme="light"] #nav.solid { background: rgba(251,246,236,.86); }
+@supports not (backdrop-filter: blur(1px)) {
+  [data-theme="light"] #nav.solid { background: rgba(251,246,236,.97); }
+}
+[data-theme="light"] #tabs { background: rgba(250,245,235,.94); }
+
+/* The light source becomes a warm bloom sitting ON the paper rather than a
+   glow cutting through black — same position, a fraction of the strength. */
+[data-theme="light"] .glow {
+  background:
+    radial-gradient(circle at center,
+      rgba(240,164,40,.26) 0%,
+      rgba(217,133,16,.12) 26%,
+      rgba(168,98,12,.05) 46%,
+      transparent 68%);
+}
+/* Vignette inverts: paper closes in at the edges instead of darkness. */
+[data-theme="light"] .vig {
+  background: radial-gradient(120% 90% at 50% 45%, transparent 40%, rgba(251,246,236,.82) 100%);
+}
+[data-theme="light"] #contact .glow2 {
+  background: radial-gradient(circle, rgba(240,164,40,.22), transparent 62%);
+}
+[data-theme="light"] #field { opacity: .30; }
+
+/* Chips: a raised paper card, so they still lift off the portrait. */
+[data-theme="light"] .chip {
+  background: rgba(255,252,246,.9);
+  border-color: #E0D2BA;
+  box-shadow: 0 14px 30px -18px rgba(90,60,20,.45);
+}
+[data-theme="light"] .chip .dot { background: #12855A; box-shadow: 0 0 8px rgba(18,133,90,.55); }
+
+/* Most badge PNGs are opaque squares on DARK grounds (IBM's are teal/maroon,
+   median luminance 34-73). Dark theme lifts them to sit calmly on black.
+   Darkening them for paper crushes them into black blocks, so muting here runs
+   the other way - lift and fade, and let hover still restore full colour. */
+[data-theme="light"] .cred img { filter: grayscale(1) brightness(1.45) contrast(.75) opacity(.65); }
+[data-theme="light"] .cred:hover img { filter: none; }
+/* Equal specificity to the rule above and later in the file, so the feature
+   badge needs restating or it loses the full colour it is given in dark. */
+[data-theme="light"] .cred.feature img { filter: none; }
+
+/* Cursor ring reads against paper (mix-blend-mode: difference inverts it). */
+[data-theme="light"] #cur { border-color: rgba(120,70,10,.55); }
+
+/* Phone hero: the scrim pulls to paper, not to ink. */
+[data-theme="light"] #mhero .m-glow {
+  background: radial-gradient(circle, rgba(240,164,40,.34), rgba(217,133,16,.12) 42%, transparent 68%);
+}
+[data-theme="light"] #mhero .m-scrim {
+  background: linear-gradient(to bottom,
+    rgba(251,246,236,.45) 0%,
+    rgba(251,246,236,.10) 20%,
+    rgba(251,246,236,.82) 38%,
+    rgba(251,246,236,.93) 48%,
+    rgba(251,246,236,.98) 62%,
+    var(--ink-950) 78%);
+}
+
+/* <picture> is inline by default; the hero figure and phone cover both size
+   the image with width:100%, which needs a block box to sit in. */
+.hero-figure picture, #mhero .m-img picture { display: block; }
+
+/* ==========================================================================
+   TOUCH TIER — keyed on the input device, not on width
+
+   Width said "desktop" for iPad landscape (exactly 1024px = 64rem), which took
+   away the tab bar and left 38-40px controls on a device driven by a thumb.
+   These rules ask the real question instead. 44px is the Apple HIG / WCAG 2.5.5
+   target; the audit measured the toggle at 38px and the audience chips at 32-40.
+   ========================================================================== */
+@media (pointer: coarse) {
+  .tt { width: 2.75rem; height: 2.75rem; }
+  .btn { padding-block: .85rem; }
+  .aud button, .m-chips button { min-height: 2.75rem; }
+  .soc a { width: 2.75rem; height: 2.75rem; }
+  /* Hover-only reveals never fire on touch, so the muted state is the only
+     state a thumb ever sees - show the badges as they really are. */
+  .cred img, .card img { filter: none; }
+}
+
+/* Tablet landscape is touch: keep the tab bar and drop the pointer nav, which
+   width alone put back at exactly 1024px. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #tabs { display: grid; }
+  .nav-links { display: none; }
+  body { padding-bottom: 4.25rem; }
+}
+
+/* Narrow tablet (45-52rem): extending the tablet tier down to 720px gave the
+   figure column ~230px, and three chips pinned by percentage offsets landed on
+   top of each other. They carry real content - live topics, pod count, p99 -
+   so they are re-laid rather than hidden: portrait fixed-width on the left,
+   chips stacked beside it as a static column. No absolute pins, no collisions. */
+@media (min-width: 45rem) and (max-width: 63.99rem) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-figure {
+    display: grid; grid-template-columns: minmax(0, 15rem) 1fr;
+    gap: .55rem 1.25rem; align-items: center; margin-top: .5rem;
+  }
+  .hero-figure picture { grid-row: span 3; }
+  .chip { position: static; justify-self: start; }
+  #hero .hero-inner { padding-block: 6rem 5rem; }
+}
+
+/* The desktop hero is 100svh with its content pinned to the bottom, and the tab
+   bar is position:fixed OVER it - so on touch tiers the hero's last row (meta
+   line, contact card, giant name) lands underneath the bar. body padding cannot
+   fix this: the hero's own 100svh box is what runs under it. Reserve the bar's
+   height inside the hero instead. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #hero { padding-bottom: 4.75rem; }
+}
+/* The scroll cue is absolutely pinned to the hero's bottom, so padding does not
+   move it - and on touch the tab bar already occupies that space while scrolling
+   needs no prompting. */
+@media (pointer: coarse) { .scrollcue { display: none; } }
