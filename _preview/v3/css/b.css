@@ -598,9 +598,12 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
   .btn { padding-block: .85rem; }
   .aud button, .m-chips button { min-height: 2.75rem; }
   .soc a { width: 2.75rem; height: 2.75rem; }
-  /* Hover-only reveals never fire on touch, so the muted state is the only
-     state a thumb ever sees - show the badges as they really are. */
-  .cred img, .card img { filter: none; }
+  /* Deliberately NOT unmuting the badges here. Showing them in full colour
+     because touch has no hover turned the credential grid into a field of loud
+     teal and maroon squares against a calm dark page - louder than the desktop
+     design it is meant to match. The muted state IS the design; the reveal is a
+     pointer bonus, and no information is lost because the credential name and
+     issuer are text. */
 }
 
 /* Tablet landscape is touch: keep the tab bar and drop the pointer nav, which
@@ -618,4 +621,11 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
    height inside the hero instead. */
 @media (pointer: coarse) and (max-width: 68rem) {
   #hero { padding-bottom: 4.75rem; }
+}
+
+/* The email address is a primary contact affordance, but as a single line of
+   display type its box is only ~26px tall - a thin strip for a thumb. Padding
+   lifts the tap target past 44px without changing how it looks. */
+@media (pointer: coarse) {
+  .mail { padding-block: .7rem; }
 }
