@@ -99,9 +99,10 @@
       if (phone) {
         // Phone: the cover assembles top-down, then cards pop in on scroll.
         // No scrubbed parallax - it reads as lag under a finger.
-        gsap.from("#mhero .m-claim, #mhero .m-chips", { opacity: 0, y: 14, duration: .6, stagger: .08, ease: "power3.out", delay: .15 });
-        gsap.from("#mhero .m-plate", { opacity: 0, y: 26, duration: .8, ease: "power3.out", delay: .3 });
-        gsap.from("#mhero .m-name", { opacity: 0, y: 22, duration: .8, ease: "power3.out", delay: .45 });
+        gsap.from("#mhero .m-img", { opacity: 0, y: 26, duration: .9, ease: "power3.out", delay: .1 });
+        gsap.from("#mhero .m-name", { opacity: 0, y: 22, duration: .8, ease: "power3.out", delay: .25 });
+        gsap.from("#mhero .claim, #mhero .m-chips, #mhero .lede",
+          { opacity: 0, y: 14, duration: .6, stagger: .08, ease: "power3.out", delay: .4 });
         gsap.utils.toArray(".m-pop").forEach(function (el, i) {
           gsap.to(el, {
             opacity: 1, y: 0, scale: 1, duration: .7, ease: "power3.out", delay: (i % 4) * .06,
@@ -114,7 +115,7 @@
       var tl = gsap.timeline({ delay: .12, paused: phone });
       tl.from(".hero-portrait", { opacity: 0, yPercent: 6, scale: 1.04, duration: 1.2, ease: "power3.out" })
         .from(".ghost", { opacity: 0, duration: 1.1, ease: "power2.out" }, "-=.9")
-        .from(".claim, .aud, .lede", { opacity: 0, y: 16, duration: .65, stagger: .07, ease: "power3.out" }, "-=.85")
+        .from("#hero .claim, #hero .aud, #hero .lede", { opacity: 0, y: 16, duration: .65, stagger: .07, ease: "power3.out" }, "-=.85")
         .from(".work-card", { opacity: 0, x: 22, duration: .7, ease: "power3.out" }, "-=.6")
         .from(".bigname", { opacity: 0, y: 26, duration: .8, ease: "power3.out" }, "-=.55")
         .from(".talk", { opacity: 0, y: 20, duration: .7, ease: "power3.out" }, "-=.5")

@@ -305,9 +305,18 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
   background: linear-gradient(180deg, #070B12 0%, #0A1119 45%, #05070C 100%);
 }
 #mhero .m-pool { position: absolute; left: 50%; top: 46%; translate: -50% -50%; width: 150vw; aspect-ratio: 1; background: radial-gradient(circle, rgba(45,217,238,.20), transparent 62%); }
-#mhero .m-img { position: absolute; inset: auto 0 0 0; z-index: 1; display: flex; justify-content: center; }
-#mhero .m-img img { width: 112%; max-width: none; height: auto; }
-#mhero .m-scrim { position: absolute; inset: 0; z-index: 2; background: linear-gradient(to bottom, rgba(5,7,12,.4) 0%, transparent 22%, rgba(5,7,12,.78) 58%, var(--navy-950) 86%); }
+#mhero .m-img { position: absolute; inset: 0; z-index: 1; display: flex; align-items: flex-start; justify-content: center; }
+#mhero .m-img img { width: 108%; max-width: none; height: auto; margin-top: 3rem; }
+#mhero .m-scrim {
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(to bottom,
+    rgba(5,7,12,.45) 0%,
+    rgba(5,7,12,.08) 18%,
+    rgba(5,7,12,.70) 40%,
+    rgba(5,7,12,.94) 50%,
+    rgba(5,7,12,.98) 64%,
+    var(--navy-950) 80%);
+}
 #mhero .m-body { position: relative; z-index: 3; padding: 0 var(--pad) calc(5.25rem + env(safe-area-inset-bottom, 0px)); }
 #mhero .m-name { font-family: var(--font-display); font-weight: 700; font-size: 14vw; line-height: .86; letter-spacing: -.04em; }
 #mhero .claim { margin-top: .9rem; max-width: none; font-size: .68rem; }
@@ -447,7 +456,13 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 }
 [data-theme="light"] .ghost { color: rgba(10,50,62,.07); }
 [data-theme="light"] #mhero .m-scrim {
-  background: linear-gradient(to bottom, rgba(242,247,250,.45) 0%, transparent 22%, rgba(242,247,250,.8) 58%, var(--navy-950) 86%);
+  background: linear-gradient(to bottom,
+    rgba(242,247,250,.40) 0%,
+    rgba(242,247,250,.08) 18%,
+    rgba(242,247,250,.74) 40%,
+    rgba(242,247,250,.95) 50%,
+    rgba(242,247,250,.99) 64%,
+    var(--navy-950) 80%);
 }
 
 /* Same badge trap as A and B: opaque squares on dark grounds. */
