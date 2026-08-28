@@ -38,21 +38,19 @@
     if (!buttons.length) return;
 
     var darkMql = matchMedia("(prefers-color-scheme: dark)");
-    var choice = window.__themeChoice;
-    if (choice !== "light" && choice !== "dark" && choice !== "system") {
-      choice = "dark";
-    }
+    /* null means "never chosen" - follow the OS until they do. */
+    var choice = window.__themeChoice === "light" || window.__themeChoice === "dark"
+      ? window.__themeChoice
+      : null;
 
     function apply(next) {
       choice = next;
-      var effective = next === "system"
-        ? (darkMql.matches ? "dark" : "light")
-        : next;
+      var effective = next || (darkMql.matches ? "dark" : "light");
       document.documentElement.setAttribute("data-theme", effective);
       buttons.forEach(function (btn) {
         btn.setAttribute(
           "aria-pressed",
-          String(btn.getAttribute("data-theme-choice") === next)
+          String(btn.getAttribute("data-theme-choice") === effective)
         );
       });
     }
@@ -69,9 +67,9 @@
       });
     });
 
-    /* Track the OS only while the visitor has actually chosen "system". */
+    /* Track the OS only until the visitor makes an explicit choice. */
     darkMql.addEventListener("change", function () {
-      if (choice === "system") apply("system");
+      if (choice === null) apply(null);
     });
   }
 

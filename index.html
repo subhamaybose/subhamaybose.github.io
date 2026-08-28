@@ -15,13 +15,15 @@
        page flashes the wrong theme. Kept deliberately in sync with initTheme(). -->
   <script>
     (function () {
-      var theme = "dark";
+      /* Two states, not three. "Follow the system" is the DEFAULT when the
+         visitor has never chosen, not a third button competing with them. */
+      var sysDark = matchMedia("(prefers-color-scheme: dark)").matches;
+      var theme = sysDark ? "dark" : "light";
       try {
         var t = localStorage.getItem("theme");
         if (t === "light" || t === "dark") theme = t;
-        else if (t === "system") theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        window.__themeChoice = (t === "light" || t === "dark" || t === "system") ? t : "dark";
-      } catch (e) { window.__themeChoice = "dark"; }
+        window.__themeChoice = (t === "light" || t === "dark") ? t : null;
+      } catch (e) { window.__themeChoice = null; }
       document.documentElement.setAttribute("data-theme", theme);
       /* Arm the reveal animations before first paint so nothing flashes in
          and then out. Dead-man's switch: if custom.js has not attached its
@@ -136,7 +138,6 @@
   <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
 <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></symbol>
 <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></symbol>
-<symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2" /><line x1="8" x2="16" y1="21" y2="21" /><line x1="12" x2="12" y1="17" y2="21" /></symbol>
 <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" /></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol>
 <symbol id="i-mail" viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></symbol>
@@ -176,7 +177,6 @@
         <div class="theme-toggle" role="group" aria-label="Theme">
           <button type="button" data-theme-choice="light" aria-label="Light theme" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-sun" /></svg></button>
           <button type="button" data-theme-choice="dark" aria-label="Dark theme" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-moon" /></svg></button>
-          <button type="button" data-theme-choice="system" aria-label="Match system theme" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-monitor" /></svg></button>
         </div>
 
         <a class="btn nav-cta" href="resume/resume.pdf" download>Resume<svg class="ico" aria-hidden="true"><use href="#i-download" /></svg></a>
