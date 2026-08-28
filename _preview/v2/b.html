@@ -31,12 +31,34 @@
   <nav class="nav-links" aria-label="Primary">
     <a href="#about">About</a><a href="#work">Work</a><a href="#creds">Credentials</a><a href="#writing">Writing</a><a href="#contact">Contact</a>
   </nav>
-  <a class="btn" data-magnet href="../resume/resume.pdf" download>Résumé <svg><use href="#i-dl"/></svg></a>
+  <a class="btn" data-magnet href="../../resume/resume.pdf" download>Résumé <svg><use href="#i-dl"/></svg></a>
 </header>
 
 <main>
 
-<section id="hero">
+
+<section id="mhero" class="m-only">
+  <div class="m-grid" aria-hidden="true"></div>
+  <div class="m-ghost" aria-hidden="true">B</div>
+  <div class="m-top">
+    <p class="m-claim">I build backend and cloud systems that stay up.</p>
+    <div class="m-chips" role="group" aria-label="Who are you?">
+      <button data-aud="everyone" aria-pressed="true">Everyone</button>
+      <button data-aud="recruiters" aria-pressed="false">Recruiters</button>
+      <button data-aud="engineers" aria-pressed="false">Engineers</button>
+      <button data-aud="managers" aria-pressed="false">Managers</button>
+      <button data-aud="collaborators" aria-pressed="false">Collaborators</button>
+    </div>
+  </div>
+  <figure class="m-plate">
+    <img src="../../images/portrait-cut-amber.avif" alt="Subhamay Bose" width="1245" height="1230" fetchpriority="high" decoding="sync">
+  </figure>
+  <div class="m-name">SUBHAMAY<br>BOSE
+    <small>Senior System Engineer &middot; Team Lead, IBM &middot; Kolkata</small>
+  </div>
+</section>
+
+<section id="hero" class="d-only">
   <div class="ghost" aria-hidden="true">BOSE</div>
   <div class="hero-inner wrap">
     <div class="hero-top">
@@ -53,7 +75,7 @@
       </div>
 
       <figure class="plate">
-        <img src="../images/hero-cut-amber.avif" alt="Subhamay Bose" width="900" height="1090" fetchpriority="high" decoding="sync">
+        <img src="../../images/portrait-cut-amber.avif" alt="Subhamay Bose" width="1245" height="1230" fetchpriority="high" decoding="sync">
         <figcaption><span>Kolkata, IN</span><span>IBM · since 2022</span></figcaption>
       </figure>
     </div>
@@ -74,7 +96,13 @@
 <section class="band" id="about">
   <div class="wrap">
     <div class="head rv"><p class="tag" style="color:var(--amber)">About</p><h2>A backend &amp; cloud engineer <i>who ships.</i></h2></div>
-    <div class="bento">
+    <div class="m-rail m-only">
+      <div class="m-pop"><div class="k" style="color:var(--amber)">Experience</div><div class="big"><span data-count="10" data-suffix="+">10+</span></div><p>Years in backend &amp; cloud</p></div>
+      <div class="m-pop"><div class="k" style="color:var(--amber)">Verified</div><div class="big"><span data-count="14">14</span></div><p>Certifications</p></div>
+      <div class="m-pop"><div class="k" style="color:var(--amber)">Published</div><div class="big"><span data-count="8">8</span></div><p>Essays</p></div>
+      <div class="m-pop"><div class="k" style="color:var(--amber)">Based</div><h3>Kolkata, IN</h3><p>IBM India Pvt. Ltd.</p></div>
+    </div>
+    <div class="bento d-only">
       <div class="cell tall rv"><div class="k">Profile</div><p style="margin-top:1rem">I am a skilled software professional specializing in Node.js, Python, machine learning, and cloud technologies. With expertise in scalable microservices, hybrid cloud solutions, AI/ML models, and AIOps, I&rsquo;m certified in Kubernetes and IBM Cloud, focused on automation and building innovative, data-driven applications.</p></div>
       <div class="cell rv"><div class="k">Experience</div><div class="big"><span id="exp" data-count="10" data-suffix="+">10+</span></div><p>Years in backend &amp; cloud</p></div>
       <div class="cell rv"><div class="k">Verified</div><div class="big"><span data-count="14">14</span></div><p>Certifications</p></div>
@@ -113,18 +141,18 @@
   </div>
   <div class="wrap">
     <div class="strip rv">
-      <a class="card hero-card" href="https://www.credly.com/badges/e5e4bc29-bfb6-4764-b4c5-ab669606a4a3" target="_blank" rel="noopener"><img src="../images/badges/aws-certified-developer-associate.png" alt="" width="600" height="600" loading="lazy"><div class="t">AWS Certified Developer — Associate</div><div class="i">Amazon Web Services · exam</div></a>
-      <a class="card" href="https://www.credly.com/badges/c0431797-9b1d-489f-9369-132d291c69d8" target="_blank" rel="noopener"><img src="../images/badges/ibm-wte.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM watsonx.ai Technical Essentials</div><div class="i">IBM</div></a>
-      <a class="card" href="https://www.credly.com/badges/62ed38c7-3051-4145-a723-6bca7eee3609" target="_blank" rel="noopener"><img src="../images/badges/ibm-pds.png" alt="" width="340" height="340" loading="lazy"><div class="t">Python for Data Science</div><div class="i">IBM</div></a>
-      <a class="card" href="https://www.credly.com/badges/4afba087-c175-4324-927b-a7c5a3cdb96e" target="_blank" rel="noopener"><img src="../images/badges/ibm-cke.png" alt="" width="340" height="340" loading="lazy"><div class="t">Containers &amp; Kubernetes Essentials</div><div class="i">IBM</div></a>
-      <a class="card" href="https://www.credly.com/badges/502aad7d-6f86-4f70-aa70-e9335e419a9e" target="_blank" rel="noopener"><img src="../images/badges/ibm-deai.png" alt="" width="340" height="340" loading="lazy"><div class="t">Docker Essentials</div><div class="i">IBM</div></a>
-      <a class="card" href="https://www.credly.com/badges/85bb6134-6462-4e9b-b36c-7865801e886d" target="_blank" rel="noopener"><img src="../images/badges/ibm-edt.png" alt="" width="340" height="340" loading="lazy"><div class="t">Enterprise Design Thinking</div><div class="i">IBM</div></a>
-      <a class="card" href="https://www.credly.com/badges/595ae7fd-f5d8-4171-8b3e-40bc08be53bf" target="_blank" rel="noopener"><img src="../images/badges/ibm-ac.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM Automation: Compass</div><div class="i">IBM</div></a>
-      <a class="card" href="https://www.credly.com/badges/1f579c08-b166-4383-a048-28e340e5b293" target="_blank" rel="noopener"><img src="../images/badges/ibm-garage.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM Garage Essentials</div><div class="i">IBM</div></a>
-      <a class="card" href="https://www.credly.com/badges/3a67b79e-a15a-499c-9d96-d1547a579b10" target="_blank" rel="noopener"><img src="../images/badges/dsn.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM Cloud Essentials</div><div class="i">Coursera</div></a>
-      <a class="card" href="https://www.coursera.org/account/accomplishments/verify/UEUTA3GQ93LJ" target="_blank" rel="noopener"><img src="../images/badges/deeplearning-ai.jpg" alt="" width="600" height="600" loading="lazy"><div class="t">Neural Networks &amp; Deep Learning</div><div class="i">Coursera</div></a>
-      <a class="card" href="https://www.appliedaicourse.com/certificate/0b63e915db" target="_blank" rel="noopener"><img src="../images/badges/applied-ai.jpg" alt="" width="600" height="600" loading="lazy"><div class="t">Applied Machine Learning</div><div class="i">Applied Course</div></a>
-      <a class="card" href="https://www.credly.com/badges/7fff2248-2f12-4fce-b796-8a1b15b40dca" target="_blank" rel="noopener"><img src="../images/badges/ibm-rj.png" alt="" width="600" height="600" loading="lazy"><div class="t">Retail Industry Jumpstart</div><div class="i">IBM</div></a>
+      <a class="card hero-card" href="https://www.credly.com/badges/e5e4bc29-bfb6-4764-b4c5-ab669606a4a3" target="_blank" rel="noopener"><img src="../../images/badges/aws-certified-developer-associate.png" alt="" width="600" height="600" loading="lazy"><div class="t">AWS Certified Developer — Associate</div><div class="i">Amazon Web Services · exam</div></a>
+      <a class="card" href="https://www.credly.com/badges/c0431797-9b1d-489f-9369-132d291c69d8" target="_blank" rel="noopener"><img src="../../images/badges/ibm-wte.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM watsonx.ai Technical Essentials</div><div class="i">IBM</div></a>
+      <a class="card" href="https://www.credly.com/badges/62ed38c7-3051-4145-a723-6bca7eee3609" target="_blank" rel="noopener"><img src="../../images/badges/ibm-pds.png" alt="" width="340" height="340" loading="lazy"><div class="t">Python for Data Science</div><div class="i">IBM</div></a>
+      <a class="card" href="https://www.credly.com/badges/4afba087-c175-4324-927b-a7c5a3cdb96e" target="_blank" rel="noopener"><img src="../../images/badges/ibm-cke.png" alt="" width="340" height="340" loading="lazy"><div class="t">Containers &amp; Kubernetes Essentials</div><div class="i">IBM</div></a>
+      <a class="card" href="https://www.credly.com/badges/502aad7d-6f86-4f70-aa70-e9335e419a9e" target="_blank" rel="noopener"><img src="../../images/badges/ibm-deai.png" alt="" width="340" height="340" loading="lazy"><div class="t">Docker Essentials</div><div class="i">IBM</div></a>
+      <a class="card" href="https://www.credly.com/badges/85bb6134-6462-4e9b-b36c-7865801e886d" target="_blank" rel="noopener"><img src="../../images/badges/ibm-edt.png" alt="" width="340" height="340" loading="lazy"><div class="t">Enterprise Design Thinking</div><div class="i">IBM</div></a>
+      <a class="card" href="https://www.credly.com/badges/595ae7fd-f5d8-4171-8b3e-40bc08be53bf" target="_blank" rel="noopener"><img src="../../images/badges/ibm-ac.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM Automation: Compass</div><div class="i">IBM</div></a>
+      <a class="card" href="https://www.credly.com/badges/1f579c08-b166-4383-a048-28e340e5b293" target="_blank" rel="noopener"><img src="../../images/badges/ibm-garage.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM Garage Essentials</div><div class="i">IBM</div></a>
+      <a class="card" href="https://www.credly.com/badges/3a67b79e-a15a-499c-9d96-d1547a579b10" target="_blank" rel="noopener"><img src="../../images/badges/dsn.png" alt="" width="340" height="340" loading="lazy"><div class="t">IBM Cloud Essentials</div><div class="i">Coursera</div></a>
+      <a class="card" href="https://www.coursera.org/account/accomplishments/verify/UEUTA3GQ93LJ" target="_blank" rel="noopener"><img src="../../images/badges/deeplearning-ai.jpg" alt="" width="600" height="600" loading="lazy"><div class="t">Neural Networks &amp; Deep Learning</div><div class="i">Coursera</div></a>
+      <a class="card" href="https://www.appliedaicourse.com/certificate/0b63e915db" target="_blank" rel="noopener"><img src="../../images/badges/applied-ai.jpg" alt="" width="600" height="600" loading="lazy"><div class="t">Applied Machine Learning</div><div class="i">Applied Course</div></a>
+      <a class="card" href="https://www.credly.com/badges/7fff2248-2f12-4fce-b796-8a1b15b40dca" target="_blank" rel="noopener"><img src="../../images/badges/ibm-rj.png" alt="" width="600" height="600" loading="lazy"><div class="t">Retail Industry Jumpstart</div><div class="i">IBM</div></a>
     </div>
   </div>
 </section>
@@ -164,7 +192,7 @@
     <a class="mail" href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com</a>
     <div style="display:flex;gap:.75rem;flex-wrap:wrap">
       <a class="btn btn-dark" data-magnet href="mailto:subhamaybose@gmail.com">Email me <svg><use href="#i-mail"/></svg></a>
-      <a class="btn btn-dark" data-magnet href="../resume/resume.pdf" download>Résumé <svg><use href="#i-dl"/></svg></a>
+      <a class="btn btn-dark" data-magnet href="../../resume/resume.pdf" download>Résumé <svg><use href="#i-dl"/></svg></a>
     </div>
   </div>
 </section>
