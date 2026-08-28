@@ -11,11 +11,6 @@
 
   var KEY = "sb-theme";
   var root = document.documentElement;
-  var media = window.matchMedia ? matchMedia("(prefers-color-scheme: light)") : null;
-
-  function stored() {
-    try { return localStorage.getItem(KEY); } catch (e) { return null; }
-  }
 
   function current() {
     return root.getAttribute("data-theme") === "light" ? "light" : "dark";
@@ -35,9 +30,9 @@
       btn.setAttribute("title", label);
     }
 
-    /* <picture> sources are chosen by a real media query, which follows the OS
-       and knows nothing about the toggle. Retarget them so a manual switch
-       moves the artwork too. */
+    /* The light <source> ships as media="not all", so dark art is what loads on
+       first paint. Retargeting it here is what moves the artwork when the
+       visitor toggles - CSS cannot swap an <img> src. */
     var srcs = document.querySelectorAll("source[data-theme-src]");
     for (var i = 0; i < srcs.length; i++) {
       srcs[i].media = srcs[i].getAttribute("data-theme-src") === theme ? "all" : "not all";
@@ -55,12 +50,8 @@
     });
   }
 
-  /* Follow the OS only until the visitor makes an explicit choice. */
-  if (media && media.addEventListener) {
-    media.addEventListener("change", function (e) {
-      if (!stored()) apply(e.matches ? "light" : "dark", false);
-    });
-  }
+  /* Deliberately does NOT follow the OS. Dark is the design; light is opt-in,
+     so a light-desktop visitor still lands on the intended page. */
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", wire);

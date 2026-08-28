@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script>(function(){try{var t=localStorage.getItem("sb-theme");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<script>(function(){var t="dark";try{t=localStorage.getItem("sb-theme")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t)})();</script>
 <link rel="stylesheet" href="css/a.css">
 </head>
 <body>
@@ -51,7 +51,7 @@
 
 <section id="mhero" class="m-only">
   <div class="m-glow" aria-hidden="true"></div>
-  <div class="m-img" aria-hidden="true"><picture><source data-theme-src="light" srcset="../../images/portrait-cut-warmink.avif" media="(prefers-color-scheme: light)"><img src="../../images/portrait-cut-amber.avif" alt="" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture></div>
+  <div class="m-img" aria-hidden="true"><picture><source data-theme-src="light" srcset="../../images/portrait-cut-warmink.avif" media="not all"><img src="../../images/portrait-cut-amber.avif" alt="" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture></div>
   <div class="m-scrim" aria-hidden="true"></div>
   <div class="m-body">
     <p class="eyebrow">Senior System Engineer &middot; IBM</p>
@@ -100,7 +100,7 @@
       </div>
 
       <figure class="hero-figure">
-        <picture><source data-theme-src="light" srcset="../../images/portrait-cut-warmink.avif" media="(prefers-color-scheme: light)"><img src="../../images/portrait-cut-amber.avif" alt="Subhamay Bose" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture>
+        <picture><source data-theme-src="light" srcset="../../images/portrait-cut-warmink.avif" media="not all"><img src="../../images/portrait-cut-amber.avif" alt="Subhamay Bose" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture>
         <div class="chip chip-1"><span class="dot"></span> <b>kafka</b> · 4 topics live</div>
         <div class="chip chip-2"><b>k8s</b> · 12 pods healthy</div>
         <div class="chip chip-3"><b>p99</b> 84&thinsp;ms</div>

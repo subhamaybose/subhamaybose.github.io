@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script>(function(){try{var t=localStorage.getItem("sb-theme");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<script>(function(){var t="dark";try{t=localStorage.getItem("sb-theme")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t)})();</script>
 <link rel="stylesheet" href="css/c.css">
 </head>
 <body>
@@ -45,7 +45,7 @@
 
 <section id="mhero" class="m-only">
   <div class="m-pool" aria-hidden="true"></div>
-  <div class="m-img" aria-hidden="true"><picture><source data-theme-src="light" srcset="../../images/portrait-cut-coolink.avif" media="(prefers-color-scheme: light)"><img src="../../images/portrait-cut-cool.avif" alt="" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture></div>
+  <div class="m-img" aria-hidden="true"><picture><source data-theme-src="light" srcset="../../images/portrait-cut-coolink.avif" media="not all"><img src="../../images/portrait-cut-cool.avif" alt="" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture></div>
   <div class="m-scrim" aria-hidden="true"></div>
   <div class="m-body">
     <div class="m-name">SUBHAMAY<br>BOSE</div>
@@ -70,7 +70,7 @@
     <span style="left:4%;top:80%"></span><span style="left:35%;top:80%"></span><span style="left:66%;top:80%"></span><span style="left:96%;top:80%"></span>
   </div>
   <div class="ghost" aria-hidden="true">SUBHAMAY</div>
-  <div class="hero-portrait"><picture><source data-theme-src="light" srcset="../../images/portrait-cut-coolink.avif" media="(prefers-color-scheme: light)"><img src="../../images/portrait-cut-cool.avif" alt="Subhamay Bose" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture></div>
+  <div class="hero-portrait"><picture><source data-theme-src="light" srcset="../../images/portrait-cut-coolink.avif" media="not all"><img src="../../images/portrait-cut-cool.avif" alt="Subhamay Bose" width="1245" height="1230" fetchpriority="high" decoding="sync"></picture></div>
 
   <div class="hero-inner wrap">
     <div class="hero-cols">
