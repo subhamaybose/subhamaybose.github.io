@@ -55,14 +55,31 @@ def check(with_path, ground_path, boxes, dpr=1.0, diff_thresh=28):
         pb = list(b.crop((x0, y0, x1, y1)).getdata())
 
         # A glyph pixel is one that changed when the text was hidden.
-        ground = [pb[i] for i in range(len(pa))
-                  if abs(pa[i][0] - pb[i][0]) + abs(pa[i][1] - pb[i][1])
-                  + abs(pa[i][2] - pb[i][2]) > diff_thresh]
-        if len(ground) < 12:
+        idx = [i for i in range(len(pa))
+               if abs(pa[i][0] - pb[i][0]) + abs(pa[i][1] - pb[i][1])
+               + abs(pa[i][2] - pb[i][2]) > diff_thresh]
+        if len(idx) < 12:
             rows.append({"label": box["label"], "skip": "no glyph pixels found"})
             continue
+        ground = [pb[i] for i in idx]
 
-        tl = lum_rgb(*box["color"])
+        # Use the RENDERED text colour, not the declared one. A translucent layer
+        # painted OVER the text (a scrim at the wrong z-index, an overlay, a
+        # parent opacity) leaves the declared colour untouched while the visible
+        # contrast collapses - measuring box["color"] reports a pass that the eye
+        # plainly fails. The glyph core is where the WITH pixel differs most from
+        # the ground; its median is what a reader actually sees.
+        diffs = sorted(idx, key=lambda i: -(abs(pa[i][0] - pb[i][0])
+                                            + abs(pa[i][1] - pb[i][1])
+                                            + abs(pa[i][2] - pb[i][2])))
+        core = [pa[i] for i in diffs[:max(8, len(diffs) // 3)]]
+        core.sort(key=lambda p: lum_rgb(*p))
+        rendered = core[len(core) // 2]
+        tl = lum_rgb(*rendered)
+
+        declared = lum_rgb(*box["color"])
+        drift = abs(declared - tl)
+
         lums = sorted(lum_rgb(*p) for p in ground)
         # Ignore the extreme 2% - those are antialiased glyph edges, which are a
         # blend of text and ground and are not a real background sample.
@@ -75,6 +92,8 @@ def check(with_path, ground_path, boxes, dpr=1.0, diff_thresh=28):
             "ratio": round(ratio(tl, worst), 2),
             "medianRatio": round(ratio(tl, trimmed[len(trimmed) // 2]), 2),
             "need": box.get("need", 4.5),
+            # Large drift means what renders is not the colour the CSS asked for.
+            "dimmed": drift > 0.02,
         })
     return rows
 
@@ -89,7 +108,8 @@ if __name__ == "__main__":
             continue
         ok = r["ratio"] >= r["need"]
         bad += 0 if ok else 1
-        print("  %-30s worst %5.2f:1  median %5.2f:1  need %.1f  %-8s [%d glyph px]"
+        print("  %-30s worst %5.2f:1  median %5.2f:1  need %.1f  %-8s [%d glyph px]%s"
               % (r["label"], r["ratio"], r["medianRatio"], r["need"],
-                 "OK" if ok else "**FAIL**", r["glyphPx"]))
+                 "OK" if ok else "**FAIL**", r["glyphPx"],
+                 "  <- RENDERS DIMMER THAN DECLARED" if r.get("dimmed") else ""))
     sys.exit(1 if bad else 0)

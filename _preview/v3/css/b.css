@@ -629,3 +629,51 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
 @media (pointer: coarse) {
   .mail { padding-block: .7rem; }
 }
+
+/* The bento is the only place the profile prose and the contact details live,
+   so it can no longer be desktop-only - the mobile About had a heading, four
+   stat cards and nothing else. On phones it stacks and drops just the four stat
+   cells, which the m-rail directly above already carries. */
+@media (max-width: 44.99rem) {
+  .bento { grid-template-columns: 1fr; }
+  .bento .cell:not(.tall):not(.wide) { display: none; }
+  .bento .cell.tall { grid-row: auto; }
+  .bento .cell.wide { grid-column: auto; }
+}
+
+/* SUBHAMAY is twice the width of BOSE, so the ghost needs to be sized to the
+   longer word or it is clipped by the hero's overflow. */
+.ghost { font-size: min(20vw, 15rem); }
+
+/* ==========================================================================
+   HERO BOTTOM STRIP — giving it a ground of its own
+
+   Measured on the settled page: the giant name is white at 2.82:1 where the
+   amber is lightest, and the meta line is dark at 3.09:1 where the bottom-left
+   radial deepens it. Opposite ends of the same strip, so no single text colour
+   works across it and tuning either value just moves the failure.
+
+   The strip gets its own ground instead - the same device B's phone cover
+   already uses - and the meta joins the giant name in light.
+
+   The name is also PINNED light here. It was var(--paper), which the light
+   theme remaps to espresso, so it flipped white/black between themes. That
+   contradicted B's own rule that the amber hero is theme-invariant.
+   ========================================================================== */
+#hero::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 36%;
+  /* z-index 2, NOT 3. .hero-inner is also 3, and a later-painted sibling at the
+     same level wins - the band rendered OVER the name and dimmed it to grey.
+     The ghost sits at 1, so 2 puts this between them. */
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(34,19,3,.90) 0%, rgba(34,19,3,.74) 46%, rgba(34,19,3,0) 100%);
+}
+#hero .bigname { color: #FAF7F2; }
+#hero .hero-meta { color: rgba(255,231,196,.94); border-top-color: rgba(255,231,196,.34); }
+#hero .btn-dark { border-color: rgba(255,231,196,.62); color: rgba(255,231,196,.96); }
+#hero .btn-dark:hover { background: rgba(255,231,196,.96); color: var(--amber-ink); }
+[data-theme="light"] #hero .bigname { color: #FAF7F2; }
+[data-theme="light"] #hero .btn-dark { border-color: rgba(255,231,196,.62); color: rgba(255,231,196,.96); }
+[data-theme="light"] #hero .btn-dark:hover { background: rgba(255,231,196,.96); color: var(--amber-ink); }
