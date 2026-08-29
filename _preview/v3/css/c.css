@@ -523,3 +523,14 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 @media (pointer: coarse) {
   .mail { padding-block: .7rem; }
 }
+
+/* The giant name crosses the portrait's lower half. In light theme that is dark
+   type on a dark suit - measured 1.07:1, invisible; in dark theme the same suit
+   is what makes the light name readable. No single colour survives both, so the
+   figure dissolves before the name instead. Measured against the geometry: the
+   name starts at 71% of the image's own height, so the falloff is done by 80%.
+   Same device as A's hero figure and B's plate. */
+.hero-portrait img {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 56%, rgba(0,0,0,.28) 70%, transparent 80%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 56%, rgba(0,0,0,.28) 70%, transparent 80%);
+}

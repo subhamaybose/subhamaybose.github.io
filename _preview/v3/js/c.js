@@ -5,6 +5,8 @@
 (function () {
   "use strict";
 
+  var CAREER_START = 2016;   // first professional role
+
   var reduce = matchMedia("(prefers-reduced-motion: reduce)");
   var fine = matchMedia("(hover: hover) and (pointer: fine)");
   var hasGSAP = typeof window.gsap !== "undefined";
@@ -176,7 +178,16 @@
   init("year", function () {
     var y = document.getElementById("yr");
     if (y) y.textContent = new Date().getFullYear();
-    var e = document.getElementById("exp");
-    if (e) e.dataset.count = String(new Date().getFullYear() - 2016);
+    // Every visible year, not just the footer's: the hero copies carry no id.
+    document.querySelectorAll(".js-year").forEach(function (el) {
+      el.textContent = new Date().getFullYear();
+    });
+    // Every experience figure, in both layouts. Only the desktop one had an id,
+    // so the mobile rails sat frozen at their hardcoded 10.
+    var years = String(new Date().getFullYear() - CAREER_START);
+    document.querySelectorAll(".js-exp").forEach(function (el) {
+      el.dataset.count = years;
+      if (!el.dataset.animated) el.textContent = years + (el.dataset.suffix || "");
+    });
   });
 })();

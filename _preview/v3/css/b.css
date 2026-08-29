@@ -668,9 +668,8 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
 .bigname::before {
   content: ""; position: absolute; z-index: -1; pointer-events: none;
   left: 50%; translate: -50% 0; width: 100vw;
-  top: -3.4rem; height: 200vh;
-  background: linear-gradient(to bottom,
-    rgba(34,19,3,0) 0, rgba(34,19,3,.55) 2rem, rgba(34,19,3,.93) 3.4rem);
+  top: -2.6rem; height: 200vh;
+  background: #140C03;
 }
 #hero .bigname { color: #FAF7F2; }
 #hero .hero-meta { color: rgba(255,231,196,.94); border-top-color: rgba(255,231,196,.34); }
@@ -702,8 +701,8 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
 }
 
 .plate img {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 66%, rgba(0,0,0,.6) 86%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 66%, rgba(0,0,0,.6) 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 54%, rgba(0,0,0,.55) 76%, transparent 90%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 54%, rgba(0,0,0,.55) 76%, transparent 90%);
 }
 
 /* Caption moves ABOVE the portrait. Below it, it either lay across the suit

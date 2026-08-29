@@ -80,8 +80,14 @@ def check(with_path, ground_path, boxes, dpr=1.0, diff_thresh=28):
                                             + abs(pa[i][1] - pb[i][1])
                                             + abs(pa[i][2] - pb[i][2])))
         core = [pa[i] for i in diffs[:max(8, len(diffs) // 3)]]
-        core.sort(key=lambda p: lum_rgb(*p))
-        rendered = core[len(core) // 2]
+        # Take the core pixel CLOSEST to the declared colour rather than the
+        # median. Thin small text is mostly antialiased edge, so a median core
+        # reads as a blend and under-reports contrast - it failed C's 15px lede
+        # at 3.9:1 when the ground put it near 6.5:1. A genuine overlay still
+        # shows, because then no pixel reaches the declared value and the drift
+        # flag below fires.
+        want = lum_rgb(*box["color"])
+        rendered = min(core, key=lambda p: abs(lum_rgb(*p) - want))
         tl = lum_rgb(*rendered)
 
         declared = lum_rgb(*box["color"])
