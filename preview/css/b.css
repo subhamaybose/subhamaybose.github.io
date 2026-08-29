@@ -1,0 +1,740 @@
+/* ==========================================================================
+   DESIGN B — "Signal"
+   Editorial. The accent IS the ground: a full-bleed amber hero, then dark
+   bands. Heavy grotesque, layered ghost type, bento panels, scroll-morphing
+   background. Deliberately louder and flatter than Design A.
+   Type: Space Grotesk display + Manrope body + IBM Plex Mono data.
+   ========================================================================== */
+
+:root {
+  --amber: #F0A428;
+  --amber-light: #FFC661;
+  --amber-deep: #C9760A;
+  --amber-ink: #2A1804;
+
+  --ink: #0B0A09;
+  --ink-2: #131110;
+  --ink-3: #1B1917;
+  --line: #2A2724;
+
+  --paper: #FAF7F2;
+  --paper-dim: #B5AEA4;
+  --paper-faint: #837C73;
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+  --wrap: 84rem;
+  --pad: clamp(1.15rem, 4.5vw, 4rem);
+  --e: cubic-bezier(.22,1,.36,1);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, .12vw + .97rem, 1.0625rem);
+  line-height: 1.62;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--amber-ink); color: var(--amber-light); }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--pad); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.tag {
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+/* ---------- Nav ---------- */
+#nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .9rem var(--pad);
+  background: rgba(11,10,9,.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  font-family: var(--font-display); font-weight: 700; font-size: .95rem;
+  letter-spacing: -.02em; text-transform: uppercase;
+}
+.brand i { font-style: normal; color: var(--amber); }
+.nav-links { display: none; gap: 1.75rem; }
+@media (min-width: 64rem) { .nav-links { display: flex; } }
+.nav-links a {
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--paper-faint);
+  padding: .3rem 0; position: relative; transition: color .25s var(--e);
+}
+.nav-links a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -.15rem; height: 2px;
+  background: var(--amber); transform: scaleX(0); transform-origin: left;
+  transition: transform .35s var(--e);
+}
+.nav-links a.on, .nav-links a:hover { color: var(--paper); }
+.nav-links a.on::after, .nav-links a:hover::after { transform: scaleX(1); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .72rem 1.1rem;
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  border: 2px solid var(--amber); color: var(--amber);
+  transition: background-color .25s var(--e), color .25s var(--e), transform .3s var(--e);
+  will-change: transform;
+}
+.btn:hover { background: var(--amber); color: var(--amber-ink); }
+.btn-fill { background: var(--amber); color: var(--amber-ink); }
+.btn-fill:hover { background: var(--amber-light); border-color: var(--amber-light); }
+.btn-dark { border-color: var(--ink); color: var(--ink); }
+.btn-dark:hover { background: var(--ink); color: var(--amber); }
+.btn svg { width: .95rem; height: .95rem; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ---------- HERO: the accent is the ground ---------- */
+#hero {
+  position: relative; min-height: 100svh; overflow: hidden;
+  background:
+    radial-gradient(115% 78% at 74% 14%, #FFD98C 0%, rgba(255,217,140,0) 56%),
+    radial-gradient(95% 72% at 8% 96%, #A85408 0%, rgba(168,84,8,0) 62%),
+    linear-gradient(to bottom,
+      rgba(84,43,4,0) 64%,
+      rgba(78,40,3,.50) 75%,
+      rgba(58,29,2,.88) 86%,
+      rgba(40,20,2,.96) 100%),
+    linear-gradient(158deg, #F7B341 0%, #EE9C22 46%, #C4700A 100%);
+  color: var(--amber-ink);
+  display: flex; align-items: flex-end;
+}
+/* faint engineering grid, the only texture allowed */
+#hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .16;
+  background-image:
+    linear-gradient(to right, rgba(42,24,4,.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(42,24,4,.5) 1px, transparent 1px);
+  background-size: clamp(60px, 8vw, 120px) clamp(60px, 8vw, 120px);
+}
+/* ghost surname behind everything */
+.ghost {
+  position: absolute; z-index: 1; left: 50%; top: 30%; translate: -50% -50%;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: min(30vw, 22rem); line-height: .8; letter-spacing: -.05em;
+  color: rgba(42,24,4,.13); white-space: nowrap; pointer-events: none;
+  user-select: none;
+}
+
+.hero-inner { position: relative; z-index: 3; width: 100%; padding-block: 7rem 0; }
+.hero-top { display: grid; gap: 2rem; align-items: start; }
+@media (min-width: 64rem) { .hero-top { grid-template-columns: minmax(0, 1fr) 24rem; } }
+
+.hero-claim {
+  max-width: 34ch;
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem); line-height: 1.32;
+  letter-spacing: -.015em;
+  color: #241402;
+}
+
+.aud { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: 1.4rem; }
+.aud button {
+  padding: .4rem .8rem; border: 1.5px solid rgba(42,24,4,.5);
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: #2A1804; font-weight: 500;
+  transition: all .25s var(--e);
+}
+.aud button:hover { border-color: var(--amber-ink); }
+.aud button[aria-pressed="true"] { background: var(--amber-ink); border-color: var(--amber-ink); color: var(--amber-light); }
+
+.hero-lede { margin-top: 1.2rem; max-width: 46ch; color: #241402; font-weight: 500; font-size: 1.02rem; line-height: 1.6; min-height: 5em; }
+.hero-lede b { font-weight: 800; }
+
+/* The portrait sits DIRECTLY on the amber, high-contrast and cut out - the
+   dark plate was muddying it and fighting the ground. */
+.plate {
+  position: relative; z-index: 3;
+  width: 100%; margin-left: auto;
+  filter: drop-shadow(0 30px 50px rgba(42,24,4,.45));
+}
+.plate img { width: 100%; height: auto; display: block; }
+.plate figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: .6rem 0 0;
+  border-top: 2px solid rgba(42,24,4,.4);
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: #2A1804;
+  display: flex; justify-content: space-between; gap: 1rem;
+}
+
+/* giant name cropped at the bottom edge */
+.bigname {
+  position: relative; z-index: 4;
+  margin-top: calc(clamp(1.5rem, 3vw, 2.5rem) + 2.2rem);
+  font-family: var(--font-display); font-weight: 700;
+  line-height: .84; letter-spacing: -.045em; color: var(--paper);
+  margin-bottom: -.08em;
+  display: flex; flex-wrap: wrap; gap: 0 .22em;
+  /* sized to fit SUBHAMAY BOSE on one line above 62rem; stacks below that,
+     where both lines still clear the fold */
+  font-size: clamp(3rem, 10.2vw, 12.5rem);
+}
+.bigname span { display: block; }
+@media (min-width: 64rem) { .bigname { flex-wrap: nowrap; white-space: nowrap; } }
+
+.hero-meta {
+  position: relative; z-index: 4;
+  display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center;
+  padding: 1rem 0 1.4rem;
+  border-top: 2px solid rgba(42,24,4,.4);
+  margin-top: 1.2rem;
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: #2A1804;
+}
+
+/* ---------- Marquee ---------- */
+.ticker { background: var(--ink); border-block: 1px solid var(--line); overflow: hidden; padding: .9rem 0; }
+.ticker-row { display: flex; gap: 3rem; width: max-content; }
+.ticker span {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(1rem, 2vw, 1.6rem);
+  letter-spacing: -.01em; color: var(--paper-faint); white-space: nowrap;
+  display: flex; align-items: center; gap: 3rem;
+}
+.ticker span::after { content: "C6"; color: var(--amber); font-size: .55em; }
+
+/* ---------- Bands ---------- */
+.band { padding-block: clamp(4.5rem, 9vw, 8rem); position: relative; }
+.band.amber {
+  background:
+    radial-gradient(85% 60% at 82% 6%, #FFD98C 0%, rgba(255,217,140,0) 58%),
+    radial-gradient(75% 65% at 6% 96%, #B8620A 0%, rgba(184,98,10,0) 60%),
+    linear-gradient(168deg, #F5AE38 0%, #EC9A22 48%, #CE7A0C 100%);
+  color: var(--amber-ink);
+}
+.band.amber .tag { color: #4A2E08; }
+.band.amber h2 { color: var(--amber-ink); }
+
+.head { margin-bottom: clamp(2.2rem, 4.5vw, 3.5rem); max-width: 46rem; }
+.head h2 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2rem, 5vw, 4rem); line-height: .98; letter-spacing: -.035em;
+  margin-top: .8rem; text-transform: uppercase;
+}
+.head h2 i { font-style: normal; color: var(--amber); }
+.band.amber .head h2 i { color: var(--paper); }
+.head p { margin-top: 1rem; color: var(--paper-dim); max-width: 52ch; }
+.band.amber .head p { color: #33200A; }
+
+/* bento */
+.bento { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 64rem) { .bento { grid-template-columns: repeat(4, 1fr); } }
+.cell {
+  background: var(--ink-2); border: 1px solid var(--line); padding: 1.5rem;
+  position: relative; overflow: hidden;
+  transition: border-color .3s var(--e), background-color .3s var(--e);
+}
+.cell:hover { border-color: var(--amber); background: var(--ink-3); }
+.cell .k { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--amber); }
+.cell h3 { margin-top: .8rem; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -.01em; }
+.cell p { margin-top: .5rem; font-size: .86rem; color: var(--paper-dim); }
+.cell.wide { grid-column: span 2; }
+.cell.tall { grid-row: span 2; }
+.cell .big {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; letter-spacing: -.04em;
+  color: var(--amber); font-variant-numeric: tabular-nums;
+}
+
+/* timeline rail */
+.rail { border-top: 2px solid var(--line); }
+.rail-row {
+  display: grid; gap: .3rem 2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--line);
+  position: relative; transition: background-color .3s var(--e);
+}
+@media (min-width: 45rem) { .rail-row { grid-template-columns: 11rem 1fr 1fr; align-items: baseline; } }
+.rail-row:hover { background: var(--ink-2); }
+.rail-row .yr { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .12em; color: var(--amber); }
+.rail-row h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; letter-spacing: -.02em; }
+.rail-row .r { font-size: .88rem; color: var(--paper-dim); }
+
+/* credential strip — horizontal scroll on desktop too */
+.strip { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem; scroll-snap-type: x mandatory; }
+
+/* Capability carousel — six items never divide evenly into a four-up grid,
+   which is what left two orphans on the second row. */
+.cap-carousel { position: relative; }
+.cap-track {
+  display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; padding-bottom: .5rem;
+  margin-inline: calc(var(--pad) * -1); padding-inline: var(--pad);
+}
+.cap-track::-webkit-scrollbar { display: none; }
+.cap-item {
+  flex: 0 0 min(78%, 21rem); scroll-snap-align: start;
+  background: var(--ink-2); border: 1px solid var(--line); padding: 1.6rem;
+  display: flex; flex-direction: column; gap: .6rem;
+  transition: border-color .3s var(--e), background-color .3s var(--e);
+}
+.cap-item:hover { border-color: var(--amber); background: var(--ink-3); }
+.cap-item .k { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--amber); }
+.cap-item h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: -.015em; }
+.cap-item p { font-size: .88rem; color: var(--paper-dim); }
+.cap-nav { display: flex; gap: .5rem; margin-top: 1rem; align-items: center; }
+.cap-nav button {
+  width: 2.75rem; height: 2.75rem; border: 1px solid var(--line);
+  display: grid; place-items: center; color: var(--paper-dim);
+  transition: border-color .25s var(--e), color .25s var(--e);
+}
+.cap-nav button:hover { border-color: var(--amber); color: var(--amber); }
+.cap-nav button svg { width: 1.1rem; height: 1.1rem; stroke: currentColor; fill: none; stroke-width: 2; }
+.cap-nav .count { margin-left: auto; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em; color: var(--paper-faint); }
+.strip::-webkit-scrollbar { height: 6px; }
+.strip::-webkit-scrollbar-thumb { background: var(--line); }
+.card {
+  flex: 0 0 15rem; scroll-snap-align: start;
+  background: var(--ink-2); border: 1px solid var(--line); padding: 1.4rem;
+  transition: border-color .3s var(--e), transform .3s var(--e);
+}
+.card:hover { border-color: var(--amber); transform: translateY(-4px); }
+.card img { width: 3.2rem; height: 3.2rem; object-fit: contain; filter: grayscale(1) brightness(1.8) contrast(.8); transition: filter .35s var(--e); }
+.card:hover img { filter: none; }
+.card .t { margin-top: 1rem; font-weight: 700; font-size: .95rem; line-height: 1.3; }
+.card .i { margin-top: .35rem; font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--paper-faint); }
+.card.hero-card { background: linear-gradient(150deg, var(--amber), var(--amber-deep)); border-color: var(--amber); color: var(--amber-ink); }
+.card.hero-card img { filter: none; }
+.card.hero-card .i { color: rgba(42,24,4,.75); }
+
+/* posts */
+.posts { border-top: 2px solid var(--line); }
+.post {
+  display: grid; gap: .3rem 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+  position: relative; transition: padding-left .35s var(--e), background-color .3s var(--e);
+}
+@media (min-width: 45rem) { .post { grid-template-columns: 7rem 1fr 5rem; align-items: baseline; } }
+.post:hover { padding-left: .9rem; background: var(--ink-2); }
+/* On the amber band the row inverts to dark, so every child must invert too -
+   otherwise dark-on-dark makes the row unreadable on hover. */
+.band.amber .posts { border-top-color: rgba(42,24,4,.4); }
+.band.amber .post { border-bottom-color: rgba(42,24,4,.2); }
+.band.amber .post .d { color: #4E320A; }
+.band.amber .post h3 { color: var(--amber-ink); }
+.band.amber .post p { color: #3A2408; }
+.band.amber .post .go { color: var(--amber-ink); }
+.band.amber .post:hover { background: var(--ink); }
+.band.amber .post:hover h3 { color: var(--amber); }
+.band.amber .post:hover .d,
+.band.amber .post:hover p { color: var(--paper-dim); }
+.band.amber .post:hover .go { color: var(--amber); }
+.post .d { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .1em; color: var(--paper-faint); }
+.post h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -.015em; }
+.post:hover h3 { color: var(--amber); }
+.post p { font-size: .85rem; color: var(--paper-faint); margin-top: .25rem; }
+.post .go { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .1em; color: var(--amber); text-transform: uppercase; }
+
+/* quotes on amber */
+.qs { display: grid; gap: 1rem; }
+@media (min-width: 64rem) { .qs { grid-template-columns: repeat(3, 1fr); align-items: start; } }
+.q { background: var(--ink); color: var(--paper); padding: 1.5rem; }
+.q.lead { grid-column: span 2; }
+@media (max-width: 63.99rem) { .q.lead { grid-column: auto; } }
+.q p { color: var(--paper-dim); font-size: .92rem; }
+.q.lead p { font-size: 1.02rem; }
+.q .who { margin-top: 1rem; font-family: var(--font-mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+.q .rl { display: block; margin-top: .3rem; font-family: var(--font-sans); font-size: .74rem; letter-spacing: 0; text-transform: none; color: var(--paper-faint); }
+
+/* contact */
+#contact { background: var(--amber); color: var(--amber-ink); }
+#contact .mail {
+  display: block; margin: 1.2rem 0 2rem;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.6rem, 6vw, 4.5rem); line-height: .95; letter-spacing: -.04em;
+  word-break: break-word;
+}
+#contact .mail:hover { color: var(--paper); }
+
+footer { background: var(--ink); border-top: 1px solid var(--line); padding-block: 2rem; }
+.foot { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+.soc { display: flex; gap: .5rem; }
+.soc a { width: 2.6rem; height: 2.6rem; display: grid; place-items: center; border: 1px solid var(--line); color: var(--paper-dim); transition: all .28s var(--e); }
+.soc a:hover { border-color: var(--amber); color: var(--amber); }
+.soc svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+
+/* ---------- Mobile app shell ---------- */
+#tabs {
+  position: fixed; z-index: 600; inset: auto 0 0 0;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  background: rgba(11,10,9,.96);
+  backdrop-filter: blur(16px);
+  border-top: 2px solid var(--amber);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+@media (min-width: 64rem) { #tabs { display: none; } }
+#tabs a {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .22rem;
+  min-height: 3.5rem; padding: .55rem 0;
+  font-family: var(--font-mono); font-size: .55rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--paper-faint); transition: color .25s var(--e);
+}
+#tabs a svg { width: 1.15rem; height: 1.15rem; stroke: currentColor; fill: none; stroke-width: 1.8; }
+#tabs a.on { color: var(--amber); }
+@media (max-width: 63.99rem) { body { padding-bottom: 4rem; } }
+
+.rv { opacity: 0; transform: translateY(24px); }
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1 !important; transform: none !important; }
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ==========================================================================
+   v2 — RESPONSIVE TIERS  (same three as Design A)
+     < 48rem   phone   — its own hero, its own scroll behaviour
+     48-64rem  tablet  — two columns, touch nav retained
+     >= 64rem  desktop
+   ========================================================================== */
+@media (min-width: 45rem) { .m-only { display: none !important; } }
+@media (max-width: 44.99rem) { .d-only { display: none !important; } }
+
+/* ---------- TABLET ---------- */
+@media (min-width: 45rem) and (max-width: 63.99rem) {
+  .hero-top { grid-template-columns: minmax(0, 1fr) 15rem; gap: 1.75rem; }
+  .plate { width: 100%; }
+  .bigname { font-size: clamp(3.2rem, 11.5vw, 6.4rem); flex-wrap: nowrap; white-space: nowrap; }
+  .hero-inner { padding-block: 6rem 0; }
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .cell.wide { grid-column: span 2; }
+  .cell.tall { grid-row: span 1; }
+  .qs { grid-template-columns: repeat(2, 1fr); }
+  .q.lead { grid-column: 1 / -1; }
+  .rail-row { grid-template-columns: 10rem 1fr; }
+  .rail-row .r { grid-column: 2; }
+  .post { grid-template-columns: 6.5rem 1fr 4rem; }
+  #tabs { display: grid; }
+  .nav-links { display: none; }
+  body { padding-bottom: 4.25rem; }
+}
+
+/* ---------- PHONE: a stacked "cover" hero, not a squeezed desktop one ---------- */
+#mhero {
+  position: relative; min-height: 100svh; padding-top: 3.4rem;
+  display: flex; flex-direction: column;
+  background:
+    radial-gradient(120% 60% at 70% 8%, #FFD98C 0%, rgba(255,217,140,0) 58%),
+    linear-gradient(168deg, #F7B341 0%, #EE9C22 40%, #B8620A 100%);
+  color: var(--amber-ink);
+  overflow: hidden;
+}
+#mhero .m-grid {
+  position: absolute; inset: 0; opacity: .18; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(42,24,4,.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(42,24,4,.5) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+#mhero .m-ghost {
+  position: absolute; z-index: 1; right: -18%; top: 12%;
+  font-family: var(--font-display); font-weight: 700; font-size: 42vw; line-height: .8;
+  color: rgba(42,24,4,.12); pointer-events: none; user-select: none;
+}
+#mhero .m-top { position: relative; z-index: 3; padding: 1.5rem var(--pad) 0; }
+#mhero .m-claim {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: 1.35rem; line-height: 1.28; letter-spacing: -.02em; color: #241402;
+  max-width: 20ch;
+}
+#mhero .m-plate {
+  position: relative; z-index: 2; margin: 1.2rem var(--pad) 0; background: var(--ink);
+  box-shadow: 0 30px 60px -30px rgba(42,24,4,.7);
+}
+#mhero .m-plate img { width: 100%; height: auto; }
+/* The giant name spans the whole amber sweep, so no single colour holds
+   across it - white measured 2.03:1 at the light end, espresso 2.94:1 at the
+   dark end. This band gives it one consistent ground; the plate above is
+   untouched. */
+#mhero .m-name {
+  position: relative; z-index: 3; margin-top: auto;
+  padding: 2.9rem var(--pad) calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top,
+    rgba(38,21,3,.94) 0%, rgba(38,21,3,.94) 68%, rgba(38,21,3,0) 100%);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 15.5vw; line-height: .88; letter-spacing: -.045em; color: var(--paper);
+}
+#mhero .m-name small {
+  display: block; margin-top: .6rem;
+  font-family: var(--font-mono); font-size: .62rem; font-weight: 400;
+  letter-spacing: .16em; text-transform: uppercase; color: #2A1804;
+}
+
+.m-chips {
+  display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none;
+  padding: .9rem var(--pad) .2rem; margin-inline: calc(var(--pad) * -1);
+}
+.m-chips::-webkit-scrollbar { display: none; }
+.m-chips button {
+  flex: 0 0 auto; padding: .5rem .9rem; border: 1.5px solid rgba(42,24,4,.5);
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .1em;
+  text-transform: uppercase; color: #2A1804; white-space: nowrap;
+}
+.m-chips button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--amber); }
+
+.m-rail {
+  display: flex; gap: .75rem; overflow-x: auto; scrollbar-width: none;
+  padding: .25rem var(--pad) 1rem; margin-inline: calc(var(--pad) * -1);
+  scroll-snap-type: x mandatory;
+}
+.m-rail::-webkit-scrollbar { display: none; }
+.m-rail > * { flex: 0 0 70%; scroll-snap-align: center; background: var(--ink-2); border: 1px solid var(--line); padding: 1.4rem; }
+
+@media (max-width: 44.99rem) {
+  .m-pop { opacity: 0; transform: translateY(26px) scale(.965); }
+  .bento { grid-template-columns: 1fr; }
+  .cell.wide, .cell.tall { grid-column: auto; grid-row: auto; }
+  .head h2 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+  .post:hover { padding-left: 0; }
+  .qs { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .m-pop { opacity: 1 !important; transform: none !important; } }
+
+/* ==========================================================================
+   THEME TOGGLE
+   ========================================================================== */
+.nav-right { display: flex; align-items: center; gap: .75rem; }
+.tt {
+  width: 2.4rem; height: 2.4rem; flex: 0 0 auto;
+  display: grid; place-items: center;
+  border: 1.5px solid var(--line); color: var(--paper-dim);
+  transition: border-color .28s var(--e), color .28s var(--e), background-color .28s var(--e);
+}
+.tt:hover { border-color: var(--amber); color: var(--amber); }
+.tt svg { width: 1.05rem; height: 1.05rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+.tt-moon { display: none; }
+[data-theme="light"] .tt-sun { display: none; }
+[data-theme="light"] .tt-moon { display: block; }
+
+/* ==========================================================================
+   LIGHT THEME — "Signal, daylight"
+
+   Signal's whole idea is that the accent IS the ground. That idea does not
+   need rescuing in light — it needs protecting. So the amber bands are left
+   exactly as they are (their gradients and their dark-on-amber text are
+   literal values, untouched by the remap below) and only the connective ink
+   sections move from near-black to cream. In dark, amber blazes out of black;
+   here it blazes out of paper. Same claim, different room.
+
+   The pins further down are the spots where a remapped token would leak INTO
+   an amber band and quietly break it.
+   ========================================================================== */
+[data-theme="light"] {
+  --ink: #FAF5EC;
+  --ink-2: #F3ECE0;
+  --ink-3: #EDE4D5;
+  --line: #E3D7C4;
+
+  --paper: #14110E;
+  --paper-dim: #4E453A;
+  --paper-faint: #6F6558;   /* against the CARD ground, where it is used */
+
+  --amber: #8F5205;       /* accent AS TEXT on cream — measured 5.73:1 */
+  --amber-fill: #F0A428;  /* accent as a FILL, with dark text on top */
+}
+
+/* --- Pins: amber bands must not inherit the paper remap --- */
+
+/* The band accent is a white pop against amber. --paper is now espresso, which
+   would silently turn it black and lose the contrast the band is built on. */
+[data-theme="light"] .band.amber .head h2 i { color: #FAF7F2; }
+
+/* btn-dark lives ON an amber band: --ink is cream here, which would render it
+   cream-on-amber at 1.9:1 — invisible. */
+[data-theme="light"] .btn-dark { border-color: #14110E; color: #14110E; }
+[data-theme="light"] .btn-dark:hover { background: #14110E; color: var(--amber-fill); }
+
+/* Amber as a fill keeps the bright value; only amber-as-text darkens. */
+[data-theme="light"] .btn:hover { background: var(--amber-fill); color: var(--amber-ink); }
+[data-theme="light"] .btn-fill { background: var(--amber-fill); border-color: var(--amber-fill); color: var(--amber-ink); }
+[data-theme="light"] .card.hero-card {
+  background: linear-gradient(150deg, var(--amber-fill), #C9760A);
+  border-color: var(--amber-fill); color: var(--amber-ink);
+}
+
+/* --- Surfaces --- */
+/* #contact is a SOLID var(--amber) band, not a gradient one, so remapping
+   --amber to its text-safe value turned the whole band dark brown under
+   near-black text - 2.74:1. It takes the fill value instead. */
+[data-theme="light"] #contact { background: var(--amber-fill); }
+
+[data-theme="light"] #nav { background: rgba(250,245,236,.9); }
+[data-theme="light"] #tabs { background: rgba(250,245,236,.96); }
+
+/* Same badge trap as Design A: these are opaque squares on dark grounds, so
+   muting them for paper means lifting and fading, not darkening. */
+[data-theme="light"] .card img { filter: grayscale(1) brightness(1.45) contrast(.75) opacity(.65); }
+[data-theme="light"] .card:hover img { filter: none; }
+[data-theme="light"] .card.hero-card img { filter: none; }
+
+/* The name band is dark in both themes' dark half, so its sub-label needs a
+   light value there; in light the band is pale amber and the label stays dark. */
+#mhero .m-name small { color: rgba(255,224,170,.9); }
+[data-theme="light"] #mhero .m-name {
+  background: linear-gradient(to top,
+    rgba(255,236,198,.96) 0%, rgba(255,236,198,.96) 68%, rgba(255,236,198,0) 100%);
+}
+[data-theme="light"] #mhero .m-name small { color: #2A1804; }
+
+/* ==========================================================================
+   TOUCH TIER — keyed on the input device, not on width
+
+   Width said "desktop" for iPad landscape (exactly 1024px = 64rem), which took
+   away the tab bar and left 38-40px controls on a device driven by a thumb.
+   These rules ask the real question instead. 44px is the Apple HIG / WCAG 2.5.5
+   target; the audit measured the toggle at 38px and the audience chips at 32-40.
+   ========================================================================== */
+@media (pointer: coarse) {
+  .tt { width: 2.75rem; height: 2.75rem; }
+  .btn { padding-block: .85rem; }
+  .aud button, .m-chips button { min-height: 2.75rem; }
+  .soc a { width: 2.75rem; height: 2.75rem; }
+  /* Deliberately NOT unmuting the badges here. Showing them in full colour
+     because touch has no hover turned the credential grid into a field of loud
+     teal and maroon squares against a calm dark page - louder than the desktop
+     design it is meant to match. The muted state IS the design; the reveal is a
+     pointer bonus, and no information is lost because the credential name and
+     issuer are text. */
+}
+
+/* Tablet landscape is touch: keep the tab bar and drop the pointer nav, which
+   width alone put back at exactly 1024px. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #tabs { display: grid; }
+  .nav-links { display: none; }
+  body { padding-bottom: 4.25rem; }
+}
+
+/* The desktop hero is 100svh with its content pinned to the bottom, and the tab
+   bar is position:fixed OVER it - so on touch tiers the hero's last row (meta
+   line, contact card, giant name) lands underneath the bar. body padding cannot
+   fix this: the hero's own 100svh box is what runs under it. Reserve the bar's
+   height inside the hero instead. */
+@media (pointer: coarse) and (max-width: 68rem) {
+  #hero { padding-bottom: 4.75rem; }
+}
+
+/* The email address is a primary contact affordance, but as a single line of
+   display type its box is only ~26px tall - a thin strip for a thumb. Padding
+   lifts the tap target past 44px without changing how it looks. */
+@media (pointer: coarse) {
+  .mail { padding-block: .7rem; }
+}
+
+/* The bento is the only place the profile prose and the contact details live,
+   so it can no longer be desktop-only - the mobile About had a heading, four
+   stat cards and nothing else. On phones it stacks and drops just the four stat
+   cells, which the m-rail directly above already carries. */
+@media (max-width: 44.99rem) {
+  .bento { grid-template-columns: 1fr; }
+  .bento .cell:not(.tall):not(.wide) { display: none; }
+  .bento .cell.tall { grid-row: auto; }
+  .bento .cell.wide { grid-column: auto; }
+}
+
+/* SUBHAMAY is twice the width of BOSE, so the ghost needs to be sized to the
+   longer word or it is clipped by the hero's overflow. */
+.ghost { font-size: min(20vw, 15rem); }
+
+/* ==========================================================================
+   HERO BOTTOM STRIP — giving it a ground of its own
+
+   Measured on the settled page: the giant name is white at 2.82:1 where the
+   amber is lightest, and the meta line is dark at 3.09:1 where the bottom-left
+   radial deepens it. Opposite ends of the same strip, so no single text colour
+   works across it and tuning either value just moves the failure.
+
+   The strip gets its own ground instead - the same device B's phone cover
+   already uses - and the meta joins the giant name in light.
+
+   The name is also PINNED light here. It was var(--paper), which the light
+   theme remaps to espresso, so it flipped white/black between themes. That
+   contradicted B's own rule that the amber hero is theme-invariant.
+   ========================================================================== */
+/* No plate and no overlay here. Both failed for the same reason: anything laid
+   ON TOP of the amber - translucent or solid - either muddies it or cuts it.
+   The darkening belongs in the hero's own gradient, in the amber's own hue, so
+   it reads as the yellow deepening into shadow. See the #hero rule. */
+#hero .bigname { color: #FAF7F2; }
+/* Deepened from the design's #2A1804. On the mid amber this row actually sits
+   on, that value measured 3.09-3.99:1 - a pre-existing shortfall for 11px text.
+   Going darker is invisible as design and buys back most of it. */
+#hero .hero-meta { color: #FFEFD6; border-top-color: rgba(255,233,200,.32); }
+#hero .btn-dark { border-color: rgba(255,233,200,.6); color: rgba(255,233,200,.96); }
+#hero .btn-dark:hover { background: rgba(255,233,200,.96); color: var(--amber-ink); }
+/* The giant name stays pinned light in BOTH themes: it is var(--paper), which
+   the light theme remaps to espresso, and B's amber hero is theme-invariant. */
+[data-theme="light"] #hero .bigname { color: #FAF7F2; }
+[data-theme="light"] #hero .hero-meta { color: #FFEFD6; }
+[data-theme="light"] #hero .btn-dark { border-color: rgba(255,233,200,.6); color: rgba(255,233,200,.96); }
+[data-theme="light"] #hero .btn-dark:hover { background: rgba(255,233,200,.96); color: var(--amber-ink); }
+
+/* ==========================================================================
+   HERO TOP ROW — desktop composition fixes
+
+   1. The text column sat at the TOP of a row whose height is set by the taller
+      portrait, so it was pushed up into the ghost wordmark (83px of overlap at
+      1440) while 145px went unused below it at every width. Bottom-aligning the
+      column spends that space and clears the ghost in one move: the copy now
+      sits on the portrait's baseline.
+
+   2. The cut-out ended on a hard horizontal edge against the amber. Design A
+      solved this with a long mask falloff; B never got one.
+
+   3. The caption was absolutely positioned INSIDE the image bounds, so it lay
+      across the suit - dark mono on a dark jacket. It sits below the figure now,
+      on the hero's own bottom band, and takes the light treatment the rest of
+      that band already uses.
+   ========================================================================== */
+@media (min-width: 64rem) {
+  .hero-top { align-items: end; }
+}
+
+.plate img {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0,0,0,.5) 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0,0,0,.5) 82%, transparent 100%);
+}
+
+/* Caption moves ABOVE the portrait. Below it, it either lay across the suit
+   (dark mono on a dark jacket) or landed on the hero's bottom band, where its
+   legibility depended on exactly where the band's ramp happened to be. Above the
+   figure the amber is bright and consistent, so the original dark mono reads
+   cleanly and the band is irrelevant to it. column-reverse flips the rendered
+   order without touching the markup, so <img> stays the figure's first child. */
+.plate { display: flex; flex-direction: column-reverse; }
+.plate figcaption {
+  position: static;
+  margin: 0 0 .55rem;
+  padding: 0 0 .55rem;
+  border-top: 0;
+  border-bottom: 2px solid rgba(42,24,4,.4);
+}
+
+/* Left at 36%: the height that measured good for the name block. Growing it to
+   reach the caption dropped the dark lede to 2.11:1. */
+
+/* At 1024-1280 the shorter viewport compresses the stack and the ghost still
+   grazed the top of the claim by ~10px. Raising it clears every tier without
+   moving it noticeably on the wide ones. */
+.ghost { top: 27%; }
+
+/* The ghost is capped at 22rem by WIDTH, but the collision is driven by HEIGHT:
+   on a short viewport (1366x768 laptops) the stack compresses under a ghost that
+   has not shrunk. Scale it on height too. */
+@media (max-height: 850px) {
+  .ghost { font-size: min(19vw, 12.5rem); top: 22%; }
+}
