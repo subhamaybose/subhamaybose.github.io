@@ -109,6 +109,11 @@ body {
   background:
     radial-gradient(115% 78% at 74% 14%, #FFD98C 0%, rgba(255,217,140,0) 56%),
     radial-gradient(95% 72% at 8% 96%, #A85408 0%, rgba(168,84,8,0) 62%),
+    linear-gradient(to bottom,
+      rgba(84,43,4,0) 64%,
+      rgba(78,40,3,.50) 75%,
+      rgba(58,29,2,.88) 86%,
+      rgba(40,20,2,.96) 100%),
     linear-gradient(158deg, #F7B341 0%, #EE9C22 46%, #C4700A 100%);
   color: var(--amber-ink);
   display: flex; align-items: flex-end;
@@ -660,24 +665,23 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
    theme remaps to espresso, so it flipped white/black between themes. That
    contradicted B's own rule that the amber hero is theme-invariant.
    ========================================================================== */
-/* Ground for the name block, anchored to the block rather than to the viewport.
-   It fades in over the 20px gap above the name and runs to the bottom of the
-   hero, which overflow:hidden clips. z-index:-1 keeps it inside .bigname's own
-   stacking context, so it sits behind the name but above the amber - and
-   .hero-meta, a later sibling at the same level, still paints on top of it. */
-.bigname::before {
-  content: ""; position: absolute; z-index: -1; pointer-events: none;
-  left: 50%; translate: -50% 0; width: 100vw;
-  top: -2.6rem; height: 200vh;
-  background: #140C03;
-}
+/* No plate and no overlay here. Both failed for the same reason: anything laid
+   ON TOP of the amber - translucent or solid - either muddies it or cuts it.
+   The darkening belongs in the hero's own gradient, in the amber's own hue, so
+   it reads as the yellow deepening into shadow. See the #hero rule. */
 #hero .bigname { color: #FAF7F2; }
-#hero .hero-meta { color: rgba(255,231,196,.94); border-top-color: rgba(255,231,196,.34); }
-#hero .btn-dark { border-color: rgba(255,231,196,.62); color: rgba(255,231,196,.96); }
-#hero .btn-dark:hover { background: rgba(255,231,196,.96); color: var(--amber-ink); }
+/* Deepened from the design's #2A1804. On the mid amber this row actually sits
+   on, that value measured 3.09-3.99:1 - a pre-existing shortfall for 11px text.
+   Going darker is invisible as design and buys back most of it. */
+#hero .hero-meta { color: #FFEFD6; border-top-color: rgba(255,233,200,.32); }
+#hero .btn-dark { border-color: rgba(255,233,200,.6); color: rgba(255,233,200,.96); }
+#hero .btn-dark:hover { background: rgba(255,233,200,.96); color: var(--amber-ink); }
+/* The giant name stays pinned light in BOTH themes: it is var(--paper), which
+   the light theme remaps to espresso, and B's amber hero is theme-invariant. */
 [data-theme="light"] #hero .bigname { color: #FAF7F2; }
-[data-theme="light"] #hero .btn-dark { border-color: rgba(255,231,196,.62); color: rgba(255,231,196,.96); }
-[data-theme="light"] #hero .btn-dark:hover { background: rgba(255,231,196,.96); color: var(--amber-ink); }
+[data-theme="light"] #hero .hero-meta { color: #FFEFD6; }
+[data-theme="light"] #hero .btn-dark { border-color: rgba(255,233,200,.6); color: rgba(255,233,200,.96); }
+[data-theme="light"] #hero .btn-dark:hover { background: rgba(255,233,200,.96); color: var(--amber-ink); }
 
 /* ==========================================================================
    HERO TOP ROW — desktop composition fixes
@@ -701,8 +705,8 @@ footer { background: var(--ink); border-top: 1px solid var(--line); padding-bloc
 }
 
 .plate img {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 54%, rgba(0,0,0,.55) 76%, transparent 90%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 54%, rgba(0,0,0,.55) 76%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0,0,0,.5) 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0,0,0,.5) 82%, transparent 100%);
 }
 
 /* Caption moves ABOVE the portrait. Below it, it either lay across the suit
