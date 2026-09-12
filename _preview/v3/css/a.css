@@ -43,6 +43,7 @@ html { -webkit-text-size-adjust: 100%; }
 body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 img, svg, canvas { display: block; max-width: 100%; }
+[hidden] { display: none !important; }   /* #projects ships hidden */
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
@@ -313,6 +314,88 @@ section.band { position: relative; padding-block: clamp(5rem, 10vw, 9rem); }
 .cred.feature img { width: 4.5rem; height: 4.5rem; filter: none; }
 .cred.feature .t { font-size: 1.15rem; }
 
+/* stack — a logo wall. Every file in images/technology/ is a single-path SVG
+   with NO fill attribute, so it renders pure black: invisible on this ground.
+   Inverting to paper is one line and is correct in both themes, where tinting
+   or 13 inline sprites would not be. Mixed aspects (1:1 glyphs through 2.95:1
+   wordmarks) are handled by capping BOTH axes and letting contain decide. */
+.stack { display: grid; gap: clamp(1.75rem, 3vw, 2.5rem); }
+.stack-title {
+  display: flex; align-items: center; gap: .75rem; margin-bottom: .9rem;
+  font-family: var(--font-mono); font-weight: 500; font-size: .66rem;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--paper-faint);
+}
+.stack-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.stack-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 1px; background: var(--line); border: 1px solid var(--line);
+  border-radius: .9rem; overflow: hidden;
+}
+.tech {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .75rem; padding: 1.35rem .75rem; background: var(--surface);
+  transition: background .3s var(--e);
+}
+.tech img {
+  width: 100%; max-width: 6rem; height: 2.2rem; object-fit: contain;
+  filter: invert(1) opacity(.72); transition: filter .3s var(--e), opacity .3s var(--e);
+}
+.tech span {
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .08em;
+  color: var(--paper-faint); text-align: center;
+}
+@media (hover: hover) {
+  .tech:hover { background: var(--raised); }
+  .tech:hover img { filter: invert(1) opacity(1); }
+}
+
+/* projects — ships hidden; see the comment above #projects in a.html */
+.projects { display: grid; gap: 1.25rem; }
+@media (min-width: 45rem) { .projects { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 80rem) { .projects { grid-template-columns: repeat(3, 1fr); } }
+.proj {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 1rem;
+  overflow: hidden; transition: border-color .3s var(--e), transform .3s var(--e);
+}
+.proj-media {
+  display: grid; place-items: center; aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, var(--raised), var(--ink-800));
+  border-bottom: 1px solid var(--line); overflow: hidden;
+}
+.proj-media img { width: 100%; height: 100%; object-fit: cover; }
+.proj-ph {
+  font-family: var(--font-mono); font-size: .62rem; letter-spacing: .2em;
+  color: var(--paper-faint); opacity: .55;
+}
+.proj-body { display: block; padding: 1.35rem 1.35rem 0; }
+.proj-yr {
+  display: block; font-family: var(--font-mono); font-size: .62rem;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--amber-400);
+}
+.proj h3 {
+  font-family: var(--font-display); font-weight: 400; font-size: 1.32rem;
+  line-height: 1.2; letter-spacing: -.02em; margin: .55rem 0;
+  transition: color .3s var(--e);
+}
+.proj p { font-size: .92rem; color: var(--paper-dim); }
+.proj-tech {
+  display: block; margin-top: .9rem; font-family: var(--font-mono);
+  font-size: .66rem; letter-spacing: .06em; color: var(--paper-faint);
+}
+.proj .go {
+  margin-top: auto; padding: 1.15rem 1.35rem 1.35rem;
+  display: flex; align-items: center; gap: .45rem;
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--amber-400); transition: color .3s var(--e);
+}
+.proj .go svg { width: .8rem; height: .8rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+@media (hover: hover) {
+  .proj:hover { border-color: rgba(240,164,40,.5); transform: translateY(-3px); }
+  .proj:hover h3 { color: var(--amber-200); }
+  .proj:hover .go { color: var(--amber-300); }
+}
+
 /* writing */
 .posts { border-top: 1px solid var(--line); }
 .post {
@@ -364,6 +447,34 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 .soc a { width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); color: var(--paper-dim); transition: all .3s var(--e); }
 .soc a:hover { border-color: var(--amber-400); color: var(--amber-300); }
 .soc svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+
+/* ---------- Share / social popover ---------- */
+/* The wrapper stays STATIC on purpose, so the popover resolves against #nav
+   (position:fixed) and hangs off the header's gutter rather than off the
+   button. Anchored to the button it was 18px off the left edge at 320px,
+   because the button sits mid-nav with the toggle and Resume to its right. */
+.share-wrap { position: static; display: flex; }
+.share-menu {
+  position: absolute; top: calc(100% + .35rem); right: var(--pad); z-index: 700;
+  min-width: 11rem; max-width: calc(100vw - var(--pad) * 2); padding: .4rem;
+  background: rgba(18,18,22,.94); backdrop-filter: blur(14px);
+  border: 1px solid var(--line); border-radius: .8rem;
+  box-shadow: 0 24px 48px -26px rgba(0,0,0,.95);
+}
+.share-menu a {
+  display: flex; align-items: center; gap: .7rem;
+  padding: .6rem .7rem; border-radius: .55rem;
+  font-size: .82rem; color: var(--paper-dim);
+  transition: background-color .25s var(--e), color .25s var(--e);
+}
+.share-menu svg { width: 1rem; height: 1rem; fill: currentColor; flex: 0 0 auto; }
+.share-menu a:hover, .share-menu a:focus-visible { background: var(--raised); color: var(--amber-200); }
+#share[aria-expanded="true"] { border-color: var(--amber-400); color: var(--amber-300); }
+@supports not (backdrop-filter: blur(1px)) { .share-menu { background: rgba(18,18,22,.99); } }
+@media (prefers-reduced-motion: no-preference) {
+  .share-menu { animation: share-in .22s var(--e) both; }
+}
+@keyframes share-in { from { opacity: 0; transform: translateY(-6px); } }
 
 /* ---------- Mobile app shell ---------- */
 #tabs {
@@ -432,13 +543,28 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 }
 
 /* ---------- PHONE (< 48rem): a different hero entirely ---------- */
-#mhero { position: relative; min-height: 100svh; padding-top: 3.5rem; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+#mhero { position: relative; min-height: 100svh; padding-top: 3.5rem; display: flex; flex-direction: column; overflow: hidden; }
+/* Reserves the picture zone IN FLOW so the copy can never be laid over the
+   face - the portrait itself stays absolute so it still bleeds behind the
+   text below this line. Grows to fill a tall phone (pinning .m-body to the
+   bottom exactly as justify-content:flex-end used to), never shrinks below
+   the jaw. Height = image margin-top (4.5rem, less the 3.5rem padding this
+   box sits inside) + 44% of the image, 44% being the measured jawline.
+   On a viewport too short for both, the hero grows past 100svh and scrolls,
+   which is the honest outcome - not text across his chin. */
+#mhero::before { content: ""; flex: 1 0 auto; min-height: calc(1.75rem + min(51.3vw, 25.6svh)); }
 #mhero .m-img {
   position: absolute; inset: 0; z-index: 1;
   display: flex; align-items: flex-start; justify-content: center;
 }
+/* Capped by viewport HEIGHT as well as width. The portrait is top-anchored and
+   .m-body is bottom-anchored, so on a SHORT phone (440x763 is a real one) the
+   two met over the face. Measured landmark: the jaw is the NARROWEST point of
+   the cut-out, at 40-44% of its height - so the body must start below ~50%.
+   58.7svh is 58svh scaled by the 1245:1230 aspect, i.e. "cap the height at
+   58svh" expressed as a width. Tall phones keep the 118% they had. */
 #mhero .m-img img {
-  width: 118%; max-width: none; height: auto; margin-top: 4.5rem;
+  width: min(118%, 58.7svh); max-width: none; height: auto; margin-top: 4.5rem;
   filter: contrast(1.04);
 }
 #mhero .m-glow {
@@ -458,13 +584,19 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 }
 /* bottom padding clears the fixed tab bar (3.5rem) plus the safe area */
 #mhero .m-body { position: relative; z-index: 3; padding: 0 var(--pad) calc(5.25rem + env(safe-area-inset-bottom, 0px)); }
-#mhero h1 { font-size: clamp(2.5rem, 12vw, 3.6rem); line-height: 1.0; }
+/* svh in the clamp is what a vw-only clamp cannot see: a short viewport. */
+#mhero h1 { font-size: clamp(2.1rem, min(10.5vw, 6.4svh), 3.3rem); line-height: 1.0; }
 #mhero .lede { min-height: 0; margin-top: 1rem; font-size: 1rem; }
-#mhero .eyebrow { font-size: .62rem; letter-spacing: .18em; }
+/* The phone eyebrow is ~10px, i.e. SMALL text: it needs 4.5:1, not the 3.0
+   that its size flatters you into assuming. Over the photograph amber-400
+   measured 3.65:1 against the lit shoulder (and 3.82:1 before this hero
+   was re-cut, so it never passed). amber-300 is the same hue, brighter,
+   and in LIGHT theme -300 is the DEEPER ink, so both themes improve. */
+#mhero .eyebrow { font-size: .62rem; letter-spacing: .18em; color: var(--amber-300); }
 
 /* horizontally scrollable chip row — thumb-friendly, no wrapping stack */
 .m-chips {
-  display: flex; gap: .45rem; overflow-x: auto; margin: 1.1rem calc(var(--pad) * -1) 1.3rem;
+  display: flex; gap: .45rem; overflow-x: auto; margin: .9rem calc(var(--pad) * -1) 1.05rem;
   padding: .15rem var(--pad) .5rem; scroll-snap-type: x proximity;
   scrollbar-width: none;
 }
@@ -634,15 +766,31 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 [data-theme="light"] #mhero .m-glow {
   background: radial-gradient(circle, rgba(240,164,40,.34), rgba(217,133,16,.12) 42%, transparent 68%);
 }
+/* On paper the copy is dark INK, so its enemy is the dark SUIT bleeding
+   through - the opposite of the dark theme, where light text over a dark suit
+   is free. At .82 by 38% the eyebrow measured 3.93:1 over the shoulder. The
+   veil now closes earlier; the face (0-20%) is untouched, so the portrait
+   still reads, it just stops competing where the words start. */
 [data-theme="light"] #mhero .m-scrim {
   background: linear-gradient(to bottom,
     rgba(251,246,236,.45) 0%,
     rgba(251,246,236,.10) 20%,
-    rgba(251,246,236,.82) 38%,
-    rgba(251,246,236,.93) 48%,
-    rgba(251,246,236,.98) 62%,
-    var(--ink-950) 78%);
+    rgba(251,246,236,.94) 34%,
+    rgba(251,246,236,.985) 43%,
+    var(--ink-950) 58%);
 }
+
+[data-theme="light"] .share-menu { background: rgba(251,246,236,.95); }
+@supports not (backdrop-filter: blur(1px)) {
+  [data-theme="light"] .share-menu { background: rgba(251,246,236,.99); }
+}
+
+/* The tech logos are black artwork: inverted on ink, untouched on paper. */
+[data-theme="light"] .tech img { filter: none; opacity: .78; }
+@media (hover: hover) {
+  [data-theme="light"] .tech:hover img { filter: none; opacity: 1; }
+}
+[data-theme="light"] .proj-media { background: linear-gradient(135deg, var(--ink-850), var(--ink-800)); }
 
 /* <picture> is inline by default; the hero figure and phone cover both size
    the image with width:100%, which needs a block box to sit in. */
@@ -709,6 +857,18 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 /* The email address is a primary contact affordance, but as a single line of
    display type its box is only ~26px tall - a thin strip for a thumb. Padding
    lifts the tap target past 44px without changing how it looks. */
+/* The About facts carry the SAME affordance and were missed when .mail was
+   lifted: both were 21px strips, under the 24px WCAG 2.2 minimum. The padding
+   is cancelled by an equal negative margin so the rows do not grow, and the
+   rule swaps border-bottom for text-decoration - a border follows the padding
+   box and would drop the underline 11px below the words, where the underline
+   must stay welded to the text. */
 @media (pointer: coarse) {
   .mail { padding-block: .7rem; }
+  .facts dd a {
+    display: inline-block; padding-block: .7rem; margin-block: -.7rem;
+    border-bottom: 0;
+    text-decoration: underline; text-decoration-color: var(--ink-600);
+    text-underline-offset: 4px;
+  }
 }

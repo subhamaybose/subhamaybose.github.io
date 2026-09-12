@@ -170,6 +170,36 @@
     }, { passive: true });
   });
 
+  /* ---------- Share: reveals the social links ---------- */
+  init("share", function () {
+    var btn = document.getElementById("share");
+    var menu = document.getElementById("share-menu");
+    if (!btn || !menu) return;
+
+    function open(state) {
+      menu.hidden = !state;
+      btn.setAttribute("aria-expanded", String(state));
+      btn.setAttribute("aria-label", state ? "Hide social links" : "Show social links");
+    }
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      open(menu.hidden);
+      if (!menu.hidden) { var a = menu.querySelector("a"); if (a) a.focus(); }
+    });
+    // Click-outside and Escape both close it; without the first, the menu
+    // survives a tap anywhere else on the page, which on a phone is most taps.
+    document.addEventListener("click", function (e) {
+      if (!menu.hidden && !menu.contains(e.target) && e.target !== btn) open(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !menu.hidden) { open(false); btn.focus(); }
+    });
+    // Tabbing out of the last link should not leave an open menu behind.
+    menu.addEventListener("focusout", function (e) {
+      if (!menu.contains(e.relatedTarget) && e.relatedTarget !== btn) open(false);
+    });
+  });
+
   /* ---------- Audience pills ---------- */
   init("audience", function () {
     var pills = document.querySelectorAll(".aud button, .m-chips button");
@@ -182,22 +212,33 @@
       managers: "I lead a team at IBM delivering hybrid-cloud and AI systems end to end, and I care about the parts that are unglamorous: reliability, observability and <strong>handover that survives the handover</strong>.",
       collaborators: "Always open to a technical conversation &mdash; distributed systems, applied ML, or the architecture behind agentic AI. Eight essays published on system design so far."
     };
+    /* The chosen key is read at COMPLETION time, not captured when the tween
+       starts. A second tap inside the 220ms fade makes GSAP overwrite the
+       first tween, and a killed tween never runs its onComplete - so a
+       captured string would be dropped, leaving the copy on the previous
+       audience while the pill showed the new one. That is exactly the
+       "contents are not changing" report. Reading chosen() at completion
+       means the newest choice always lands, however fast the taps come. */
+    var chosen = "everyone";
+    function chosenCopy() { return COPY[chosen] || COPY.everyone; }
+
     function pick(btn) {
-      var key = btn.dataset.aud;
+      chosen = btn.dataset.aud;
       pills.forEach(function (p) {
-        p.setAttribute("aria-pressed", String(p.dataset.aud === key));
+        p.setAttribute("aria-pressed", String(p.dataset.aud === chosen));
       });
-      var next = COPY[key] || COPY.everyone;
       outs.forEach(function (out) {
-        if (hasGSAP && !reduce.matches) {
-          gsap.to(out, {
-            opacity: 0, y: 8, duration: .22, ease: "power2.in",
-            onComplete: function () {
-              out.innerHTML = next;
-              gsap.to(out, { opacity: 1, y: 0, duration: .38, ease: "power2.out" });
-            }
-          });
-        } else { out.innerHTML = next; }
+        if (!hasGSAP || reduce.matches) { out.innerHTML = chosenCopy(); return; }
+        if (out.dataset.fading === "1") return;   // an in-flight fade will pick it up
+        out.dataset.fading = "1";
+        gsap.to(out, {
+          opacity: 0, y: 8, duration: .22, ease: "power2.in", overwrite: "auto",
+          onComplete: function () {
+            out.dataset.fading = "";
+            out.innerHTML = chosenCopy();
+            gsap.to(out, { opacity: 1, y: 0, duration: .38, ease: "power2.out", overwrite: "auto" });
+          }
+        });
       });
     }
     pills.forEach(function (b) { b.addEventListener("click", function () { pick(b); }); });

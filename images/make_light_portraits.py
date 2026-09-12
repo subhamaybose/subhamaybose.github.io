@@ -2,9 +2,15 @@
 
 Two different jobs, deliberately:
 
-  A  is a DUOTONE, because Design A's dark portrait is an amber duotone too -
-     the treatment is part of that design's language, and a warm duotone on
-     paper is its consistent daylight form.
+  A  now ships UNTINTED in both themes (client decision, 2026-09-12): the
+     amber duotone was dropped for the real photograph. The warm duotone is
+     kept below because Design A's earlier cut still references it and B/C
+     must not move - but A itself uses portrait-cut-paper.
+
+  A-paper is a NEUTRAL grade, not a duotone. It is only a tone curve: the
+     untinted photograph runs to 255 at the highlights, which against
+     #FBF6EC paper dissolves the figure's edge into the background. This
+     compresses the highlight end and leaves hue alone.
 
   C  is a GRADE OF THE PHOTOGRAPH, not a duotone. C's dark portrait is a cool
      grade of the real image, so skin still reads as skin. A duotone here mapped
@@ -81,6 +87,19 @@ def cool_photo_grade(rgb, alpha, desat=0.38, ceiling=0.74, shadow_tint=(-0.010, 
     return np.clip(graded, 0.0, 1.0)
 
 
+# ------------------------------------------------ Design A, light, untinted
+def neutral_paper_grade(rgb, alpha, ceiling=0.80, desat=0.10):
+    """No hue shift at all - only a tone curve. The dark cut runs its
+    highlights to 255; on paper that is brighter than the ground, so the
+    shoulder and the shirt lose their edge. Compressing to `ceiling` keeps
+    the figure sitting ON the paper rather than bleeding into it."""
+    lum = rgb @ LUMA
+    t = normalise(lum, alpha)
+    offset = rgb - lum[..., None]
+    return np.clip(t[..., None] * ceiling + offset * (1.0 - desat), 0.0, 1.0)
+
+
 rgb, alpha = load()
 save(warm_duotone(rgb, alpha, (0x22, 0x19, 0x0F), (0xD9, 0xA9, 0x61)), alpha, "portrait-cut-warmink")
 save(cool_photo_grade(rgb, alpha), alpha, "portrait-cut-coolink")
+save(neutral_paper_grade(rgb, alpha), alpha, "portrait-cut-paper")
