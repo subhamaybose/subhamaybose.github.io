@@ -821,6 +821,16 @@ section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clam
 #mhero .m-img img {
   width: min(118%, 50.6svh); max-width: none; height: auto; margin-top: min(4.5rem, 7svh);
   filter: contrast(1.04);
+  /* The figure DISSOLVES rather than being painted over. Without this the
+     scrim had to do the hiding, and a veil is the wrong tool: on paper a dark
+     suit at 6% opacity is a pale grey silhouette with a hard edge - it read as
+     a rendering fault. Same device as the desktop .hero-figure img, retimed so
+     the figure is gone before the copy starts. 56% is not arbitrary: the layout
+     reserves the picture zone to 52% of the figure, so the mask has to finish
+     at the same proportion or the copy lands on a half-opaque suit. Timed at
+     70% it did exactly that on a 640- and a 691-tall phone. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 38%, rgba(0,0,0,.38) 48%, transparent 56%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 38%, rgba(0,0,0,.38) 48%, transparent 56%);
 }
 #mhero .m-glow {
   position: absolute; z-index: 0; left: 50%; top: 34%; translate: -50% -50%;
@@ -1028,11 +1038,11 @@ section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clam
    still reads, it just stops competing where the words start. */
 [data-theme="light"] #mhero .m-scrim {
   background: linear-gradient(to bottom,
-    rgba(251,246,236,.45) 0%,
-    rgba(251,246,236,.10) 20%,
-    rgba(251,246,236,.94) 34%,
-    rgba(251,246,236,.985) 43%,
-    var(--ink-950) 58%);
+    rgba(251,246,236,.40) 0%,
+    rgba(251,246,236,.06) 20%,
+    rgba(251,246,236,.45) 36%,
+    rgba(251,246,236,.88) 48%,
+    var(--ink-950) 62%);
 }
 
 [data-theme="light"] .share-menu { background: rgba(251,246,236,.95); }
