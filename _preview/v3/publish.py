@@ -44,12 +44,13 @@ def write(rel, data):
 def build_preview():
     """preview/a.html is one level down; preview/blog/x.html is two."""
     n = 0
+    written = []
     h = src(SRC + "/a.html")
     h = h.replace(b"../../images/", b"../images/").replace(b"../../resume/", b"../resume/")
     no_attr_paths(h, 2)
     assert b'content="noindex"' in h, "the preview copy must stay noindex"
     assert PREVIEW_URL.encode() in h, "preview canonical missing"
-    n += write("preview/a.html", h)
+    n += write("preview/a.html", h); written.append("preview/a.html")
 
     n += write("preview/css/a.css", src(SRC + "/css/a.css"))
     n += write("preview/js/a.js", src(SRC + "/js/a.js"))
@@ -72,8 +73,8 @@ def build_preview():
         assert b'content="noindex"' in b, "preview blog page is indexable: " + f
         assert (LIVE + "/blog/").encode() not in b, "a live blog URL survived onto preview: " + f
         no_attr_paths(b, 3)
-        n += write("preview/blog/" + f, b)
-    n += copy_assets()
+        n += write("preview/blog/" + f, b); written.append("preview/blog/" + f)
+    n += copy_assets(written)
     return n
 
 
@@ -81,6 +82,7 @@ def build_production():
     """Everything sits one level higher than on preview, the stylesheet and
     script are renamed, and the page becomes indexable on its real domain."""
     n = 0
+    written = []
     h = src(SRC + "/a.html")
     h = h.replace(b"../../images/", b"images/").replace(b"../../resume/", b"resume/")
     h = h.replace(b'href="css/a.css"', b'href="css/style.css"')
@@ -98,7 +100,7 @@ def build_production():
                   (LIVE + "/images/og-cover.jpg").encode())
     assert b"subhamaybose.github.io" not in h, "a github.io URL survived into production"
     no_attr_paths(h, 1)
-    n += write("index.html", h)
+    n += write("index.html", h); written.append("index.html")
 
     n += write("css/style.css", src(SRC + "/css/a.css"))
     n += write("js/main.js", src(SRC + "/js/a.js"))
@@ -114,23 +116,33 @@ def build_production():
         no_attr_paths(b, 2)
         assert b"a.html" not in b, "a link to a.html survived into production"
         assert b"subhamaybose.github.io" not in b, "a github.io URL survived into production: " + f
-        n += write("blog/" + f, b)
-    n += copy_assets()
+        n += write("blog/" + f, b); written.append("blog/" + f)
+    n += copy_assets(written)
     return n
 
 
-def copy_assets():
-    """Images the source references that the target branch has never seen.
-    Missed once already: the nine covers existed only on revamp, so every blog
-    thumbnail on the published preview would have 404'd."""
-    out = subprocess.run(["git", "ls-tree", "-r", "--name-only", "revamp:images"],
-                         capture_output=True, check=True, text=True).stdout.split()
+def copy_assets(pages):
+    """Copy only the images the assembled pages actually reference.
+
+    Missed once: the nine covers existed only on revamp, so every blog
+    thumbnail on the published preview would have 404'd. Then over-corrected by
+    copying all of images/, which dragged the multi-megabyte PNG masters and
+    the unreferenced hero cuts onto a branch that is the live site. Referenced
+    only, resolved from the written files themselves."""
+    want = set()
+    for rel in pages:
+        t = pathlib.Path(rel).read_text(encoding="utf-8", errors="replace")
+        for m in re.findall(r'(?:src|srcset|href)="[^"]*?images/([^"?#]+)"', t):
+            want.add(m)
+        for m in re.findall(r'url\(["\']?[^"\')]*?images/([^"\')?#]+)', t):
+            want.add(m)
     n = 0
-    for rel in out:
+    for rel in sorted(want):
         target = pathlib.Path("images") / rel
         data = src("images/" + rel)
         if not target.exists() or target.read_bytes() != data:
             n += write(target.as_posix(), data)
+            print("    + images/%s" % rel)
     return n
 
 
