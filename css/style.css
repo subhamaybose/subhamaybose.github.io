@@ -119,6 +119,13 @@ body {
   position: relative; font-size: .85rem; color: var(--paper-dim);
   transition: color .25s var(--e);
 }
+/* WCAG 2.2 SC 2.5.8 asks for a 24px minimum target. These links are 22px of
+   text, and the obvious fix - padding plus inline-block - drags the hover
+   underline down with the padding box. An absolutely positioned ::before
+   enlarges the HIT AREA instead: the target becomes 43px, the layout does not
+   move by a pixel, and ::after is left alone to be the underline. Measured
+   with elementFromPoint, not getBoundingClientRect, which cannot see it. */
+.nav-links a::before { content: ""; position: absolute; inset: -.65rem 0; }
 .nav-links a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -.4rem; height: 1px;
   background: var(--amber-400); transform: scaleX(0); transform-origin: left;
@@ -349,6 +356,16 @@ section.band { position: relative; padding-block: clamp(5rem, 10vw, 9rem); }
   .tech:hover img { filter: invert(1) opacity(1); }
 }
 
+.sec-more { margin-top: 1.25rem; }
+.sec-more a {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--amber-400);
+  padding-block: .6rem; transition: color .3s var(--e);
+}
+.sec-more svg { width: .8rem; height: .8rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+@media (hover: hover) { .sec-more a:hover { color: var(--amber-200); } }
+
 /* projects — ships hidden; see the comment above #projects in a.html */
 .projects { display: grid; gap: 1.25rem; }
 @media (min-width: 45rem) { .projects { grid-template-columns: repeat(2, 1fr); } }
@@ -447,6 +464,226 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 .soc a { width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); color: var(--paper-dim); transition: all .3s var(--e); }
 .soc a:hover { border-color: var(--amber-400); color: var(--amber-300); }
 .soc svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+
+/* The second address sits under the display one, deliberately quieter - two
+   addresses at equal weight makes a visitor choose instead of just writing. */
+.mail-alt { margin-top: .55rem; font-size: .92rem; color: var(--paper-faint); }
+.mail-alt a { border-bottom: 1px solid var(--ink-700); transition: color .3s var(--e), border-color .3s var(--e); }
+@media (hover: hover) { .mail-alt a:hover { color: var(--amber-300); border-color: var(--amber-400); } }
+@media (pointer: coarse) { .mail-alt a { display: inline-block; padding-block: .6rem; margin-block: -.6rem; } }
+
+/* ==========================================================================
+   BLOG - listing and article
+
+   Everything here is expressed in the tokens above, so the light theme follows
+   with no parallel rules. The handful of exceptions sit in the light block: a
+   surface, a veil and a literal, which are what tokens cannot carry.
+
+   The listing is a LIST, not a card grid. Of eight engineer blogs measured,
+   only the one published by a magazine used cards, and it reads like a CMS.
+   ========================================================================== */
+
+/* ---------- Listing ---------- */
+section.blog-head { padding-block: clamp(7rem, 12vw, 10rem) clamp(2rem, 4vw, 3rem); }
+
+/* Featured entry - the newest post, given room the others do not get. One
+   large entry followed by rows is what stops a feed reading as uniform. */
+.feat { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); align-items: center; }
+@media (min-width: 64rem) { .feat { grid-template-columns: 1.05fr .95fr; } }
+.feat-media {
+  position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden;
+  border-radius: 1rem; border: 1px solid var(--line); background: var(--surface);
+}
+.feat-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--e); }
+.feat-body .eyebrow { margin-bottom: 1rem; }
+.feat h2 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.8rem, 3.4vw, 2.9rem); line-height: 1.08; letter-spacing: -.03em;
+  transition: color .3s var(--e);
+}
+.feat h2 em { font-style: italic; color: var(--amber-300); }
+.feat p { margin-top: 1rem; color: var(--paper-dim); max-width: 46ch; }
+@media (hover: hover) {
+  .feat a:hover h2 { color: var(--amber-200); }
+  .feat a:hover .feat-media img { transform: scale(1.03); }
+}
+
+/* Row metadata. The time element carries the machine-readable date the
+   homepage .post rows never had. */
+.meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem;
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--paper-faint);
+}
+.meta .topic { color: var(--amber-400); }
+.meta .sep { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .5; }
+
+.entries { margin-top: clamp(3.5rem, 7vw, 5.5rem); border-top: 1px solid var(--line); }
+.entry {
+  display: grid; gap: .35rem 1.5rem; align-items: start;
+  padding: 1.6rem 0; border-bottom: 1px solid var(--line);
+  transition: padding-left .35s var(--e);
+}
+@media (min-width: 45rem) { .entry { grid-template-columns: 11rem 1fr; } }
+@media (min-width: 64rem) { .entry { grid-template-columns: 11rem 1fr 9rem; } }
+.entry-thumb {
+  display: none; aspect-ratio: 16 / 9; overflow: hidden; border-radius: .6rem;
+  border: 1px solid var(--line); background: var(--surface);
+}
+@media (min-width: 64rem) { .entry-thumb { display: block; grid-column: 3; grid-row: 1 / span 3; } }
+.entry-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.entry h3 {
+  font-family: var(--font-display); font-weight: 400; font-size: 1.35rem;
+  line-height: 1.2; letter-spacing: -.02em; transition: color .3s var(--e);
+}
+@media (min-width: 45rem) { .entry h3 { grid-column: 2; } }
+@media (max-width: 44.99rem) { .entry .meta { margin-bottom: .5rem; } }
+/* In the 11rem column the three tokens wrap, and an inline dot separator then
+   dangles at the end of each line. Stacked, the dots are redundant. */
+@media (min-width: 45rem) {
+  /* Spanning both rows matters: stacked, the meta is ~75px tall, and left in
+     row 1 alone it set that row's height and pushed the blurb 87px clear of
+     its own title. */
+  .entry .meta {
+    grid-column: 1; grid-row: 1 / span 2;
+    flex-direction: column; align-items: flex-start; gap: .3rem;
+  }
+  .entry .meta .sep { display: none; }
+  .entry h3 { grid-row: 1; }
+  .entry p { grid-row: 2; margin-top: .4rem; }
+}
+.entry p { font-size: .92rem; color: var(--paper-dim); max-width: 60ch; }
+@media (min-width: 45rem) { .entry p { grid-column: 2; } }
+.entry:last-child { border-bottom: 0; }
+@media (hover: hover) {
+  .entry:hover { padding-left: 1rem; }
+  .entry:hover h3 { color: var(--amber-200); }
+}
+
+/* Progressive reveal. The hidden state is added BY SCRIPT - the markup and the
+   stylesheet leave every entry visible, so a failed CDN or a blocked script
+   shows all nine rather than none. This is deliberately the opposite of .rv,
+   which is opacity:0 in CSS and needs GSAP to ever appear. */
+.entry.is-queued { opacity: 0; transform: translateY(18px); }
+.entry.is-shown { opacity: 1; transform: none; transition: opacity .6s var(--e), transform .6s var(--e); }
+@media (prefers-reduced-motion: reduce) {
+  .entry.is-queued { opacity: 1 !important; transform: none !important; }
+}
+.entries-end {
+  margin-top: 2.5rem; text-align: center;
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--paper-faint);
+}
+
+/* ---------- Article ---------- */
+section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clamp(1.5rem, 3vw, 2.5rem); }
+.art-head .wrap { max-width: 52rem; }
+.art-title {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2.1rem, 5vw, 3.6rem); line-height: 1.04; letter-spacing: -.035em;
+  margin-top: 1.2rem;
+}
+.art-title em { font-style: italic; color: var(--amber-300); }
+.art-standfirst {
+  margin-top: 1.2rem; max-width: 54ch;
+  font-size: clamp(1.05rem, .4vw + .95rem, 1.25rem); color: var(--paper-dim);
+}
+.byline {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem;
+  margin-top: 1.8rem; padding-top: 1.4rem; border-top: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--paper-faint);
+}
+.byline a { color: var(--paper-dim); border-bottom: 1px solid var(--ink-700); padding-block: .5rem; }
+@media (hover: hover) { .byline a:hover { color: var(--amber-300); border-color: var(--amber-400); } }
+
+.art-cover { margin-block: clamp(1.5rem, 4vw, 3rem); }
+.art-cover .wrap { max-width: 64rem; }
+/* height:auto is load-bearing. The img carries width/height attributes (they
+   reserve space and stop layout shift), and that presentational height wins
+   over aspect-ratio, which only computes a height when height is auto. Without
+   it the box was 880x675 instead of 880x495 and object-fit:cover ate 96px off
+   each side of the artwork. */
+.art-cover img {
+  width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
+  border-radius: 1rem; border: 1px solid var(--line);
+}
+.art-cover figcaption {
+  margin-top: .75rem; font-family: var(--font-mono); font-size: .64rem;
+  letter-spacing: .1em; color: var(--paper-faint);
+}
+
+/* The measure. Figures, code and the pull quote are allowed out of it by a
+   fixed amount and nothing else is - a hero that ignores the column is how an
+   article page stops being readable. */
+.art-body { --measure: 34rem; padding-bottom: clamp(3rem, 6vw, 5rem); }
+.art-body > * { max-width: var(--measure); margin-inline: auto; }
+.art-body p, .art-body ul, .art-body ol { margin-top: 1.35rem; line-height: 1.75; }
+.art-body ul, .art-body ol { padding-left: 1.2rem; list-style: disc; }
+.art-body ol { list-style: decimal; }
+.art-body li { margin-top: .5rem; }
+.art-body h2 {
+  font-family: var(--font-display); font-weight: 400; font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  line-height: 1.15; letter-spacing: -.02em; margin-top: clamp(2.75rem, 5vw, 3.75rem);
+}
+.art-body h3 {
+  font-size: 1.12rem; font-weight: 600; letter-spacing: -.01em;
+  margin-top: 2.25rem; color: var(--paper);
+}
+.art-body a:not(.btn) { color: var(--amber-300); border-bottom: 1px solid var(--amber-700); }
+@media (hover: hover) { .art-body a:not(.btn):hover { border-color: var(--amber-400); } }
+.art-body strong { color: var(--paper); font-weight: 600; }
+.art-body code {
+  font-family: var(--font-mono); font-size: .88em;
+  background: var(--raised); border: 1px solid var(--line);
+  border-radius: .3rem; padding: .1em .35em;
+}
+.art-body pre {
+  max-width: calc(var(--measure) + 6rem);
+  margin-top: 1.75rem; padding: 1.25rem 1.4rem; overflow-x: auto;
+  background: var(--surface); border: 1px solid var(--line); border-radius: .8rem;
+}
+.art-body pre code {
+  background: none; border: 0; padding: 0; font-size: .82rem; line-height: 1.7;
+  color: var(--paper-dim); white-space: pre;
+}
+.art-body figure { max-width: calc(var(--measure) + 6rem); margin-top: 2rem; }
+.art-body figure img { width: 100%; height: auto; border-radius: .8rem; border: 1px solid var(--line); }
+.art-body figcaption {
+  margin-top: .7rem; font-family: var(--font-mono); font-size: .64rem;
+  letter-spacing: .1em; color: var(--paper-faint);
+}
+.art-body blockquote {
+  max-width: calc(var(--measure) + 3rem);
+  margin-top: 2.25rem; padding: 1.4rem 1.6rem;
+  background: var(--ink-900); border-left: 2px solid var(--amber-400); border-radius: .6rem;
+}
+.art-body blockquote p { margin-top: 0; font-family: var(--font-display); font-size: 1.2rem; line-height: 1.45; }
+.art-body hr { max-width: var(--measure); margin: clamp(2.5rem,5vw,3.5rem) auto 0; border: 0; border-top: 1px solid var(--line); }
+
+/* Author card. A byline that leads to more about the writer is what Google
+   actually documents; the photo is the client decision on top of it. */
+.author-card {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem;
+  margin-top: clamp(3rem, 6vw, 4.5rem); padding: 1.5rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 1rem;
+}
+.author-card img { width: 4.5rem; height: 4.5rem; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
+.author-card .who { font-family: var(--font-display); font-size: 1.2rem; }
+.author-card p { margin-top: .35rem; font-size: .92rem; color: var(--paper-dim); max-width: 52ch; }
+.author-card .go {
+  display: inline-flex; align-items: center; gap: .4rem; margin-top: .7rem;
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--amber-400); padding-block: .5rem;
+}
+.author-card .go svg { width: .8rem; height: .8rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+.art-more { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2rem; border-top: 1px solid var(--line); }
+.art-more h2 {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--paper-faint); font-weight: 500;
+}
+.art-more .entries { margin-top: 1.25rem; border-top: 0; }
 
 /* ---------- Share / social popover ---------- */
 /* The wrapper stays STATIC on purpose, so the popover resolves against #nav
@@ -802,6 +1039,13 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 @supports not (backdrop-filter: blur(1px)) {
   [data-theme="light"] .share-menu { background: rgba(251,246,236,.99); }
 }
+
+/* Blog: only the surfaces that are literals rather than tokens need restating. */
+[data-theme="light"] .feat-media,
+[data-theme="light"] .entry-thumb { background: var(--ink-850); }
+[data-theme="light"] .art-body pre,
+[data-theme="light"] .art-body blockquote { background: var(--ink-900); }
+[data-theme="light"] .art-body code { background: var(--ink-850); }
 
 /* The tech logos are black artwork: inverted on ink, untouched on paper. */
 [data-theme="light"] .tech img { filter: none; opacity: .78; }

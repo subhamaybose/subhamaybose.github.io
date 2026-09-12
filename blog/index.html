@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blog &mdash; Subhamay Bose</title>
+<meta name="description" content="Notes on backend systems, distributed architecture and the engineering behind AI systems, by Subhamay Bose, Senior System Engineer at IBM.">
+<meta name="author" content="Subhamay Bose">
+<meta name="robots" content="max-image-preview:large">
+<link rel="canonical" href="https://subhamaybose.com/blog/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Subhamay Bose">
+<meta property="og:url" content="https://subhamaybose.com/blog/">
+<meta property="og:title" content="Blog &mdash; Subhamay Bose">
+<meta property="og:description" content="Notes on backend systems, distributed architecture and the engineering behind AI systems, by Subhamay Bose, Senior System Engineer at IBM.">
+<meta property="og:image" content="https://subhamaybose.com/images/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog &mdash; Subhamay Bose">
+<meta name="twitter:description" content="Notes on backend systems, distributed architecture and the engineering behind AI systems, by Subhamay Bose, Senior System Engineer at IBM.">
+<meta name="twitter:image" content="https://subhamaybose.com/images/og-cover.jpg">
+
+<meta name="theme-color" content="#08080A">
+<link rel="icon" href="../images/favicon-s.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-s-32.png">
+<link rel="apple-touch-icon" href="../images/favicon-s-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>(function(){var t="dark";try{t=localStorage.getItem("sb-theme")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "WebSite", "@id": "https://subhamaybose.com/#website", "url": "https://subhamaybose.com/",
+      "name": "Subhamay Bose", "inLanguage": "en-IN",
+      "publisher": { "@id": "https://subhamaybose.com/#subhamay" } },
+    { "@type": "Blog", "@id": "https://subhamaybose.com/blog/#blog", "url": "https://subhamaybose.com/blog/",
+      "name": "Subhamay Bose \u2014 Blog",
+      "description": "Notes on backend systems, distributed architecture and the engineering behind AI systems.",
+      "isPartOf": { "@id": "https://subhamaybose.com/#website" },
+      "publisher": { "@id": "https://subhamaybose.com/#subhamay" },
+      "inLanguage": "en-IN",
+      "blogPost": [
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/kafka-consumer-lag.html", "headline": "Why consumer lag is a design problem, not an ops problem", "datePublished": "2026-09-08", "url": "https://subhamaybose.com/blog/kafka-consumer-lag.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/three-questions-before-a-queue.html", "headline": "Three questions to ask before you add a queue", "datePublished": "2026-08-21", "url": "https://subhamaybose.com/blog/three-questions-before-a-queue.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/kubernetes-probes.html", "headline": "Kubernetes probes that tell you something useful", "datePublished": "2026-07-30", "url": "https://subhamaybose.com/blog/kubernetes-probes.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/postgres-connection-pooling.html", "headline": "Postgres connection pooling, from first principles", "datePublished": "2026-07-02", "url": "https://subhamaybose.com/blog/postgres-connection-pooling.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/llm-behind-an-api.html", "headline": "What breaks when you put an LLM behind a REST API", "datePublished": "2026-06-18", "url": "https://subhamaybose.com/blog/llm-behind-an-api.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/idempotency.html", "headline": "Idempotency is a product decision", "datePublished": "2026-05-27", "url": "https://subhamaybose.com/blog/idempotency.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/elasticsearch-query-plan.html", "headline": "Reading an Elasticsearch query plan", "datePublished": "2026-05-06", "url": "https://subhamaybose.com/blog/elasticsearch-query-plan.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/observability-stack.html", "headline": "The observability stack I would build again", "datePublished": "2026-04-14", "url": "https://subhamaybose.com/blog/observability-stack.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } },
+        { "@type": "BlogPosting", "@id": "https://subhamaybose.com/blog/nodejs-streams.html", "headline": "Node.js streams: the part the docs skip", "datePublished": "2026-03-20", "url": "https://subhamaybose.com/blog/nodejs-streams.html", "author": { "@id": "https://subhamaybose.com/#subhamay" } }
+      ] }
+  ]
+}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-ar" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-work" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51 8.59 10.49"/></symbol>
+  <symbol id="b-li" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></symbol>
+  <symbol id="b-gh" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></symbol>
+  <symbol id="b-me" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></symbol>
+  <symbol id="b-yt" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.12-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.52A3 3 0 0 0 .5 6.2C0 8.07 0 12 0 12s0 3.93.5 5.8a3 3 0 0 0 2.12 2.13c1.88.52 9.38.52 9.38.52s7.5 0 9.38-.52a3 3 0 0 0 2.12-2.13C24 15.93 24 12 24 12s0-3.93-.5-5.8zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></symbol>
+</svg>
+
+<div id="cur" aria-hidden="true"></div><div id="cur-dot" aria-hidden="true"></div>
+
+<header id="nav">
+  <a href="../index.html" class="brand">Subhamay <em>Bose</em></a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#work">Experience</a>
+    <a href="../index.html#creds">Credentials</a>
+    <a href="../index.html#writing">Writing</a>
+    <a href="index.html" class="on">Blog</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <div class="share-wrap">
+      <button id="share" class="tt" type="button" aria-expanded="false" aria-controls="share-menu" aria-label="Show social links" title="Social links"><svg aria-hidden="true"><use href="#i-share"/></svg></button>
+      <div id="share-menu" class="share-menu" hidden>
+      <button type="button" id="share-site" class="share-do">
+        <svg aria-hidden="true" class="ic-do"><use href="#i-share"/></svg><svg aria-hidden="true" class="ic-ok"><use href="#i-check"/></svg><span>Share this site</span>
+      </button>
+      <div class="share-sep" role="separator"></div>
+      <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#b-li"/></svg>LinkedIn</a>
+      <a href="https://github.com/subhamaybose" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#b-gh"/></svg>GitHub</a>
+      <a href="https://subhamaybose.medium.com/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#b-me"/></svg>Medium</a>
+      <a href="https://www.youtube.com/@techqurater" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#b-yt"/></svg>YouTube</a>
+      </div>
+    </div>
+    <button id="theme-toggle" class="tt" type="button" aria-pressed="false" aria-label="Switch to light theme" title="Switch to light theme"><svg class="tt-sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="tt-moon" aria-hidden="true"><use href="#i-moon"/></svg></button>
+    <a class="btn btn-amber" data-magnet href="../resume/resume.pdf" download>R&eacute;sum&eacute; <svg><use href="#i-dl"/></svg></a>
+  </div>
+</header>
+
+<main>
+
+  <section class="band blog-head">
+    <div class="wrap">
+      <p class="eyebrow">Blog</p>
+      <h1 class="art-title" style="margin-top:.9rem">Notes on systems that <em>stay up.</em></h1>
+      <p class="art-standfirst">Backend architecture, distributed systems, and the engineering behind AI in production &mdash; written while building them.</p>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0" id="posts">
+    <div class="wrap">
+
+      <div class="feat rv">
+        <a class="feat-media" href="kafka-consumer-lag.html" aria-label="Why consumer lag is a design problem, not an ops problem">
+          <img src="../images/blog/kafka-consumer-lag.jpg" alt="" width="1200" height="675" fetchpriority="high" decoding="sync">
+        </a>
+        <div class="feat-body">
+          <p class="eyebrow">Latest</p>
+          <a href="kafka-consumer-lag.html">
+            <h2>Why consumer lag is a design problem, not an ops problem</h2>
+          </a>
+          <p>Lag is the symptom everyone pages on, and the cause is almost always a partitioning decision made months earlier.</p>
+          <p class="meta"><span class="topic">Distributed Systems</span><span class="sep"></span><time datetime="2026-09-08">8 September 2026</time><span class="sep"></span>9 min read</p>
+        </div>
+      </div>
+
+      <div class="entries" id="entries">
+        <a class="entry" href="three-questions-before-a-queue.html">
+          <p class="meta"><span class="topic">Architecture</span><span class="sep"></span><time datetime="2026-08-21">21 August 2026</time><span class="sep"></span>6 min read</p>
+          <h3>Three questions to ask before you add a queue</h3>
+          <p>A queue converts a latency problem into a consistency problem. Often the right trade - but it should be a choice, not a reflex.</p>
+          <span class="entry-thumb"><img src="../images/blog/three-questions-before-a-queue.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+        <a class="entry" href="kubernetes-probes.html">
+          <p class="meta"><span class="topic">Platform</span><span class="sep"></span><time datetime="2026-07-30">30 July 2026</time><span class="sep"></span>7 min read</p>
+          <h3>Kubernetes probes that tell you something useful</h3>
+          <p>A liveness probe pointed at the same endpoint as readiness is not a health check - it is a restart loop waiting for load.</p>
+          <span class="entry-thumb"><img src="../images/blog/kubernetes-probes.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+        <a class="entry" href="postgres-connection-pooling.html">
+          <p class="meta"><span class="topic">Databases</span><span class="sep"></span><time datetime="2026-07-02">2 July 2026</time><span class="sep"></span>11 min read</p>
+          <h3>Postgres connection pooling, from first principles</h3>
+          <p>Why a pool of twenty beats a pool of two hundred, and what happens inside the server when you get it wrong.</p>
+          <span class="entry-thumb"><img src="../images/blog/postgres-connection-pooling.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+        <a class="entry" href="llm-behind-an-api.html">
+          <p class="meta"><span class="topic">AI Systems</span><span class="sep"></span><time datetime="2026-06-18">18 June 2026</time><span class="sep"></span>8 min read</p>
+          <h3>What breaks when you put an LLM behind a REST API</h3>
+          <p>Timeouts, retries and idempotency all assume a deterministic backend. A model is none of those things.</p>
+          <span class="entry-thumb"><img src="../images/blog/llm-behind-an-api.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+        <a class="entry" href="idempotency.html">
+          <p class="meta"><span class="topic">Architecture</span><span class="sep"></span><time datetime="2026-05-27">27 May 2026</time><span class="sep"></span>5 min read</p>
+          <h3>Idempotency is a product decision</h3>
+          <p>Deciding what a repeated request means is not an implementation detail - it is a question only the business can answer.</p>
+          <span class="entry-thumb"><img src="../images/blog/idempotency.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+        <a class="entry" href="elasticsearch-query-plan.html">
+          <p class="meta"><span class="topic">Search</span><span class="sep"></span><time datetime="2026-05-06">6 May 2026</time><span class="sep"></span>10 min read</p>
+          <h3>Reading an Elasticsearch query plan</h3>
+          <p>The profile API tells you exactly where the time went. Most teams never open it and tune by guesswork instead.</p>
+          <span class="entry-thumb"><img src="../images/blog/elasticsearch-query-plan.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+        <a class="entry" href="observability-stack.html">
+          <p class="meta"><span class="topic">Platform</span><span class="sep"></span><time datetime="2026-04-14">14 April 2026</time><span class="sep"></span>7 min read</p>
+          <h3>The observability stack I would build again</h3>
+          <p>Three signals, one correlation id, and a hard rule about cardinality. Everything else turned out to be negotiable.</p>
+          <span class="entry-thumb"><img src="../images/blog/observability-stack.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+        <a class="entry" href="nodejs-streams.html">
+          <p class="meta"><span class="topic">Node.js</span><span class="sep"></span><time datetime="2026-03-20">20 March 2026</time><span class="sep"></span>9 min read</p>
+          <h3>Node.js streams: the part the docs skip</h3>
+          <p>Backpressure is the whole point of the abstraction, and it is the chapter most tutorials leave out.</p>
+          <span class="entry-thumb"><img src="../images/blog/nodejs-streams.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"></span>
+        </a>
+      </div>
+      <p class="entries-end">That is everything &mdash; nine posts</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="mono" style="font-size:.7rem;letter-spacing:.12em;color:var(--paper-faint)">&copy; <span class="js-year">2026</span> SUBHAMAY BOSE</span>
+    <div class="soc">
+      <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#b-li"/></svg></a>
+      <a href="https://github.com/subhamaybose" target="_blank" rel="noopener" aria-label="GitHub"><svg><use href="#b-gh"/></svg></a>
+      <a href="https://subhamaybose.medium.com/" target="_blank" rel="noopener" aria-label="Medium"><svg><use href="#b-me"/></svg></a>
+      <a href="https://www.youtube.com/@techqurater" target="_blank" rel="noopener" aria-label="YouTube"><svg><use href="#b-yt"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<nav id="tabs" aria-label="Sections">
+  <a href="../index.html#about"><svg><use href="#i-user"/></svg>About</a>
+  <a href="../index.html#work"><svg><use href="#i-work"/></svg>Work</a>
+  <a href="../index.html#creds"><svg><use href="#i-badge"/></svg>Certs</a>
+  <a href="index.html" class="on"><svg><use href="#i-pen"/></svg>Blog</a>
+  <a href="../index.html#contact"><svg><use href="#i-mail"/></svg>Contact</a>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/main.js" defer></script>
+</body>
+</html>

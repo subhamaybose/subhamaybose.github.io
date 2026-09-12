@@ -61,7 +61,9 @@ Also works, with two changes:
 
 | Path | |
 |---|---|
-| `index.html` | The whole site. One page. |
+| `index.html` | The homepage. |
+| `blog/index.html` | The blog listing. |
+| `blog/<slug>.html` | One file per article. To publish a new post: copy an existing one, edit it, add a matching row to `blog/index.html`, and add its URL to `sitemap.xml`. |
 | `css/style.css` | All styling, both themes. |
 | `js/main.js` | Behaviour: scroll, theme-colour, share, audience switcher. |
 | `js/theme.js` | Dark/light toggle and the stored preference. |
@@ -81,6 +83,13 @@ CDNs. The page degrades to a readable, complete document if any of them fail.
 desktop, and both are in the HTML — CSS decides which one renders. A change to the
 headline, the audience pills or the call-to-action buttons has to be made in
 **both**, or it lands on one tier only.
+
+**The nine blog posts are DEMO CONTENT.** Every article carries
+`<meta name="robots" content="noindex">` so a placeholder cannot be indexed under
+his name. Remove that line from a post once real writing replaces it, and add the
+post to `sitemap.xml` at the same time. Covers are placeholders too - drop in a
+real photograph at 16:9 and at least 1200px wide, which is what Google Discover
+needs.
 
 **There is exactly one `<h1>`**, and it is the visually hidden one just inside
 `<main>`. Both visible hero headlines are `<h2 class="hero-h">` on purpose: two
