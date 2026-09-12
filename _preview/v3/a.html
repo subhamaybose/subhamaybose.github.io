@@ -13,22 +13,23 @@
           lives at /preview/ and is the one thing keeping it out of search.
        2. Rewrite every ../../ path to the depth of wherever the file lands
           (at the site root that is images/... and resume/...).
-       3. og:image and twitter:image point at subhamaybose.github.io, which is
-          the only host serving the card until the domain moves - a preview
-          link shared today would otherwise render an empty box. Repoint both
-          at subhamaybose.com once it serves the site.
-       4. Nothing else needs a domain edit: canonical, og:url and the JSON-LD already
-          point at https://subhamaybose.com/, which is where this file is going.
-          If it is served from subhamaybose.github.io instead, the absolute
-          URLs change - canonical, og:url, og:image, twitter:image, and the
-          url/image pair inside the JSON-LD.
+       3. EVERY absolute URL on this preview copy names the preview itself, not
+          subhamaybose.com. og:url is read as the canonical by Meta: aimed at
+          a domain still serving a hosting placeholder, WhatsApp and Facebook
+          followed it, found no tags, and rendered a bare link with no title
+          or image. og:image had the same fault for a different reason - it is
+          fetched literally, and 404'd. On promotion repoint all of them at
+          https://subhamaybose.com/: canonical, og:url, og:image,
+          twitter:image, and the three "url" fields in the JSON-LD. The @id
+          values already name subhamaybose.com and must NOT change - they are
+          identifiers, not addresses.
      ========================================================================== -->
 <meta name="robots" content="noindex">
-<link rel="canonical" href="https://subhamaybose.com/">
+<link rel="canonical" href="https://subhamaybose.github.io/preview/a.html">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Subhamay Bose">
-<meta property="og:url" content="https://subhamaybose.com/">
+<meta property="og:url" content="https://subhamaybose.github.io/preview/a.html">
 <meta property="og:title" content="Subhamay Bose — Senior Backend &amp; Cloud Engineer at IBM">
 <meta property="og:description" content="Senior System Engineer and Team Lead at IBM, building scalable microservices, hybrid-cloud platforms and AI-driven systems in Node.js and Python.">
 <meta property="og:image" content="https://subhamaybose.github.io/images/og-cover.jpg">
@@ -59,7 +60,7 @@
     {
       "@type": "WebSite",
       "@id": "https://subhamaybose.com/#website",
-      "url": "https://subhamaybose.com/",
+      "url": "https://subhamaybose.github.io/preview/a.html",
       "name": "Subhamay Bose",
       "inLanguage": "en-IN",
       "publisher": {
@@ -69,7 +70,7 @@
     {
       "@type": "ProfilePage",
       "@id": "https://subhamaybose.com/#profile",
-      "url": "https://subhamaybose.com/",
+      "url": "https://subhamaybose.github.io/preview/a.html",
       "name": "Subhamay Bose — Senior Backend & Cloud Engineer at IBM",
       "isPartOf": {
         "@id": "https://subhamaybose.com/#website"
@@ -92,7 +93,7 @@
       "@type": "Person",
       "@id": "https://subhamaybose.com/#subhamay",
       "name": "Subhamay Bose",
-      "url": "https://subhamaybose.com/",
+      "url": "https://subhamaybose.github.io/preview/a.html",
       "image": "https://subhamaybose.com/images/profile-pic.jpg",
       "jobTitle": "Senior System Engineer (Team Lead)",
       "description": "Senior System Engineer and Team Lead at IBM, building scalable microservices, hybrid-cloud platforms and AI-driven systems in Node.js and Python.",
@@ -107,7 +108,7 @@
         "addressRegion": "West Bengal",
         "addressCountry": "IN"
       },
-      "email": "mailto:subhamaybose@gmail.com",
+      "email": ["mailto:connect@subhamaybose.com", "mailto:subhamaybose@gmail.com"],
       "telephone": "+91-9681-726-905",
       "knowsAbout": [
         "Backend engineering",
@@ -304,7 +305,7 @@
         <div><dt>Role</dt><dd>Senior System Engineer, Team Lead</dd></div>
         <div><dt>Org</dt><dd>IBM India Pvt. Ltd.</dd></div>
         <div><dt>Base</dt><dd>Kolkata, West Bengal, India</dd></div>
-        <div><dt>Email</dt><dd><a href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com</a></dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:connect@subhamaybose.com">connect@subhamaybose.com</a><br><a href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com</a></dd></div>
         <div><dt>Phone</dt><dd><a href="tel:+919681726905">+91 9681 726 905</a></dd></div>
       </dl>
     </div>
@@ -495,8 +496,9 @@
   <div class="glow2" aria-hidden="true"></div>
   <div class="wrap">
     <div class="sec-head rv"><p class="eyebrow">Contact</p><h2>Let&rsquo;s build something <em>that holds.</em></h2>
-      <a class="mail" href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com</a>
-      <div class="hero-cta"><a class="btn btn-amber" data-magnet href="mailto:subhamaybose@gmail.com">Email me <svg><use href="#i-mail"/></svg></a><a class="btn" data-magnet href="../../resume/resume.pdf" download>Résumé <svg><use href="#i-dl"/></svg></a></div>
+      <a class="mail" href="mailto:connect@subhamaybose.com">connect@subhamaybose.com</a>
+      <p class="mail-alt"><a href="mailto:subhamaybose@gmail.com">subhamaybose@gmail.com</a></p>
+      <div class="hero-cta"><a class="btn btn-amber" data-magnet href="mailto:connect@subhamaybose.com">Email me <svg><use href="#i-mail"/></svg></a><a class="btn" data-magnet href="../../resume/resume.pdf" download>Résumé <svg><use href="#i-dl"/></svg></a></div>
     </div>
   </div>
 </section>
