@@ -59,8 +59,21 @@ def build_preview():
         b = src(SRC + "/blog/" + f)
         b = b.replace(b"../../../images/", b"../../images/") \
              .replace(b"../../../resume/", b"../../resume/")
+        # A canonical or og:url naming a domain that serves a parking page is
+        # what made WhatsApp render a bare link for a.html. On the preview,
+        # every identity tag names the preview URL it is actually served from.
+        here = ("https://subhamaybose.github.io/preview/blog/" + f).encode()
+        b = b.replace((LIVE + "/blog/" + f).encode(), here)
+        b = b.replace((LIVE + "/blog/").encode(), b"https://subhamaybose.github.io/preview/blog/")
+        # and nothing on a review branch may be indexable
+        if b'content="noindex"' not in b:
+            b = b.replace(b'<meta name="robots" content="max-image-preview:large">',
+                          b'<meta name="robots" content="noindex">', 1)
+        assert b'content="noindex"' in b, "preview blog page is indexable: " + f
+        assert (LIVE + "/blog/").encode() not in b, "a live blog URL survived onto preview: " + f
         no_attr_paths(b, 3)
         n += write("preview/blog/" + f, b)
+    n += copy_assets()
     return n
 
 
@@ -100,7 +113,24 @@ def build_production():
         b = b.replace(b'href="../a.html', b'href="../index.html')
         no_attr_paths(b, 2)
         assert b"a.html" not in b, "a link to a.html survived into production"
+        assert b"subhamaybose.github.io" not in b, "a github.io URL survived into production: " + f
         n += write("blog/" + f, b)
+    n += copy_assets()
+    return n
+
+
+def copy_assets():
+    """Images the source references that the target branch has never seen.
+    Missed once already: the nine covers existed only on revamp, so every blog
+    thumbnail on the published preview would have 404'd."""
+    out = subprocess.run(["git", "ls-tree", "-r", "--name-only", "revamp:images"],
+                         capture_output=True, check=True, text=True).stdout.split()
+    n = 0
+    for rel in out:
+        target = pathlib.Path("images") / rel
+        data = src("images/" + rel)
+        if not target.exists() or target.read_bytes() != data:
+            n += write(target.as_posix(), data)
     return n
 
 
