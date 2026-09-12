@@ -448,6 +448,13 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 .soc a:hover { border-color: var(--amber-400); color: var(--amber-300); }
 .soc svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
 
+/* The second address sits under the display one, deliberately quieter - two
+   addresses at equal weight makes a visitor choose instead of just writing. */
+.mail-alt { margin-top: .55rem; font-size: .92rem; color: var(--paper-faint); }
+.mail-alt a { border-bottom: 1px solid var(--ink-700); transition: color .3s var(--e), border-color .3s var(--e); }
+@media (hover: hover) { .mail-alt a:hover { color: var(--amber-300); border-color: var(--amber-400); } }
+@media (pointer: coarse) { .mail-alt a { display: inline-block; padding-block: .6rem; margin-block: -.6rem; } }
+
 /* ---------- Share / social popover ---------- */
 /* The wrapper stays STATIC on purpose, so the popover resolves against #nav
    (position:fixed) and hangs off the header's gutter rather than off the
