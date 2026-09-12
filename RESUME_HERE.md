@@ -92,12 +92,6 @@ It is deterministic: re-running it leaves B's and C's assets byte-identical.
   files with `write_bytes`, never `write_text`. One stray lone `\r` made git classify
   `a.css` as binary and diff the whole 714-line file. Check `git diff --stat` before
   committing: a whole-file diff for a small edit means line endings moved.
-- **The phone hero's picture zone is a FLEX ITEM, not a reserved spacer.** Three
-  rounds were lost tuning a fixed `svh` cap against a separately tuned mask
-  percentage; they cannot stay in step, because the ratio between them changes
-  with viewport height. `.m-img` is `flex: 1 1 0` and the portrait is **inset**
-  to it — `flex-basis: auto` claims the image's intrinsic height and then grows
-  on top of it, and a percentage height inside a flexed item does not resolve.
 - **`scroll-snap-align` ignores the scrollport's padding.** The chip row and the
   stats rail both need `scroll-padding-left: var(--pad)`, or they load already
   scrolled by exactly the gutter and read as a horizontal page scroll.
@@ -277,6 +271,33 @@ Core Web Vitals, measured (localhost, so TTFB is not representative — the rest
 mobile at 4× CPU throttle LCP 652 ms, CLS 0.000, FCP 652 ms; desktop LCP 260 ms,
 CLS 0.029. 10 requests, 325 KB.
 
+### Fourth round — reverted an over-reach, 2026-09-13
+
+The client asked for exactly two things: align the audience capsule, and open up
+the off-white in **light only** so the photograph reads. I restructured the whole
+phone picture zone instead, which changed dark as well — and dark was already
+signed off. **Reverted.**
+
+The phone tier is now byte-identical to `c7401bb` (the build running on
+subhamaybose.com) except two `scroll-padding-left` declarations. No portrait
+mask, no flex picture zone, the `::before` spacer is back, dark scrim untouched.
+Prove it before changing anything here:
+
+```bash
+git show c7401bb:css/style.css   # diff its #mhero..#mhero .m-glow region
+```
+
+**The capsule fix:** `scroll-snap-align` aligns to the *snapport*, which starts at
+the scroll-box edge and ignores padding, so the chip row loaded already scrolled
+by exactly its gutter (`scrollLeft` 25.14 vs `padding-left` 25.26). It read as a
+page-level horizontal scroll; there is none — `window.scrollTo`,
+`documentElement.scrollLeft` and `body.scrollLeft` all return 0. The stats rail
+had the same latent fault.
+
+**Lesson worth keeping:** when the client names the scope, that IS the scope. A
+structural rewrite to fix a symptom they did not report is a regression to them
+even when the numbers improve.
+
 ### Third round — blog, share preview, second email
 
 - **The WhatsApp preview was broken and the cause was `og:url`.** It named
@@ -295,12 +316,12 @@ CLS 0.029. 10 requests, 325 KB.
   dead CDN shows nine posts rather than none.
 - **Nav is six on desktop, five on the phone.** `#tabs` is still
   `repeat(5, 1fr)`; Writing gave up its slot to Blog.
-- **Light mobile hero.** The scrim was veiling the suit at 94% rather than the
-  figure fading, which on paper left a grey silhouette with a hard edge. The
-  portrait now dissolves through its own `mask-image`, timed to finish at 56% —
-  the same proportion the spacer reserves — and the light scrim went back to
-  being a transition. A veil is the wrong tool on a light ground; on a dark one
-  the identical fault merges invisibly, so **check both themes**.
+- **Light mobile hero.** The veil was `.94` paper by 34%, flattening the jacket to
+  a silhouette. It now stays near-clear through 32% so chest, lapels and collar
+  read, then closes to `.96` by 42%. Closing fast is NOT optional: the eyebrow
+  sits at ~43.5% of the hero directly over the jacket, and leaving that band open
+  measured **1.69:1**. At `.96` by 42% it is 5.61:1. **Light block only — the dark
+  scrim is byte-identical to the shipped build and must stay that way.**
 - **Nav target size closed.** The links are 22px of text; an absolutely
   positioned `::before` lifts the hit area to 44px with zero layout movement,
   because padding would have dragged the hover underline down with it.
