@@ -349,6 +349,16 @@ section.band { position: relative; padding-block: clamp(5rem, 10vw, 9rem); }
   .tech:hover img { filter: invert(1) opacity(1); }
 }
 
+.sec-more { margin-top: 1.25rem; }
+.sec-more a {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--amber-400);
+  padding-block: .6rem; transition: color .3s var(--e);
+}
+.sec-more svg { width: .8rem; height: .8rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+@media (hover: hover) { .sec-more a:hover { color: var(--amber-200); } }
+
 /* projects — ships hidden; see the comment above #projects in a.html */
 .projects { display: grid; gap: 1.25rem; }
 @media (min-width: 45rem) { .projects { grid-template-columns: repeat(2, 1fr); } }
