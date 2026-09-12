@@ -198,6 +198,60 @@
       open(menu.hidden);
       if (!menu.hidden) { var a = menu.querySelector("a"); if (a) a.focus(); }
     });
+    /* "Share this site": the native sheet on a phone (WhatsApp, Telegram,
+       Mail...), a clipboard copy on a desktop that has no sheet. The receiving
+       app builds its own preview by fetching the URL, so the card people see is
+       whatever the OG tags in <head> say - nothing to pass here but the link.
+       location without the hash, so a visitor deep in #contact does not share
+       an anchored URL. navigator.share needs HTTPS and a real user gesture;
+       both hold for a click on this button on the live site. */
+    var doBtn = document.getElementById("share-site");
+    if (doBtn) {
+      var label = doBtn.querySelector("span");
+      // Gated on POINTER, not just on the API existing. Edge and Chrome on
+      // Windows implement navigator.share, so an API-only check opened the
+      // clunky Windows share sheet on a desktop, where "copy link" is what
+      // people expect. Touch gets the sheet, mouse gets the clipboard; a
+      // touchscreen laptop reports coarse and gets the sheet, which is right.
+      var canSheet = typeof navigator.share === "function" &&
+                     matchMedia("(pointer: coarse)").matches;
+      if (!canSheet) label.textContent = "Copy link";
+
+      function flash(text) {
+        var prev = canSheet ? "Share this site" : "Copy link";
+        label.textContent = text;
+        doBtn.classList.add("done");
+        setTimeout(function () { label.textContent = prev; doBtn.classList.remove("done"); }, 1900);
+      }
+      function copy(url) {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(url).then(function () { flash("Link copied"); },
+                                                  function () { flash("Copy failed"); });
+          return;
+        }
+        // http:// or an older browser - clipboard API is absent there
+        var t = document.createElement("textarea");
+        t.value = url; t.setAttribute("readonly", "");
+        t.style.cssText = "position:fixed;top:-1000px";
+        document.body.appendChild(t); t.select();
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(t);
+        flash(ok ? "Link copied" : "Copy failed");
+      }
+
+      doBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var url = location.origin + location.pathname;
+        if (canSheet) {
+          navigator.share({ title: document.title, url: url }).then(function () { open(false); },
+            function (err) { if (err && err.name !== "AbortError") copy(url); });
+        } else {
+          copy(url);
+        }
+      });
+    }
+
     // Click-outside and Escape both close it; without the first, the menu
     // survives a tap anywhere else on the page, which on a phone is most taps.
     document.addEventListener("click", function (e) {

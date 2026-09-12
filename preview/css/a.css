@@ -186,15 +186,15 @@ body {
   background: rgba(240,164,40,.13); border-color: rgba(240,164,40,.55); color: var(--amber-200);
 }
 
-h1 {
+.hero-h {
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2.7rem, 6.4vw, 5.6rem);
   line-height: 1.02;
   letter-spacing: -.035em;
 }
-h1 em { font-style: italic; color: var(--amber-300); }
-h1 .w { display: inline-block; }
+.hero-h em { font-style: italic; color: var(--amber-300); }
+.hero-h .w { display: inline-block; }
 
 .lede {
   margin-top: 1.6rem; max-width: 46ch;
@@ -476,6 +476,21 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 }
 @keyframes share-in { from { opacity: 0; transform: translateY(-6px); } }
 
+.share-menu .share-do {
+  display: flex; align-items: center; gap: .7rem; width: 100%;
+  padding: .6rem .7rem; border-radius: .55rem;
+  font-size: .82rem; font-weight: 600; color: var(--amber-200); text-align: left;
+  transition: background-color .25s var(--e), color .25s var(--e);
+}
+.share-menu .share-do svg { width: 1rem; height: 1rem; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.share-menu .share-do .ic-ok { display: none; }
+.share-menu .share-do.done { color: #3DDC97; }
+.share-menu .share-do.done .ic-do { display: none; }
+.share-menu .share-do.done .ic-ok { display: block; }
+.share-sep { height: 1px; margin: .35rem .7rem; background: var(--line); }
+@media (hover: hover) { .share-menu .share-do:hover { background: var(--raised); } }
+.share-menu .share-do:focus-visible { background: var(--raised); }
+
 /* ---------- Mobile app shell ---------- */
 #tabs {
   position: fixed; z-index: 600; left: 0; right: 0; bottom: 0;
@@ -528,7 +543,7 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 @media (min-width: 45rem) and (max-width: 63.99rem) {
   .hero-grid { grid-template-columns: 1.25fr .75fr; align-items: end; gap: 2rem; }
   #hero .hero-inner { padding-block: 6.5rem 5.5rem; }
-  h1 { font-size: clamp(2.6rem, 6vw, 3.9rem); }
+  .hero-h { font-size: clamp(2.6rem, 6vw, 3.9rem); }
   .lede { max-width: 38ch; min-height: 6.6em; }
   .about { grid-template-columns: 1fr; gap: 2.25rem; }
   .tl { grid-template-columns: repeat(2, 1fr); }
@@ -552,7 +567,7 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
    box sits inside) + 44% of the image, 44% being the measured jawline.
    On a viewport too short for both, the hero grows past 100svh and scrolls,
    which is the honest outcome - not text across his chin. */
-#mhero::before { content: ""; flex: 1 0 auto; min-height: calc(1.75rem + min(51.3vw, 25.6svh)); }
+#mhero::before { content: ""; flex: 1 0 auto; min-height: calc(.75rem + min(60.6vw, 26.3svh)); }
 #mhero .m-img {
   position: absolute; inset: 0; z-index: 1;
   display: flex; align-items: flex-start; justify-content: center;
@@ -560,11 +575,14 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 /* Capped by viewport HEIGHT as well as width. The portrait is top-anchored and
    .m-body is bottom-anchored, so on a SHORT phone (440x763 is a real one) the
    two met over the face. Measured landmark: the jaw is the NARROWEST point of
-   the cut-out, at 40-44% of its height - so the body must start below ~50%.
+   the cut-out, at 40-44% of its height. Reserving to exactly that line left
+   12px of clearance, which is geometrically clear and still reads as text ON
+   him, so this reserves to 52% - below the collar. 60.6vw is 0.52 of the
+   image width, 30.2svh is 0.52 of its capped height.
    58.7svh is 58svh scaled by the 1245:1230 aspect, i.e. "cap the height at
    58svh" expressed as a width. Tall phones keep the 118% they had. */
 #mhero .m-img img {
-  width: min(118%, 58.7svh); max-width: none; height: auto; margin-top: 4.5rem;
+  width: min(118%, 50.6svh); max-width: none; height: auto; margin-top: min(4.5rem, 7svh);
   filter: contrast(1.04);
 }
 #mhero .m-glow {
@@ -585,7 +603,7 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem; }
 /* bottom padding clears the fixed tab bar (3.5rem) plus the safe area */
 #mhero .m-body { position: relative; z-index: 3; padding: 0 var(--pad) calc(5.25rem + env(safe-area-inset-bottom, 0px)); }
 /* svh in the clamp is what a vw-only clamp cannot see: a short viewport. */
-#mhero h1 { font-size: clamp(2.1rem, min(10.5vw, 6.4svh), 3.3rem); line-height: 1.0; }
+#mhero .hero-h { font-size: clamp(1.95rem, min(9vw, 5.6svh), 3rem); line-height: 1.02; }
 #mhero .lede { min-height: 0; margin-top: 1rem; font-size: 1rem; }
 /* The phone eyebrow is ~10px, i.e. SMALL text: it needs 4.5:1, not the 3.0
    that its size flatters you into assuming. Over the photograph amber-400

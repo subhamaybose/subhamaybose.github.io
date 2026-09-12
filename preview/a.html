@@ -161,6 +161,8 @@
   <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51 8.59 10.49"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
   <symbol id="b-li" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></symbol>
@@ -185,6 +187,10 @@
     <div class="share-wrap">
       <button id="share" class="tt" type="button" aria-expanded="false" aria-controls="share-menu" aria-label="Show social links" title="Social links"><svg aria-hidden="true"><use href="#i-share"/></svg></button>
       <div id="share-menu" class="share-menu" hidden>
+      <button type="button" id="share-site" class="share-do">
+        <svg aria-hidden="true" class="ic-do"><use href="#i-share"/></svg><svg aria-hidden="true" class="ic-ok"><use href="#i-check"/></svg><span>Share this site</span>
+      </button>
+      <div class="share-sep" role="separator"></div>
       <a href="https://www.linkedin.com/in/subhamaybose/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#b-li"/></svg>LinkedIn</a>
       <a href="https://github.com/subhamaybose" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#b-gh"/></svg>GitHub</a>
       <a href="https://subhamaybose.medium.com/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#b-me"/></svg>Medium</a>
@@ -198,6 +204,13 @@
 
 <main>
 
+  <!-- The page's one and only H1. Visually hidden, NOT display:none, so it is
+       still announced by screen readers - display:none would strip it from the
+       accessibility tree and leave the page with no heading at all for them.
+       Page-specific by design: it lives in this file, not in a shared header,
+       so another page cannot inherit the wrong H1. -->
+  <h1 class="sr-only">Subhamay Bose — Senior System Engineer and Team Lead at IBM</h1>
+
 
 <section id="mhero" class="m-only">
   <div class="m-glow" aria-hidden="true"></div>
@@ -205,7 +218,7 @@
   <div class="m-scrim" aria-hidden="true"></div>
   <div class="m-body">
     <p class="eyebrow">Senior System Engineer &middot; IBM</p>
-    <h1>Backend systems built to <em>hold</em> under load.</h1>
+    <h2 class="hero-h">Backend systems built to <em>hold</em> under load.</h2>
     <div class="m-chips" role="group" aria-label="Who are you?">
       <button data-aud="everyone" aria-pressed="true">For everyone</button>
       <button data-aud="recruiters" aria-pressed="false">Recruiters</button>
@@ -231,7 +244,7 @@
       <div>
         <p class="eyebrow">Senior System Engineer · Team Lead · IBM</p>
 
-        <h1><span class="w">Backend systems</span> <span class="w">built to</span> <em>hold</em> <span class="w">under load.</span></h1>
+        <h2 class="hero-h"><span class="w">Backend systems</span> <span class="w">built to</span> <em>hold</em> <span class="w">under load.</span></h2>
 
         <div class="aud" role="group" aria-label="Who are you?">
           <button data-aud="everyone" aria-pressed="true">For everyone</button>
