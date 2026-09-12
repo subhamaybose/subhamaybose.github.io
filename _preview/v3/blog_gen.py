@@ -1,0 +1,471 @@
+"""Generate the blog listing and the article pages for Design A.
+
+A DEV TOOL, never published. It exists so the demo set stays internally
+consistent - one shared head, one nav, one footer across ten files - not to
+introduce a build step. The output is plain static HTML: once real posts replace
+the demo ones, the workflow is "copy an article file, edit it, add a row to
+index.html", exactly as agreed. Re-running this REGENERATES the files and will
+discard hand edits, so stop using it the moment real content lands.
+
+Run from the repo root:  py -3 _preview/v3/blog_gen.py
+
+Writes CRLF to match the working tree (committed blobs are LF via autocrlf).
+"""
+import pathlib
+
+OUT = pathlib.Path("_preview/v3/blog")
+EOL = "\r\n"
+
+# ---------------------------------------------------------------- demo content
+# DEMO. Every field here is placeholder copy written to exercise the layout.
+# Replace wholesale before launch; the article pages carry noindex until then.
+POSTS = [
+    dict(slug="kafka-consumer-lag", topic="Distributed Systems", date="2026-09-08",
+         display="8 September 2026", read="9 min read",
+         title="Why consumer lag is a design problem, not an ops problem",
+         deck="Lag is the symptom everyone pages on. The cause is almost always a "
+              "partitioning decision made months earlier.",
+         blurb="Lag is the symptom everyone pages on, and the cause is almost always a "
+               "partitioning decision made months earlier."),
+    dict(slug="three-questions-before-a-queue", topic="Architecture", date="2026-08-21",
+         display="21 August 2026", read="6 min read",
+         title="Three questions to ask before you add a queue",
+         deck="A queue converts a latency problem into a consistency problem. That is "
+              "often the right trade, but it should be a choice.",
+         blurb="A queue converts a latency problem into a consistency problem. Often the "
+               "right trade - but it should be a choice, not a reflex."),
+    dict(slug="kubernetes-probes", topic="Platform", date="2026-07-30",
+         display="30 July 2026", read="7 min read",
+         title="Kubernetes probes that tell you something useful",
+         deck="A liveness probe that hits the same endpoint as your readiness probe is "
+              "not a health check. It is a restart loop waiting to happen.",
+         blurb="A liveness probe pointed at the same endpoint as readiness is not a health "
+               "check - it is a restart loop waiting for load."),
+    dict(slug="postgres-connection-pooling", topic="Databases", date="2026-07-02",
+         display="2 July 2026", read="11 min read",
+         title="Postgres connection pooling, from first principles",
+         deck="Why a pool of twenty beats a pool of two hundred, and what actually happens "
+              "inside the server when you get it wrong.",
+         blurb="Why a pool of twenty beats a pool of two hundred, and what happens inside "
+               "the server when you get it wrong."),
+    dict(slug="llm-behind-an-api", topic="AI Systems", date="2026-06-18",
+         display="18 June 2026", read="8 min read",
+         title="What breaks when you put an LLM behind a REST API",
+         deck="Timeouts, retries and idempotency all assume a deterministic backend. A "
+              "model is none of those things.",
+         blurb="Timeouts, retries and idempotency all assume a deterministic backend. A "
+               "model is none of those things."),
+    dict(slug="idempotency", topic="Architecture", date="2026-05-27",
+         display="27 May 2026", read="5 min read",
+         title="Idempotency is a product decision",
+         deck="Deciding what a repeated request means is not an implementation detail. It "
+              "is a question only the business can answer.",
+         blurb="Deciding what a repeated request means is not an implementation detail - "
+               "it is a question only the business can answer."),
+    dict(slug="elasticsearch-query-plan", topic="Search", date="2026-05-06",
+         display="6 May 2026", read="10 min read",
+         title="Reading an Elasticsearch query plan",
+         deck="The profile API tells you exactly where the time went. Most teams never "
+              "open it, and tune by guesswork instead.",
+         blurb="The profile API tells you exactly where the time went. Most teams never "
+               "open it and tune by guesswork instead."),
+    dict(slug="observability-stack", topic="Platform", date="2026-04-14",
+         display="14 April 2026", read="7 min read",
+         title="The observability stack I would build again",
+         deck="Three signals, one correlation id, and a hard rule about cardinality. "
+              "Everything else was negotiable.",
+         blurb="Three signals, one correlation id, and a hard rule about cardinality. "
+               "Everything else turned out to be negotiable."),
+    dict(slug="nodejs-streams", topic="Node.js", date="2026-03-20",
+         display="20 March 2026", read="9 min read",
+         title="Node.js streams: the part the docs skip",
+         deck="Backpressure is the whole point of the abstraction, and it is the one "
+              "chapter most tutorials leave out.",
+         blurb="Backpressure is the whole point of the abstraction, and it is the chapter "
+               "most tutorials leave out."),
+]
+
+SITE = "https://subhamaybose.com"
+
+# ------------------------------------------------------------------- fragments
+SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-ar" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-work" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51 8.59 10.49"/></symbol>
+  <symbol id="b-li" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></symbol>
+  <symbol id="b-gh" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></symbol>
+  <symbol id="b-me" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></symbol>
+  <symbol id="b-yt" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.12-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.52A3 3 0 0 0 .5 6.2C0 8.07 0 12 0 12s0 3.93.5 5.8a3 3 0 0 0 2.12 2.13c1.88.52 9.38.52 9.38.52s7.5 0 9.38-.52a3 3 0 0 0 2.12-2.13C24 15.93 24 12 24 12s0-3.93-.5-5.8zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></symbol>
+</svg>"""
+
+SOC = [("https://www.linkedin.com/in/subhamaybose/", "b-li", "LinkedIn"),
+       ("https://github.com/subhamaybose", "b-gh", "GitHub"),
+       ("https://subhamaybose.medium.com/", "b-me", "Medium"),
+       ("https://www.youtube.com/@techqurater", "b-yt", "YouTube")]
+
+
+def nav(here):
+    """here: 'blog' on the listing, 'article' on a post. Both live one level
+    down from the site root, so the homepage anchors are ../a.html#id."""
+    links = [("../a.html#about", "About"), ("../a.html#work", "Experience"),
+             ("../a.html#creds", "Credentials"), ("../a.html#writing", "Writing"),
+             ("index.html", "Blog"), ("../a.html#contact", "Contact")]
+    out = ['<header id="nav">',
+           '  <a href="../a.html" class="brand">Subhamay <em>Bose</em></a>',
+           '  <nav class="nav-links" aria-label="Primary">']
+    for href, label in links:
+        on = ' class="on"' if label == "Blog" else ""
+        out.append('    <a href="%s"%s>%s</a>' % (href, on, label))
+    out += ['  </nav>', '  <div class="nav-right">', '    <div class="share-wrap">',
+            '      <button id="share" class="tt" type="button" aria-expanded="false"'
+            ' aria-controls="share-menu" aria-label="Show social links" title="Social links">'
+            '<svg aria-hidden="true"><use href="#i-share"/></svg></button>',
+            '      <div id="share-menu" class="share-menu" hidden>',
+            '      <button type="button" id="share-site" class="share-do">',
+            '        <svg aria-hidden="true" class="ic-do"><use href="#i-share"/></svg>'
+            '<svg aria-hidden="true" class="ic-ok"><use href="#i-check"/></svg>'
+            '<span>Share this site</span>',
+            '      </button>',
+            '      <div class="share-sep" role="separator"></div>']
+    for u, s, n in SOC:
+        out.append('      <a href="%s" target="_blank" rel="noopener">'
+                   '<svg aria-hidden="true"><use href="#%s"/></svg>%s</a>' % (u, s, n))
+    out += ['      </div>', '    </div>',
+            '    <button id="theme-toggle" class="tt" type="button" aria-pressed="false"'
+            ' aria-label="Switch to light theme" title="Switch to light theme">'
+            '<svg class="tt-sun" aria-hidden="true"><use href="#i-sun"/></svg>'
+            '<svg class="tt-moon" aria-hidden="true"><use href="#i-moon"/></svg></button>',
+            '    <a class="btn btn-amber" data-magnet href="../../../resume/resume.pdf" download>'
+            'R&eacute;sum&eacute; <svg><use href="#i-dl"/></svg></a>',
+            '  </div>', '</header>']
+    return EOL.join(out)
+
+
+TABS = EOL.join([
+    '<nav id="tabs" aria-label="Sections">',
+    '  <a href="../a.html#about"><svg><use href="#i-user"/></svg>About</a>',
+    '  <a href="../a.html#work"><svg><use href="#i-work"/></svg>Work</a>',
+    '  <a href="../a.html#creds"><svg><use href="#i-badge"/></svg>Certs</a>',
+    '  <a href="index.html" class="on"><svg><use href="#i-pen"/></svg>Blog</a>',
+    '  <a href="../a.html#contact"><svg><use href="#i-mail"/></svg>Contact</a>',
+    '</nav>'])
+
+FOOT = EOL.join([
+    '<footer>',
+    '  <div class="wrap foot">',
+    '    <span class="mono" style="font-size:.7rem;letter-spacing:.12em;color:var(--paper-faint)">'
+    '&copy; <span class="js-year">2026</span> SUBHAMAY BOSE</span>',
+    '    <div class="soc">'] + [
+    '      <a href="%s" target="_blank" rel="noopener" aria-label="%s">'
+    '<svg><use href="#%s"/></svg></a>' % (u, n, s) for u, s, n in SOC] + [
+    '    </div>', '  </div>', '</footer>'])
+
+SCRIPTS = EOL.join([
+    '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>',
+    '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>',
+    '<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>',
+    '<script src="../js/theme.js"></script>',
+    '<script src="../js/a.js" defer></script>'])
+
+
+def head(title, desc, url, image, noindex, extra_ld, img_h, og_type):
+    """noindex: the preview branch is noindex throughout, and the demo articles
+    stay noindex on production too until real copy replaces them."""
+    L = ['<!DOCTYPE html>', '<html lang="en">', '<head>',
+         '<meta charset="utf-8">',
+         '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">',
+         '<title>%s</title>' % title,
+         '<meta name="description" content="%s">' % desc,
+         '<meta name="author" content="Subhamay Bose">']
+    if noindex:
+        L.append('<!-- DEMO CONTENT. Remove this line once real copy replaces the')
+        L.append('     placeholder body below, or the post cannot be indexed. -->')
+        L.append('<meta name="robots" content="noindex">')
+    else:
+        # max-image-preview:large is what makes the cover eligible for the big
+        # treatment in Discover; without it Google uses a thumbnail.
+        L.append('<meta name="robots" content="max-image-preview:large">')
+    L += ['<link rel="canonical" href="%s">' % url,
+          '',
+          '<meta property="og:type" content="%s">' % og_type,
+          '<meta property="og:site_name" content="Subhamay Bose">',
+          '<meta property="og:url" content="%s">' % url,
+          '<meta property="og:title" content="%s">' % title,
+          '<meta property="og:description" content="%s">' % desc,
+          '<meta property="og:image" content="%s">' % image,
+          '<meta property="og:image:width" content="1200">',
+          '<meta property="og:image:height" content="%d">' % img_h,
+          '<meta property="og:locale" content="en_IN">',
+          '',
+          '<meta name="twitter:card" content="summary_large_image">',
+          '<meta name="twitter:title" content="%s">' % title,
+          '<meta name="twitter:description" content="%s">' % desc,
+          '<meta name="twitter:image" content="%s">' % image,
+          '',
+          '<meta name="theme-color" content="#08080A">',
+          '<link rel="icon" href="../../../images/favicon-s.ico" sizes="any">',
+          '<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon-s-32.png">',
+          '<link rel="apple-touch-icon" href="../../../images/favicon-s-180.png">',
+          '<link rel="preconnect" href="https://fonts.googleapis.com">',
+          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
+          '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">',
+          '<script>(function(){var t="dark";try{t=localStorage.getItem("sb-theme")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t)})();</script>',
+          '<link rel="stylesheet" href="../css/a.css">',
+          '<script type="application/ld+json">',
+          extra_ld,
+          '</script>',
+          '</head>', '<body>', '']
+    return EOL.join(L)
+
+
+def esc(s):
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def meta_row(post):
+    return ('<p class="meta"><span class="topic">%s</span><span class="sep"></span>'
+            '<time datetime="%s">%s</time><span class="sep"></span>%s</p>'
+            % (post["topic"], post["date"], post["display"], post["read"]))
+
+
+def entry(post):
+    return EOL.join([
+        '        <a class="entry" href="%s.html">' % post["slug"],
+        '          ' + meta_row(post),
+        '          <h3>%s</h3>' % esc(post["title"]),
+        '          <p>%s</p>' % esc(post["blurb"]),
+        '          <span class="entry-thumb"><img src="../../../images/blog/%s.jpg" alt="" '
+        'width="1200" height="675" loading="lazy" decoding="async"></span>' % post["slug"],
+        '        </a>'])
+
+
+# --------------------------------------------------------------------- listing
+def build_listing():
+    feat, rest = POSTS[0], POSTS[1:]
+    ld = EOL.join([
+        '{',
+        '  "@context": "https://schema.org",',
+        '  "@graph": [',
+        '    { "@type": "WebSite", "@id": "%s/#website", "url": "%s/",' % (SITE, SITE),
+        '      "name": "Subhamay Bose", "inLanguage": "en-IN",',
+        '      "publisher": { "@id": "%s/#subhamay" } },' % SITE,
+        '    { "@type": "Blog", "@id": "%s/blog/#blog", "url": "%s/blog/",' % (SITE, SITE),
+        '      "name": "Subhamay Bose \\u2014 Blog",',
+        '      "description": "Notes on backend systems, distributed architecture and the engineering behind AI systems.",',
+        '      "isPartOf": { "@id": "%s/#website" },' % SITE,
+        '      "publisher": { "@id": "%s/#subhamay" },' % SITE,
+        '      "inLanguage": "en-IN",',
+        '      "blogPost": [',
+        (',' + EOL).join(
+            '        { "@type": "BlogPosting", "@id": "%s/blog/%s.html",'
+            ' "headline": "%s", "datePublished": "%s",'
+            ' "url": "%s/blog/%s.html", "author": { "@id": "%s/#subhamay" } }'
+            % (SITE, p["slug"], esc(p["title"]), p["date"], SITE, p["slug"], SITE)
+            for p in POSTS),
+        '      ] }',
+        '  ]',
+        '}'])
+
+    body = [
+        SPRITE, '',
+        '<div id="cur" aria-hidden="true"></div><div id="cur-dot" aria-hidden="true"></div>', '',
+        nav("blog"), '',
+        '<main>', '',
+        '  <section class="band blog-head">',
+        '    <div class="wrap">',
+        '      <p class="eyebrow">Blog</p>',
+        '      <h1 class="art-title" style="margin-top:.9rem">Notes on systems that <em>stay up.</em></h1>',
+        '      <p class="art-standfirst">Backend architecture, distributed systems, and the'
+        ' engineering behind AI in production &mdash; written while building them.</p>',
+        '    </div>',
+        '  </section>', '',
+        '  <section class="band" style="padding-block:0 clamp(5rem,10vw,9rem)" id="posts">',
+        '    <div class="wrap">', '',
+        '      <div class="feat rv">',
+        '        <a class="feat-media" href="%s.html" aria-label="%s">' % (feat["slug"], esc(feat["title"])),
+        '          <img src="../../../images/blog/%s.jpg" alt="" width="1200" height="675"'
+        ' fetchpriority="high" decoding="sync">' % feat["slug"],
+        '        </a>',
+        '        <div class="feat-body">',
+        '          <p class="eyebrow">Latest</p>',
+        '          <a href="%s.html">' % feat["slug"],
+        '            <h2>%s</h2>' % esc(feat["title"]),
+        '          </a>',
+        '          <p>%s</p>' % esc(feat["blurb"]),
+        '          ' + meta_row(feat),
+        '        </div>',
+        '      </div>', '',
+        '      <div class="entries" id="entries">'] + [entry(p) for p in rest] + [
+        '      </div>',
+        '      <p class="entries-end">That is everything &mdash; nine posts</p>',
+        '    </div>',
+        '  </section>', '',
+        '</main>', '',
+        FOOT, '', TABS, '', SCRIPTS, '</body>', '</html>', '']
+
+    html = head("Blog &mdash; Subhamay Bose",
+                "Notes on backend systems, distributed architecture and the engineering behind "
+                "AI systems, by Subhamay Bose, Senior System Engineer at IBM.",
+                SITE + "/blog/", SITE + "/images/og-cover.jpg", False, ld, 630, "website") + EOL.join(body)
+    (OUT / "index.html").write_bytes(html.encode("utf-8"))
+    return len(POSTS)
+
+
+# --------------------------------------------------------------------- article
+DEEP = """      <p>Every team I have worked with treats consumer lag as an operational
+        number. It goes on a dashboard, it gets an alert threshold, and when it
+        climbs somebody adds consumers. That works exactly until it does not,
+        and the reason it stops working has nothing to do with operations.</p>
+
+      <h2>Lag is bounded by partitions, not by consumers</h2>
+      <p>A consumer group can never have more useful members than the topic has
+        partitions. Add a tenth consumer to a nine-partition topic and the tenth
+        one sits idle. This is the first wall teams hit, and it arrives without
+        warning because nothing errors &mdash; throughput simply stops improving.</p>
+      <pre><code># the ceiling, stated plainly
+partitions = 9
+consumers  = 12      # three of these will never receive a record
+effective  = min(partitions, consumers)   # 9</code></pre>
+      <p>The fix is not more consumers. It is a partitioning decision, and that
+        decision was made when the topic was created.</p>
+
+      <blockquote><p>Repartitioning a live topic is a migration, not a config
+        change. Plan it like one.</p></blockquote>
+
+      <h2>Why the key matters more than the count</h2>
+      <p>Ordering in Kafka is guaranteed per partition, and the partition is
+        chosen by the key. Pick a key with poor cardinality and you get a hot
+        partition: one consumer saturated while eight idle, with the group lag
+        metric averaging the problem into invisibility.</p>
+      <h3>What to measure instead</h3>
+      <ul>
+        <li>Lag <strong>per partition</strong>, never the group aggregate.</li>
+        <li>The spread between the busiest and quietest partition.</li>
+        <li>Time-based lag, not offset-based &mdash; offsets say nothing about
+          how far behind the clock you are.</li>
+      </ul>
+
+      <h2>The decision, made earlier</h2>
+      <p>By the time lag pages you, the useful choices are behind you: how many
+        partitions, what the key is, and whether processing is idempotent enough
+        to allow a rebalance. None of those are operational levers. They are
+        design decisions, and they are worth the hour they take up front.</p>"""
+
+SHORT = """      <p>This is placeholder copy standing in for the real article. It exists
+        to show the measure, the rhythm of the type and the way the page handles a
+        few hundred words rather than a few thousand.</p>
+
+      <h2>The shape of the argument</h2>
+      <p>A paragraph here sets up the problem, a second one complicates it, and a
+        third arrives at the thing that was actually worth saying. The column is
+        set to roughly sixty-eight characters, which is where the eye stops having
+        to work to find the start of the next line.</p>
+
+      <blockquote><p>Only figures, code and this pull quote are allowed outside
+        the measure, and only by a fixed amount.</p></blockquote>
+
+      <h2>What replaces this</h2>
+      <p>Real copy, written by the author. Until then the page carries a noindex
+        so a placeholder cannot end up in search results under his name.</p>"""
+
+
+def build_article(i, post):
+    prev_p = POSTS[i - 1] if i > 0 else None
+    next_p = POSTS[i + 1] if i < len(POSTS) - 1 else None
+    related = [p for p in (prev_p, next_p) if p]
+    url = "%s/blog/%s.html" % (SITE, post["slug"])
+    img = "%s/images/blog/%s.jpg" % (SITE, post["slug"])
+
+    ld = EOL.join([
+        '{',
+        '  "@context": "https://schema.org",',
+        '  "@graph": [',
+        '    { "@type": "WebSite", "@id": "%s/#website", "url": "%s/",' % (SITE, SITE),
+        '      "name": "Subhamay Bose", "inLanguage": "en-IN" },',
+        '    { "@type": "BlogPosting",',
+        '      "@id": "%s",' % url,
+        '      "mainEntityOfPage": { "@type": "WebPage", "@id": "%s" },' % url,
+        '      "url": "%s",' % url,
+        '      "headline": "%s",' % esc(post["title"]),
+        '      "description": "%s",' % esc(post["deck"]),
+        '      "datePublished": "%s",' % post["date"],
+        '      "dateModified": "%s",' % post["date"],
+        '      "image": ["%s"],' % img,
+        '      "articleSection": "%s",' % post["topic"],
+        '      "inLanguage": "en-IN",',
+        '      "isPartOf": { "@id": "%s/blog/#blog" },' % SITE,
+        '      "author": { "@id": "%s/#subhamay" },' % SITE,
+        '      "publisher": { "@id": "%s/#subhamay" } }' % SITE,
+        '  ]',
+        '}'])
+
+    body = [
+        SPRITE, '',
+        '<div id="cur" aria-hidden="true"></div><div id="cur-dot" aria-hidden="true"></div>', '',
+        nav("article"), '',
+        '<main>',
+        '  <article>', '',
+        '    <header class="art-head">',
+        '      <div class="wrap">',
+        '        <p class="eyebrow">%s</p>' % post["topic"],
+        '        <h1 class="art-title">%s</h1>' % esc(post["title"]),
+        '        <p class="art-standfirst">%s</p>' % esc(post["deck"]),
+        '        <p class="byline">',
+        '          By <a href="../a.html#about">Subhamay Bose</a>',
+        '          <span class="sep"></span><time datetime="%s">%s</time>' % (post["date"], post["display"]),
+        '          <span class="sep"></span>%s' % post["read"],
+        '        </p>',
+        '      </div>',
+        '    </header>', '',
+        '    <figure class="art-cover">',
+        '      <div class="wrap">',
+        '        <img src="../../../images/blog/%s.jpg" alt="%s" width="1200" height="675"'
+        ' fetchpriority="high" decoding="sync">' % (post["slug"], esc(post["title"])),
+        '      </div>',
+        '    </figure>', '',
+        '    <div class="wrap">',
+        '      <div class="art-body">',
+        (DEEP if post["slug"] == "kafka-consumer-lag" else SHORT),
+        '      </div>', '',
+        '      <aside class="author-card">',
+        '        <img src="../../../images/profile-pic.jpg" alt="" width="160" height="160" loading="lazy">',
+        '        <div>',
+        '          <p class="who">Subhamay Bose</p>',
+        '          <p>Senior System Engineer and Team Lead at IBM, building scalable'
+        ' microservices, hybrid-cloud platforms and AI-driven systems in Node.js and Python.</p>',
+        '          <a class="go" href="../a.html#about">More about the author'
+        ' <svg aria-hidden="true"><use href="#i-ar"/></svg></a>',
+        '        </div>',
+        '      </aside>', '',
+        '      <nav class="art-more" aria-label="More posts">',
+        '        <h2>Keep reading</h2>',
+        '        <div class="entries">'] + [entry(p) for p in related] + [
+        '        </div>',
+        '      </nav>',
+        '    </div>', '',
+        '  </article>',
+        '</main>', '',
+        FOOT, '', TABS, '', SCRIPTS, '</body>', '</html>', '']
+
+    html = head(esc(post["title"]) + " &mdash; Subhamay Bose", esc(post["deck"]),
+                url, img, True, ld, 675, "article") + EOL.join(body)
+    (OUT / (post["slug"] + ".html")).write_bytes(html.encode("utf-8"))
+
+
+if __name__ == "__main__":
+    OUT.mkdir(parents=True, exist_ok=True)
+    n = build_listing()
+    for i, post in enumerate(POSTS):
+        build_article(i, post)
+    print("wrote blog/index.html and %d article pages" % n)
+    for f in sorted(OUT.glob("*.html")):
+        print("   %-44s %6d bytes" % (f.as_posix(), f.stat().st_size))
