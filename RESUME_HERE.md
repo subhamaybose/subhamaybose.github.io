@@ -19,6 +19,13 @@ may touch them. A is the only line of work from here.
 | Published preview | `preview/a.html` on `origin/main` → https://subhamaybose.github.io/preview/a.html |
 | Local preview | `py -3 -m http.server 4173` then `/_preview/v3/a.html` |
 
+Latest: source `4935dbc` on `revamp`, published as `6d38d46` on `main` /
+`preview-publish` (2026-09-12). **`preview-publish` is not a separate line of work** —
+it is `main` plus the assembled `preview/` folder, and it is what gets pushed.
+To publish again: from `preview-publish`, copy the three A files out of `revamp`,
+rewrite `../../` to `../` in the HTML only (the CSS and JS carry no repo-root paths),
+add any newly referenced images, then `git push origin preview-publish:main`.
+
 **The publish step flattens `_preview/v3/` → `preview/`, so the only difference between
 the source and the published copy is path depth (`../../` → `../`).** CSS and JS are
 byte-identical. Verify with a `--strip-trailing-cr` diff before assuming otherwise.
