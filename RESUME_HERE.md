@@ -113,9 +113,13 @@ serving Hostinger's "Default page" placeholder — the domain is his, nothing to
    separately.
 2. Rewrite the paths: at the root `../images/` becomes `images/` and `../resume/`
    becomes `resume/`.
-3. **Delete the `<meta name="robots" content="noindex">` line.** It is the one thing
+3. **Repoint `og:image` and `twitter:image`** from `subhamaybose.github.io` to
+   `subhamaybose.com`. They deliberately point at github.io until then, because that
+   is the only host serving the card while the domain shows a placeholder — a preview
+   link shared before cutover would otherwise render an empty box.
+4. **Delete the `<meta name="robots" content="noindex">` line.** It is the one thing
    keeping the page out of search, and the comment block above it says so.
-4. Replace `sitemap.xml` with:
+5. Replace `sitemap.xml` with:
    ```xml
    <?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -127,17 +131,17 @@ serving Hostinger's "Default page" placeholder — the domain is his, nothing to
      </url>
    </urlset>
    ```
-5. Replace `robots.txt` with:
+6. Replace `robots.txt` with:
    ```
    User-agent: *
    Allow: /
 
    Sitemap: https://subhamaybose.com/sitemap.xml
    ```
-6. Add a `CNAME` file containing `subhamaybose.com`, or the client's DNS move drops the
+7. Add a `CNAME` file containing `subhamaybose.com`, or the client's DNS move drops the
    custom domain on the next deploy.
 
-**Why 4 and 5 were NOT done in advance:** a sitemap is a list of absolute URLs. Published
+**Why the sitemap and robots.txt were NOT done in advance:** a sitemap is a list of absolute URLs. Published
 today, at `subhamaybose.github.io`, it would declare that this site lives on a domain
 serving a hosting placeholder. They are correct only once A is at the root and the domain
 points at it — so they flip AT cutover, not before.
@@ -219,6 +223,9 @@ is going; `noindex` stays until promotion, so nothing leaks meanwhile.
   would have been truncated in the SERP). Both build on the wording his legacy
   `index.html` already used rather than inventing new copy.
 - `canonical`, full Open Graph and Twitter card, `og:locale`, `author`, `theme-color`.
+  Every absolute URL targets `subhamaybose.com` **except** `og:image` / `twitter:image`,
+  which point at github.io so link previews work before the domain moves. Step 3 of the
+  promotion checklist flips them.
 - **`images/og-cover.jpg`** — a real 1200×630 social card in A's own language, rendered
   from the live page's fonts and portrait, 66 KB. There was no correctly-sized OG image
   before; the legacy site pointed social previews at a 1293×1280 square.
