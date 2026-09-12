@@ -1,0 +1,41 @@
+# Apache config for shared hosting (Hostinger public_html).
+# Deliberately contains NO rewrite rules: HTTPS and the www/non-www choice are
+# set in the hosting panel, and hand-written redirects behind a proxy are the
+# usual cause of a redirect loop on this kind of host.
+
+ErrorDocument 404 /404.html
+
+# Compression. Fonts and images are already compressed; do not re-encode them.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Caching. The HTML must stay short-lived or a content change will not reach
+# anyone who has already visited; the fingerprinted-by-nothing assets are
+# cached for a week rather than a year for the same reason.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 7 days"
+  ExpiresByType application/javascript    "access plus 7 days"
+  ExpiresByType image/avif                "access plus 30 days"
+  ExpiresByType image/jpeg                "access plus 30 days"
+  ExpiresByType image/png                 "access plus 30 days"
+  ExpiresByType image/svg+xml             "access plus 30 days"
+  ExpiresByType image/x-icon              "access plus 30 days"
+  ExpiresByType application/pdf           "access plus 7 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# AVIF is not in the default mime table on every Apache build; without this the
+# hero portrait downloads as a file instead of rendering.
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+  AddType font/woff2 .woff2
+</IfModule>

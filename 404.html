@@ -1,54 +1,70 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="robots" content="noindex">
-   <title>Page Not Found | Subhamay Bose</title>
-   <link rel="shortcut icon" href="images/favicon.png">
-   <style>
-      body {
-         margin: 0;
-         min-height: 100vh;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         background-color: #0d0d0d;
-         color: #fff;
-         font-family: Arial, Helvetica, sans-serif;
-         text-align: center;
-         padding: 20px;
-         box-sizing: border-box;
-      }
-      .not-found h1 {
-         font-size: 6rem;
-         margin: 0;
-         color: #e1b783;
-      }
-      .not-found p {
-         font-size: 1.2rem;
-         margin: 10px 0 30px;
-      }
-      .not-found a {
-         display: inline-block;
-         padding: 12px 28px;
-         border: 1px solid #e1b783;
-         color: #e1b783;
-         text-decoration: none;
-         border-radius: 4px;
-         transition: background-color .2s ease, color .2s ease;
-      }
-      .not-found a:hover {
-         background-color: #e1b783;
-         color: #0d0d0d;
-      }
-   </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — Subhamay Bose</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/images/favicon-s.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-s-32.png">
+<meta name="theme-color" content="#08080A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Manrope:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#08080A; --paper:#F6F1E7; --dim:#B9B2A6; --faint:#8A8478;
+          --amber:#F0A428; --amber-l:#FFCE7A; --line:#24242C; }
+  * { box-sizing:border-box }
+  body { margin:0; min-height:100svh; background:var(--ink); color:var(--paper);
+         font-family:Manrope,system-ui,sans-serif; line-height:1.65;
+         display:grid; place-items:center; padding:clamp(1.25rem,5vw,4.5rem);
+         -webkit-font-smoothing:antialiased; position:relative; overflow-x:hidden }
+  .glow { position:fixed; inset:auto; left:50%; top:42%; translate:-50% -50%;
+          width:min(120vw,1200px); aspect-ratio:1; pointer-events:none;
+          background:radial-gradient(circle,rgba(240,164,40,.16),rgba(217,133,16,.07) 28%,transparent 64%) }
+  main { position:relative; max-width:34rem; text-align:center }
+  .eyebrow { display:flex; align-items:center; justify-content:center; gap:.75rem;
+             font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.22em;
+             text-transform:uppercase; color:var(--amber) }
+  .eyebrow::before, .eyebrow::after { content:""; width:2rem; height:1px; background:var(--amber) ; opacity:.6 }
+  h1 { font-family:Fraunces,Georgia,serif; font-weight:400; letter-spacing:-.035em;
+       font-size:clamp(2.2rem,8vw,3.4rem); line-height:1.05; margin:1.4rem 0 0 }
+  h1 em { font-style:italic; color:var(--amber-l) }
+  p { color:var(--dim); margin:1.1rem 0 0 }
+  .cta { display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center; margin-top:2.2rem }
+  a.btn { display:inline-flex; align-items:center; gap:.5rem; padding:.7rem 1.15rem;
+          border-radius:999px; border:1px solid #32323C; color:var(--paper);
+          text-decoration:none; font-size:.82rem; font-weight:600;
+          transition:border-color .3s, color .3s, background-color .3s }
+  a.btn:hover { border-color:var(--amber); color:var(--amber-l) }
+  a.btn.amber { background:var(--amber); border-color:var(--amber); color:#140D02 }
+  a.btn.amber:hover { background:#FFB947; border-color:#FFB947; color:#140D02 }
+  nav.more { margin-top:2.4rem; padding-top:1.4rem; border-top:1px solid var(--line);
+             display:flex; flex-wrap:wrap; gap:1.25rem; justify-content:center;
+             font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.14em;
+             text-transform:uppercase }
+  nav.more a { color:var(--faint); text-decoration:none; transition:color .3s }
+  nav.more a:hover { color:var(--amber-l) }
+  :focus-visible { outline:2px solid var(--amber-l); outline-offset:3px; border-radius:2px }
+  @media (prefers-reduced-motion:reduce) { * { transition:none !important } }
+</style>
 </head>
 <body>
-   <div class="not-found">
-      <h1>404</h1>
-      <p>This page doesn't exist &mdash; but the rest of the site does.</p>
-      <a href="/">Back to Subhamay Bose's portfolio</a>
-   </div>
+<div class="glow" aria-hidden="true"></div>
+<main>
+  <p class="eyebrow">Error 404</p>
+  <h1>This page did not <em>hold.</em></h1>
+  <p>The link is broken or the page has moved. Everything else is one tap away.</p>
+  <div class="cta">
+    <a class="btn amber" href="/">Back to the site</a>
+    <a class="btn" href="/#contact">Get in touch</a>
+  </div>
+  <nav class="more" aria-label="Sections">
+    <a href="/#about">About</a>
+    <a href="/#work">Experience</a>
+    <a href="/#creds">Credentials</a>
+    <a href="/#writing">Writing</a>
+  </nav>
+</main>
 </body>
 </html>

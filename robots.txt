@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://subhamaybose.github.io/sitemap.xml
+Sitemap: https://subhamaybose.com/sitemap.xml
