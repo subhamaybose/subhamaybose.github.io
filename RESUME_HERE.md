@@ -15,7 +15,8 @@ may touch them. A is the only line of work from here.
 |---|---|
 | Chosen design | **A — Nightshift** |
 | Source of truth | `_preview/v3/a.html` + `_preview/v3/css/a.css` + `_preview/v3/js/a.js` |
-| Working branch | `revamp` |
+| Working branch | `revamp` — source of truth, all three designs, the verification scripts |
+| **Deployable site** | **`production`** — A at the root, ready for `public_html`. Its README is the deploy guide. |
 | Published preview | `preview/a.html` on `origin/main` → https://subhamaybose.github.io/preview/a.html |
 | Local preview | `py -3 -m http.server 4173` then `/_preview/v3/a.html` |
 
@@ -102,7 +103,25 @@ It is deterministic: re-running it leaves B's and C's assets byte-identical.
 
 ---
 
-## 4 · Promotion checklist — the ONLY steps left to make A the site
+## 4 · Promotion — DONE 2026-09-12, it lives on the `production` branch
+
+A is promoted. `production` is the deployable tree: `index.html` at the root,
+`css/style.css`, `js/main.js` + `js/theme.js`, 44 files, 1.5 MB, no build step.
+`noindex` is gone, `sitemap.xml` and `robots.txt` name `subhamaybose.com`, and
+`.htaccess` carries the 404, gzip, cache headers and the AVIF mime type.
+
+**Rollback:** tags `pre-promotion-main` and `pre-promotion-revamp` (both pushed)
+mark the state before that branch existed. `main` still serves the old site plus
+the previews; nothing on it was replaced.
+
+**Three branches, three jobs.** `revamp` is where work happens. `preview-publish`
+is `main` plus the assembled `preview/` folder and is what gets pushed to `main`
+for review. `production` is the deliverable. A change to A means: edit under
+`_preview/v3/` on `revamp`, then re-assemble BOTH `preview-publish` (flatten
+`../../` → `../`) and `production` (flatten to root, rename `a.css`→`style.css`
+and `a.js`→`main.js`, strip the noindex).
+
+### Superseded — the original checklist, kept for the record
 
 The head/SEO work is **done and already points at the destination**, so promotion is
 mechanical. `subhamaybose.com` is registered and resolving (Hostinger IPs), currently
@@ -244,3 +263,32 @@ is going; `noindex` stays until promotion, so nothing leaks meanwhile.
 Core Web Vitals, measured (localhost, so TTFB is not representative — the rest is):
 mobile at 4× CPU throttle LCP 652 ms, CLS 0.000, FCP 652 ms; desktop LCP 260 ms,
 CLS 0.029. 10 requests, 325 KB.
+
+### Second round of client feedback, same day
+
+- **Exactly one `<h1>`.** Both hero headlines are now `<h2 class="hero-h">`; every
+  hero rule was re-keyed from the tag onto the class so nothing else on the page
+  is reachable by them. Proved with a pixel diff: 10,397,280 px compared across
+  three viewports, **0 differ**. The single H1 is `.sr-only`, **not**
+  `display: none` — the client asked for display:none, and that strips the
+  element from the accessibility tree, leaving the page with no heading at all
+  for a screen reader while still claiming one for Google. `.sr-only` is
+  invisible, announced, and indexed. It lives in this file, not a shared header,
+  so a future page cannot inherit it.
+- **Phone hero, second pass.** Reserving to the jawline gave 12px — geometrically
+  clear, still reading as text on him. Now reserved to 52% of the figure (below
+  the collar) and the headline is 9vw, down from 10.5vw. That first pushed the
+  CTAs behind the tab bar under 763px tall, so the portrait's height cap went
+  58svh → 50svh and its top margin scales. Clearance 25–194px across 568–932
+  tall; CTAs clear the tab bar from 640 up. At 568 the content genuinely does not
+  fit and the CTAs need a short scroll.
+- **Share action.** "Share this site" — native sheet on touch, clipboard copy on
+  a mouse. Gated on `pointer: coarse`, **not** on `navigator.share` existing:
+  Edge and Chrome on Windows implement it, so an API-only check served the clunky
+  Windows share sheet to desktop users. `execCommand` fallback for non-secure
+  contexts. Shares `location` minus the hash.
+- **404 rebuilt** for `production`, self-contained with inline CSS, anchors
+  matched to A's real section ids (`#creds`, not `#credentials`).
+
+Open, unchanged: two badge images (`crew-ai.jpg`, `ibm-cwh.png`) are unreferenced
+— the credentials section links thirteen while its heading says fourteen.
