@@ -16,7 +16,8 @@ may touch them. A is the only line of work from here.
 | Chosen design | **A — Nightshift** |
 | Source of truth | `_preview/v3/a.html` + `_preview/v3/css/a.css` + `_preview/v3/js/a.js` |
 | Working branch | `revamp` — source of truth, all three designs, the verification scripts |
-| **Deployable site** | **`production`** — A at the root, ready for `public_html`. Its README is the deploy guide. |
+| **Deployable site** | **`production`** — A at the root plus `blog/`, ready for `public_html`. Its README is the deploy guide. |
+| **Publishing** | **`py -3 _preview/v3/publish.py preview\|production`**, run from a checkout of that branch. Do NOT hand-copy any more — there are now three path depths. |
 | Published preview | `preview/a.html` on `origin/main` → https://subhamaybose.github.io/preview/a.html |
 | Local preview | `py -3 -m http.server 4173` then `/_preview/v3/a.html` |
 
@@ -263,6 +264,28 @@ is going; `noindex` stays until promotion, so nothing leaks meanwhile.
 Core Web Vitals, measured (localhost, so TTFB is not representative — the rest is):
 mobile at 4× CPU throttle LCP 652 ms, CLS 0.000, FCP 652 ms; desktop LCP 260 ms,
 CLS 0.029. 10 requests, 325 KB.
+
+### Third round — blog, share preview, second email
+
+- **The WhatsApp preview was broken and the cause was `og:url`.** It named
+  `subhamaybose.com`, which serves a Hostinger parking page with no og tags;
+  Meta reads og:url as the canonical, follows it, finds nothing, and renders a
+  bare link. Every identity tag on the preview copy now names the preview URL.
+  **Verifying needs a cache-buster** — WhatsApp caches a negative scrape
+  server-side for days with no public debugger. Test on `?v=2`.
+- **`connect@subhamaybose.com` added** alongside the gmail address in the About
+  facts, the contact block, the Email me button and the JSON-LD. **The mailbox
+  must exist before production goes live** — the domain is still parked.
+- **Blog**: `blog/index.html` plus nine article pages, all demo content and all
+  `noindex` until real writing replaces them. A list, not a card grid — of eight
+  reference blogs measured, only the magazine used cards. Progressive reveal in
+  batches of three, with the hidden state added **by script**, never by CSS, so a
+  dead CDN shows nine posts rather than none.
+- **Nav is six on desktop, five on the phone.** `#tabs` is still
+  `repeat(5, 1fr)`; Writing gave up its slot to Blog.
+- **Nav target size closed.** The links are 22px of text; an absolutely
+  positioned `::before` lifts the hit area to 44px with zero layout movement,
+  because padding would have dragged the hover underline down with it.
 
 ### Second round of client feedback, same day
 
