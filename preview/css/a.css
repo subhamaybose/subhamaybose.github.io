@@ -796,37 +796,32 @@ section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clam
 
 /* ---------- PHONE (< 48rem): a different hero entirely ---------- */
 #mhero { position: relative; min-height: 100svh; padding-top: 3.5rem; display: flex; flex-direction: column; overflow: hidden; }
-/* The picture zone is the flex item, and the portrait fits INSIDE it. Three
-   earlier attempts tuned a fixed svh cap against a separately tuned mask
-   percentage, and the two could not stay in step: the figure was capped at
-   50svh while the hero is 100svh with the copy bottom-anchored, so on a tall
-   phone a 193px hole opened between them and the mask had already eaten the
-   shoulders. Here the box takes exactly the space the copy does not, and the
-   image scales to it - the gap cannot exist, because the gap IS the box. */
+/* Reserves the picture zone IN FLOW so the copy can never be laid over the
+   face - the portrait itself stays absolute so it still bleeds behind the
+   text below this line. Grows to fill a tall phone (pinning .m-body to the
+   bottom exactly as justify-content:flex-end used to), never shrinks below
+   the jaw. Height = image margin-top (4.5rem, less the 3.5rem padding this
+   box sits inside) + 44% of the image, 44% being the measured jawline.
+   On a viewport too short for both, the hero grows past 100svh and scrolls,
+   which is the honest outcome - not text across his chin. */
+#mhero::before { content: ""; flex: 1 0 auto; min-height: calc(.75rem + min(60.6vw, 26.3svh)); }
 #mhero .m-img {
-  /* basis 0, not auto: with auto the box claims the portrait's intrinsic
-     height first and then grows on top of it, which pushed the buttons a
-     full screen below the tab bar. At 0 it takes only what the copy left. */
-  position: relative; z-index: 1; flex: 1 1 0; min-height: 7rem;
-  display: flex; align-items: flex-start; justify-content: center; overflow: hidden;
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; align-items: flex-start; justify-content: center;
 }
-/* height:100% + contain means the figure is always as large as the room
-   allows and never larger. The mask eats only the last quarter, so the
-   shoulders survive - they live at 55-75% of the cut-out and a 56% mask was
-   deleting them - and it reaches full transparency exactly at the bottom of
-   the box, which is where the copy begins. */
+/* Capped by viewport HEIGHT as well as width. The portrait is top-anchored and
+   .m-body is bottom-anchored, so on a SHORT phone (440x763 is a real one) the
+   two met over the face. Measured landmark: the jaw is the NARROWEST point of
+   the cut-out, at 40-44% of its height. Reserving to exactly that line left
+   12px of clearance, which is geometrically clear and still reads as text ON
+   him, so this reserves to 52% - below the collar. 60.6vw is 0.52 of the
+   image width, 30.2svh is 0.52 of its capped height.
+   58.7svh is 58svh scaled by the 1245:1230 aspect, i.e. "cap the height at
+   58svh" expressed as a width. Tall phones keep the 118% they had. */
 #mhero .m-img img {
-  /* Absolute against the box, not height:100%. A percentage height inside a
-     flexed item does not resolve dependably - it was ignored, the picture fell
-     back to its max-width and overhung the copy by 300px. Insetting to the box
-     is definite by construction. */
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: contain; object-position: top center;
+  width: min(118%, 50.6svh); max-width: none; height: auto; margin-top: min(4.5rem, 7svh);
   filter: contrast(1.04);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0,0,0,.32) 88%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0,0,0,.32) 88%, transparent 100%);
 }
-#mhero .m-body { flex: 0 0 auto; }
 #mhero .m-glow {
   position: absolute; z-index: 0; left: 50%; top: 34%; translate: -50% -50%;
   width: 150vw; aspect-ratio: 1;
@@ -1037,12 +1032,18 @@ section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clam
    veil now closes earlier; the face (0-20%) is untouched, so the portrait
    still reads, it just stops competing where the words start. */
 [data-theme="light"] #mhero .m-scrim {
+  /* LIGHT ONLY - the dark scrim above is untouched and stays as shipped.
+     The veil was .94 paper by 34%, which washed the jacket to a silhouette.
+     It now stays nearly clear through 32%, so the chest and shoulders read,
+     then closes fast. It HAS to be near-opaque by 43%: the eyebrow sits at
+     ~43.5% of the hero, directly over the jacket, and dark amber on a dark
+     jacket measured 1.69:1 when this band was left open. */
   background: linear-gradient(to bottom,
-    rgba(251,246,236,.40) 0%,
-    rgba(251,246,236,.06) 20%,
-    rgba(251,246,236,.45) 36%,
-    rgba(251,246,236,.88) 48%,
-    var(--ink-950) 62%);
+    rgba(251,246,236,.28) 0%,
+    rgba(251,246,236,.03) 22%,
+    rgba(251,246,236,.12) 32%,
+    rgba(251,246,236,.96) 42%,
+    var(--ink-950) 52%);
 }
 
 [data-theme="light"] .share-menu { background: rgba(251,246,236,.95); }
