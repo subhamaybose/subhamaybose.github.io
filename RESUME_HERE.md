@@ -20,6 +20,7 @@ may touch them. A is the only line of work from here.
 | **Publishing** | **`py -3 _preview/v3/publish.py preview\|production`**, run from a checkout of that branch. Do NOT hand-copy any more — there are now three path depths. |
 | Published preview | `preview/a.html` on `origin/main` → https://subhamaybose.github.io/preview/a.html |
 | Local preview | `py -3 -m http.server 4173` then `/_preview/v3/a.html` |
+| Handover doc | https://claude.ai/code/artifact/ab0400a7-22b1-4ddd-a97c-061cabeca545 — status, what shipped, the seven deploy steps, open items. Shareable; this file stays authoritative. |
 
 Latest: source `4935dbc` on `revamp`, published as `6d38d46` on `main` /
 `preview-publish` (2026-09-12). **`preview-publish` is not a separate line of work** —
@@ -283,6 +284,12 @@ CLS 0.029. 10 requests, 325 KB.
   dead CDN shows nine posts rather than none.
 - **Nav is six on desktop, five on the phone.** `#tabs` is still
   `repeat(5, 1fr)`; Writing gave up its slot to Blog.
+- **Light mobile hero.** The scrim was veiling the suit at 94% rather than the
+  figure fading, which on paper left a grey silhouette with a hard edge. The
+  portrait now dissolves through its own `mask-image`, timed to finish at 56% —
+  the same proportion the spacer reserves — and the light scrim went back to
+  being a transition. A veil is the wrong tool on a light ground; on a dark one
+  the identical fault merges invisibly, so **check both themes**.
 - **Nav target size closed.** The links are 22px of text; an absolutely
   positioned `::before` lifts the hit area to 44px with zero layout movement,
   because padding would have dragged the hover underline down with it.
