@@ -182,6 +182,56 @@
     document.addEventListener("themechange", function (e) { paint(e.detail.theme); });
   });
 
+  /* ---------- Blog listing: reveal in batches as you scroll ---------- */
+  init("entries", function () {
+    var host = document.getElementById("entries");
+    if (!host) return;                       // not the listing page
+    var rows = [].slice.call(host.querySelectorAll(".entry"));
+    if (rows.length < 5 || reduce.matches) return;
+
+    /* The hidden state is applied HERE, not in the stylesheet. Every entry
+       ships visible, so a blocked script or a dead CDN shows all nine rather
+       than none - the opposite of .rv, which is opacity:0 in CSS and needs
+       GSAP to ever appear. Nothing is fetched: all nine are already in the
+       HTML, which is also why crawlers see them (Google ignores fragment
+       identifiers and does not press "load more"). */
+    if (!("IntersectionObserver" in window)) return;
+
+    var BATCH = 3;
+    rows.forEach(function (el, i) { if (i >= BATCH) el.classList.add("is-queued"); });
+
+    var next = BATCH;
+    function show(n) {
+      for (var i = next; i < next + n && i < rows.length; i++) {
+        (function (el, d) {
+          setTimeout(function () {
+            el.classList.add("is-shown");
+          }, d * 80);
+        })(rows[i], i - next);
+      }
+      next = Math.min(next + n, rows.length);
+      if (next >= rows.length && io) io.disconnect();
+    }
+
+    // The sentinel is the last row currently revealed; when it comes into
+    // view the next batch is released.
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        show(BATCH);
+        if (next < rows.length) io.observe(rows[next - 1]);
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
+    io.observe(rows[next - 1]);
+
+    // Safety net: if the observer never fires - a very tall viewport, an odd
+    // browser - nothing may stay hidden. Release everything after 4s.
+    setTimeout(function () {
+      rows.forEach(function (el) { el.classList.add("is-shown"); });
+    }, 4000);
+  });
+
   /* ---------- Share: reveals the social links ---------- */
   init("share", function () {
     var btn = document.getElementById("share");
