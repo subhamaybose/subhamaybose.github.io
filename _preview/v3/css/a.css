@@ -796,42 +796,37 @@ section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clam
 
 /* ---------- PHONE (< 48rem): a different hero entirely ---------- */
 #mhero { position: relative; min-height: 100svh; padding-top: 3.5rem; display: flex; flex-direction: column; overflow: hidden; }
-/* Reserves the picture zone IN FLOW so the copy can never be laid over the
-   face - the portrait itself stays absolute so it still bleeds behind the
-   text below this line. Grows to fill a tall phone (pinning .m-body to the
-   bottom exactly as justify-content:flex-end used to), never shrinks below
-   the jaw. Height = image margin-top (4.5rem, less the 3.5rem padding this
-   box sits inside) + 44% of the image, 44% being the measured jawline.
-   On a viewport too short for both, the hero grows past 100svh and scrolls,
-   which is the honest outcome - not text across his chin. */
-#mhero::before { content: ""; flex: 1 0 auto; min-height: calc(.75rem + min(60.6vw, 26.3svh)); }
+/* The picture zone is the flex item, and the portrait fits INSIDE it. Three
+   earlier attempts tuned a fixed svh cap against a separately tuned mask
+   percentage, and the two could not stay in step: the figure was capped at
+   50svh while the hero is 100svh with the copy bottom-anchored, so on a tall
+   phone a 193px hole opened between them and the mask had already eaten the
+   shoulders. Here the box takes exactly the space the copy does not, and the
+   image scales to it - the gap cannot exist, because the gap IS the box. */
 #mhero .m-img {
-  position: absolute; inset: 0; z-index: 1;
-  display: flex; align-items: flex-start; justify-content: center;
+  /* basis 0, not auto: with auto the box claims the portrait's intrinsic
+     height first and then grows on top of it, which pushed the buttons a
+     full screen below the tab bar. At 0 it takes only what the copy left. */
+  position: relative; z-index: 1; flex: 1 1 0; min-height: 7rem;
+  display: flex; align-items: flex-start; justify-content: center; overflow: hidden;
 }
-/* Capped by viewport HEIGHT as well as width. The portrait is top-anchored and
-   .m-body is bottom-anchored, so on a SHORT phone (440x763 is a real one) the
-   two met over the face. Measured landmark: the jaw is the NARROWEST point of
-   the cut-out, at 40-44% of its height. Reserving to exactly that line left
-   12px of clearance, which is geometrically clear and still reads as text ON
-   him, so this reserves to 52% - below the collar. 60.6vw is 0.52 of the
-   image width, 30.2svh is 0.52 of its capped height.
-   58.7svh is 58svh scaled by the 1245:1230 aspect, i.e. "cap the height at
-   58svh" expressed as a width. Tall phones keep the 118% they had. */
+/* height:100% + contain means the figure is always as large as the room
+   allows and never larger. The mask eats only the last quarter, so the
+   shoulders survive - they live at 55-75% of the cut-out and a 56% mask was
+   deleting them - and it reaches full transparency exactly at the bottom of
+   the box, which is where the copy begins. */
 #mhero .m-img img {
-  width: min(118%, 50.6svh); max-width: none; height: auto; margin-top: min(4.5rem, 7svh);
+  /* Absolute against the box, not height:100%. A percentage height inside a
+     flexed item does not resolve dependably - it was ignored, the picture fell
+     back to its max-width and overhung the copy by 300px. Insetting to the box
+     is definite by construction. */
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; object-position: top center;
   filter: contrast(1.04);
-  /* The figure DISSOLVES rather than being painted over. Without this the
-     scrim had to do the hiding, and a veil is the wrong tool: on paper a dark
-     suit at 6% opacity is a pale grey silhouette with a hard edge - it read as
-     a rendering fault. Same device as the desktop .hero-figure img, retimed so
-     the figure is gone before the copy starts. 56% is not arbitrary: the layout
-     reserves the picture zone to 52% of the figure, so the mask has to finish
-     at the same proportion or the copy lands on a half-opaque suit. Timed at
-     70% it did exactly that on a 640- and a 691-tall phone. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 38%, rgba(0,0,0,.38) 48%, transparent 56%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 38%, rgba(0,0,0,.38) 48%, transparent 56%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0,0,0,.32) 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0,0,0,.32) 88%, transparent 100%);
 }
+#mhero .m-body { flex: 0 0 auto; }
 #mhero .m-glow {
   position: absolute; z-index: 0; left: 50%; top: 34%; translate: -50% -50%;
   width: 150vw; aspect-ratio: 1;
@@ -863,6 +858,11 @@ section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clam
 .m-chips {
   display: flex; gap: .45rem; overflow-x: auto; margin: .9rem calc(var(--pad) * -1) 1.05rem;
   padding: .15rem var(--pad) .5rem; scroll-snap-type: x proximity;
+  /* Without this the snapport starts at the scrollport edge, so the browser
+     parks the first chip at x=0 and the row loads already scrolled by exactly
+     the gutter - the capsule sat clipped against the screen edge, out of line
+     with every other line of copy, and read as the page having scrolled. */
+  scroll-padding-left: var(--pad);
   scrollbar-width: none;
 }
 .m-chips::-webkit-scrollbar { display: none; }
@@ -880,7 +880,7 @@ section.art-head, header.art-head { padding-block: clamp(7rem, 12vw, 10rem) clam
 .m-rail {
   display: flex; gap: .75rem; overflow-x: auto;
   padding: .25rem var(--pad) 1rem; margin-inline: calc(var(--pad) * -1);
-  scroll-snap-type: x mandatory; scrollbar-width: none;
+  scroll-snap-type: x mandatory; scroll-padding-left: var(--pad); scrollbar-width: none;
 }
 .m-rail::-webkit-scrollbar { display: none; }
 .m-rail > * {
