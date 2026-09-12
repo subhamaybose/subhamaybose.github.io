@@ -92,6 +92,17 @@ It is deterministic: re-running it leaves B's and C's assets byte-identical.
   files with `write_bytes`, never `write_text`. One stray lone `\r` made git classify
   `a.css` as binary and diff the whole 714-line file. Check `git diff --stat` before
   committing: a whole-file diff for a small edit means line endings moved.
+- **The phone hero's picture zone is a FLEX ITEM, not a reserved spacer.** Three
+  rounds were lost tuning a fixed `svh` cap against a separately tuned mask
+  percentage; they cannot stay in step, because the ratio between them changes
+  with viewport height. `.m-img` is `flex: 1 1 0` and the portrait is **inset**
+  to it — `flex-basis: auto` claims the image's intrinsic height and then grows
+  on top of it, and a percentage height inside a flexed item does not resolve.
+- **`scroll-snap-align` ignores the scrollport's padding.** The chip row and the
+  stats rail both need `scroll-padding-left: var(--pad)`, or they load already
+  scrolled by exactly the gutter and read as a horizontal page scroll.
+- **His real viewport is 505×978 @ DPR 2.85**, not only the 440×763 measured
+  earlier. Both are in the gate now; test at both.
 - **`Emulation.setDeviceMetricsOverride(mobile=True)` does NOT give you `pointer: coarse`.**
   Touch emulation is separate and is reset by `new_tab`, so every
   `@media (pointer: coarse)` rule silently sits inactive and your measurements
