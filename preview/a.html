@@ -13,9 +13,13 @@
           lives at /preview/ and is the one thing keeping it out of search.
        2. Rewrite every ../../ path to the depth of wherever the file lands
           (at the site root that is images/... and resume/...).
-       3. No domain edit is needed: canonical, og:url and the JSON-LD already
+       3. og:image and twitter:image point at subhamaybose.github.io, which is
+          the only host serving the card until the domain moves - a preview
+          link shared today would otherwise render an empty box. Repoint both
+          at subhamaybose.com once it serves the site.
+       4. Nothing else needs a domain edit: canonical, og:url and the JSON-LD already
           point at https://subhamaybose.com/, which is where this file is going.
-          If it is served from subhamaybose.github.io instead, five absolute
+          If it is served from subhamaybose.github.io instead, the absolute
           URLs change - canonical, og:url, og:image, twitter:image, and the
           url/image pair inside the JSON-LD.
      ========================================================================== -->
@@ -27,7 +31,7 @@
 <meta property="og:url" content="https://subhamaybose.com/">
 <meta property="og:title" content="Subhamay Bose — Senior Backend &amp; Cloud Engineer at IBM">
 <meta property="og:description" content="Senior System Engineer and Team Lead at IBM, building scalable microservices, hybrid-cloud platforms and AI-driven systems in Node.js and Python.">
-<meta property="og:image" content="https://subhamaybose.com/images/og-cover.jpg">
+<meta property="og:image" content="https://subhamaybose.github.io/images/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Subhamay Bose, Senior System Engineer at IBM, beside the line &ldquo;Backend systems built to hold under load.&rdquo;">
@@ -36,7 +40,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Subhamay Bose — Senior Backend &amp; Cloud Engineer at IBM">
 <meta name="twitter:description" content="Senior System Engineer and Team Lead at IBM, building scalable microservices, hybrid-cloud platforms and AI-driven systems in Node.js and Python.">
-<meta name="twitter:image" content="https://subhamaybose.com/images/og-cover.jpg">
+<meta name="twitter:image" content="https://subhamaybose.github.io/images/og-cover.jpg">
 <meta name="twitter:image:alt" content="Subhamay Bose, Senior System Engineer at IBM.">
 
 <meta name="theme-color" content="#08080A">
