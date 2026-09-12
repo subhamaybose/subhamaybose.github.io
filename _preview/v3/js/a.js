@@ -170,6 +170,18 @@
     }, { passive: true });
   });
 
+  /* ---------- Browser chrome follows the theme ---------- */
+  init("theme-color", function () {
+    var tag = document.querySelector('meta[name="theme-color"]');
+    if (!tag) return;
+    // Static in the markup so the FIRST paint is right; updated here because a
+    // <meta> cannot carry two values and this page's theme is a stored choice,
+    // not the OS preference a `media` attribute would follow.
+    function paint(theme) { tag.setAttribute("content", theme === "light" ? "#FBF6EC" : "#08080A"); }
+    paint(document.documentElement.getAttribute("data-theme"));
+    document.addEventListener("themechange", function (e) { paint(e.detail.theme); });
+  });
+
   /* ---------- Share: reveals the social links ---------- */
   init("share", function () {
     var btn = document.getElementById("share");

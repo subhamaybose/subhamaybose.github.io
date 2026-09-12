@@ -102,30 +102,71 @@ It is deterministic: re-running it leaves B's and C's assets byte-identical.
 
 ---
 
-## 4 · Open items
+## 4 · Promotion checklist — the ONLY steps left to make A the site
 
-1. **Head / SEO batch (ours, not started).** A still carries
-   `<meta name="robots" content="noindex">` — correct for a preview, **must come off at
-   promotion**. A has no description, canonical, OG or Twitter tags. `sitemap.xml` and
-   `robots.txt` still point at `subhamaybose.github.io`. The favicon is linked.
-2. **The hidden `#projects` section needs real content.** How to publish it is documented
+The head/SEO work is **done and already points at the destination**, so promotion is
+mechanical. `subhamaybose.com` is registered and resolving (Hostinger IPs), currently
+serving Hostinger's "Default page" placeholder — the domain is his, nothing to migrate.
+
+1. Move `preview/a.html` → `index.html`, `preview/css/a.css` → `css/`, `preview/js/a.js`
+   and `preview/js/theme.js` → `js/`. **Do not delete B and C** unless that was agreed
+   separately.
+2. Rewrite the paths: at the root `../images/` becomes `images/` and `../resume/`
+   becomes `resume/`.
+3. **Delete the `<meta name="robots" content="noindex">` line.** It is the one thing
+   keeping the page out of search, and the comment block above it says so.
+4. Replace `sitemap.xml` with:
+   ```xml
+   <?xml version="1.0" encoding="UTF-8"?>
+   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+     <url>
+       <loc>https://subhamaybose.com/</loc>
+       <lastmod>YYYY-MM-DD</lastmod>
+       <changefreq>monthly</changefreq>
+       <priority>1.0</priority>
+     </url>
+   </urlset>
+   ```
+5. Replace `robots.txt` with:
+   ```
+   User-agent: *
+   Allow: /
+
+   Sitemap: https://subhamaybose.com/sitemap.xml
+   ```
+6. Add a `CNAME` file containing `subhamaybose.com`, or the client's DNS move drops the
+   custom domain on the next deploy.
+
+**Why 4 and 5 were NOT done in advance:** a sitemap is a list of absolute URLs. Published
+today, at `subhamaybose.github.io`, it would declare that this site lives on a domain
+serving a hosting placeholder. They are correct only once A is at the root and the domain
+points at it — so they flip AT cutover, not before.
+
+Note for the client: the placeholder currently on `subhamaybose.com` is indexable. Worth a
+quick Search Console check after cutover that "Default page" has dropped out.
+
+---
+
+## 5 · Open items
+
+1. **The hidden `#projects` section needs real content.** How to publish it is documented
    in the HTML comment directly above the section.
-3. **Retiring B and C is a separate job**, not yet done or scoped.
-4. **Promoting A to `/`** — the repo holds two dead homepage candidates once that happens:
+4. **Retiring B and C is a separate job**, not yet done or scoped.
+5. **Promoting A to `/`** — the repo holds two dead homepage candidates once that happens:
    the legacy site live on `main`, and an unpublished "Technical Swiss" rebuild on
    `revamp`. Deleting either is the client's call.
-5. **Five desktop nav links are 22px tall**, 2px under the WCAG 2.2 SC 2.5.8
+6. **Five desktop nav links are 22px tall**, 2px under the WCAG 2.2 SC 2.5.8
    minimum. Pre-existing and unchanged; untouched deliberately because fixing it
    means making the nav links `inline-block`, which moves their hover underline.
    Not a phone issue — the touch tiers are all clear.
-6. **"Audience buttons don't change on mobile"** was reported from a real phone and
+7. **"Audience buttons don't change on mobile"** was reported from a real phone and
    **could not be reproduced** under device emulation at any viewport. The handler was
-   hardened against the most likely cause (see §5). If it recurs, the phone model and
+   hardened against the most likely cause (see §6). If it recurs, the phone model and
    browser are needed.
 
 ---
 
-## 5 · Changes made 2026-09-12
+## 6 · Changes made 2026-09-12
 
 Against `7ec7e82`. Four files touched, all A-only plus the portrait generator.
 
@@ -168,3 +209,31 @@ Against `7ec7e82`. Four files touched, all A-only plus the portrait generator.
 
 Measured after: all hero text ≥4.5:1 in both themes, no horizontal scroll at any width,
 zero console errors, B and C byte-identical to HEAD.
+
+### Head / SEO batch, same day
+
+Written onto A and pointed at `https://subhamaybose.com/` because that is where the file
+is going; `noindex` stays until promotion, so nothing leaks meanwhile.
+
+- Real `<title>` (55 rendered chars) and `description` (156 — the first draft was 177 and
+  would have been truncated in the SERP). Both build on the wording his legacy
+  `index.html` already used rather than inventing new copy.
+- `canonical`, full Open Graph and Twitter card, `og:locale`, `author`, `theme-color`.
+- **`images/og-cover.jpg`** — a real 1200×630 social card in A's own language, rendered
+  from the live page's fonts and portrait, 66 KB. There was no correctly-sized OG image
+  before; the legacy site pointed social previews at a 1293×1280 square.
+- **JSON-LD `@graph`**: WebSite + ProfilePage + Person, extending the Person block his
+  legacy site already carried (his `sameAs` list, including the Facebook and Instagram
+  profiles A does not link, is kept — `sameAs` is identity resolution, not navigation).
+  Only the AWS credential is asserted via `hasCredential`, because the page's own
+  hierarchy singles that one out as exam-verified; the other thirteen stay as content
+  rather than claims in markup.
+- `theme-color` is updated from `a.js` on `themechange`. A `<meta>` cannot hold two
+  values, and a `media` attribute would follow the OS rather than this page's stored
+  choice.
+- Deliberately omitted: `<meta name="keywords">`. His legacy page has one; no search
+  engine has used it in over a decade and it is one more line to keep true.
+
+Core Web Vitals, measured (localhost, so TTFB is not representative — the rest is):
+mobile at 4× CPU throttle LCP 652 ms, CLS 0.000, FCP 652 ms; desktop LCP 260 ms,
+CLS 0.029. 10 requests, 325 KB.
